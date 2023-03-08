@@ -1,0 +1,84 @@
+﻿@using WWW.Domain.Entity;
+@model IEnumerable<Article>
+@{
+    ViewData["Title"] = "List";
+}
+
+@{
+
+    if (@Model.First().Category != null)
+    {
+        <strong><h1>List of @Model.First().Category.Name</h1></strong>
+    }
+    else{
+        <h1>List of all</h1>
+    }
+}
+
+<div class="row mt-5 mb-2">
+    <h4 >Articles</h4>
+    @foreach (var i in Model){
+        <div class="col-lg-4">
+            <img class="img-thumbnail " src="@i.Picture" alt="@i.Title" />
+            <p>@i.Title</p>
+            <p>@i.ShortDescription</p>
+            <p><a class="btn btn-primary">More</a></p>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+@*    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShortDescription)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShortDescription)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Picture)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Picture)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Published)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Published)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsFavorite)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsFavorite)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+    </dl><hr />*@
+
+@*<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+*@

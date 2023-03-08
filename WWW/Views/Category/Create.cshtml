@@ -1,0 +1,16 @@
+﻿@model WWW.Domain.Entity.Category
+@{
+    ViewData["Title"] = "Create category";
+}
+<h1>Creation form</h1>
+<form metgod="Post" asp-controller="Category" asp-action="Check">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" />
+    <span asp-validation-for="Name"></span><br>
+
+    <label asp-for="Categories"></label>
+    <input asp-for="Categories" />
+    <span asp-validation-for="Categories"></span><br>
+
+    <input type="submit" value="SUBMIT" />
+</form>

@@ -1,0 +1,61 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #333;
+}
+
+main {
+    color: white;
+}
+
+footer div {
+    line-height: 45px;
+    color: white;
+}
+
+header {
+    margin-bottom: 3%;
+    border-bottom: 1px solid white;
+}
+
+h1, h2, h3 {
+    color: white;
+}
+
+.navbar {
+    --bs-navbar-padding-y: 0.8rem;
+}
+
+.gray {
+    background-color: #333;
+}
+
+text {
+    color: white;
+}
+
+a {
+    color: gray;
+}
+
+.text-color-white {
+    color: white;
+}
+
+.dropdown-item {
+    color: black;
+}

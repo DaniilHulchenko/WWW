@@ -1,0 +1,7 @@
+﻿@model IEnumerable<WWW.Domain.Entity.Category>
+
+
+@foreach (var i in Model)
+{
+    <a class="dropdown-item" asp-controller="Category" asp-action="List" asp-route-Category="@i.Name">@i.Name</a>
+}

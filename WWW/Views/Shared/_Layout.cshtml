@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WWW</title>
+    <link rel="stylesheet" href="~/WWW.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap1.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body >
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+            <div class="container-fluid">
+                <strong><a class="navbar-brand" style="font-size:2em;" asp-controller="Home" asp-action="Index">SilverSide</a></strong>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-controller="Home" asp-action="Index">
+                                Home 
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Category" asp-action="Index">Category</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-color-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                            <div class="dropdown-menu">
+                                
+                                <a class=" dropdown-item text-color-black" asp-controller="Category" asp-action="List">Categoryes</a>
+                                <div class="dropdown-divider"></div>
+                                @await Component.InvokeAsync("Category")  
+                            </div>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-sm-2" type="search" placeholder="Search" control-id="ControlID-1">
+                        <button class="btn btn-secondary my-2 my-sm-0" type="submit" control-id="ControlID-2">Search</button>
+                    </form>
+                    <ul class="navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a  class="nav-link" ><i class="bi bi-github"></i> Login </a>
+                        </li>
+                        <li class="nav-item">
+                            <a  class="nav-link" ><i class="bi bi-twitter"></i> Register </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    @*================== Sibe Bar =======================*@
+    <a class="btn btn-primary bg-black shadow-none" style="border-right:1px solid white;border-top:1px solid white;border-bottom:1px solid white; border-radius:0;" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+            ⨠<br>
+        </a>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header bg-black ">
+                <h5 class="offcanvas-title text-color-white" id="offcanvasExampleLabel">Offcanvas</h5>
+                <button type="button" class="btn-close text-reset bg-white" style="border-radius:0" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body ">
+                <div class="bg-gray-800 ">
+                    Temporary
+                </div>
+                <div class="dropdown mt-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown button
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                        <li><a class="dropdown-item" asp-controller="Category" asp-action="Create">Create Category</a></li>
+@*                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+*@                    </ul>
+                </div>
+            </div>
+        </div>
+    <div class="container">
+        <main role="main" class="pb-3 ">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted bg-black ">
+        <div class="container">
+            &copy; 2023 - WWW - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
