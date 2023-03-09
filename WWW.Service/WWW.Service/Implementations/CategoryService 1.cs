@@ -6,7 +6,7 @@ using WWW.DAL.Interfaces;
 
 namespace WWW.Service.Implementations
 {
-    public class CategoryService : ICategoryService
+    public class CategoryService : BaseService
     {
         private readonly ICategoryRepository _categoryRepository;
 

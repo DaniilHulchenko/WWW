@@ -10,7 +10,7 @@ namespace WWW.Domain.Entity
         [Display(Name="Category Name")]
         [Required(ErrorMessage ="You need to enter category name")]
         public string Name { get; set; }
-        public List<Category> Categories { get; set; }
+        //public List<Category> Categories { get; set; }
 
     }
 }

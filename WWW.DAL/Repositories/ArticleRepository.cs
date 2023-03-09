@@ -54,7 +54,7 @@ namespace WWW.DAL.Repositories
 
         public Article GetValueByID(int id)
         {
-            throw new NotImplementedException();
+            return _db.Articles.SingleOrDefault(a => a.Id == id);
         }
 
         Task<bool> IBaseRepository<Article>.Create(Article entity)

@@ -42,7 +42,6 @@ namespace WWW.DAL.Repositories
         public async Task<bool> Create(Category entity)
         {
             await _db.Categories.AddAsync(entity);
-            //entity.Categories =  _db.Categories.Last().Categories ;
             await _db.SaveChangesAsync();
             return true;
         }
