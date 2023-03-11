@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "MainSiteView",
+      "defaultValue": "silver-side",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }

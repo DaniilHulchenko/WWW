@@ -22,6 +22,8 @@ namespace WWW.Controllers
             _categoryRepository = categoryRepository;
             _categoryService = categoryService;
         }
+
+        //[HttpGet("Hello/World")]
         public async Task<IActionResult > Index()
         {
             return View(await _categoryRepository.GetAll());

@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WWW", "WWW\WWW.csproj", "{26D793B2-951B-4005-A860-AF38F5398F42}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D11BB272-2FD6-4B43-B5B6-73CEA844FBCC} = {D11BB272-2FD6-4B43-B5B6-73CEA844FBCC}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{94D48FD1-0927-48E0-8F29-4858241D1067}"
 EndProject
