@@ -7,13 +7,15 @@ using WWW.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Azure Insights
+builder.Services.AddApplicationInsightsTelemetry();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 //SQL
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("StoreDatabase")
     ));
-
 //builder.Services.AddTransient<IAllArticles, ArticleRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<IArticleRepository, ArticleRepository>();

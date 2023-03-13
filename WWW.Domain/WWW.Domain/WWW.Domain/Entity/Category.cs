@@ -11,6 +11,9 @@ namespace WWW.Domain.Entity
         [Required(ErrorMessage ="You need to enter category name")]
         public string Name { get; set; }
         //public List<Category> Categories { get; set; }
-
+        public override string ToString()
+        {
+            return $"Id={Id}, Name={Name}";
+        }
     }
 }

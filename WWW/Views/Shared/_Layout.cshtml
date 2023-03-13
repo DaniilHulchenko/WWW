@@ -40,7 +40,7 @@
                     </ul>
                     <form class="d-flex">
                         <input class="form-control me-sm-2" type="search" placeholder="Search" control-id="ControlID-1">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit" control-id="ControlID-2">Search</button>
+                        <button class="btn btn-secondary my-2 my-sm-0" style="border-radius:0;" type="submit" control-id="ControlID-2">Search</button>
                     </form>
                     <ul class="navbar-nav ms-md-auto">
                         <li class="nav-item">
@@ -55,7 +55,7 @@
         </nav>
     </header>
     @*================== Sibe Bar =======================*@
-    <a class="btn btn-primary bg-black shadow-none" style="border-right:1px solid white;border-top:1px solid white;border-bottom:1px solid white; border-radius:0;" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+    <a id="SideBar" class="btn btn-primary bg-black shadow-none" style="border-right:1px solid white;border-top:1px solid white;border-bottom:1px solid white; border-radius:0;" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
             ⨠<br>
         </a>
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -84,6 +84,7 @@
             @RenderBody()
         </main>
     </div>
+    @RenderSection("Pagination", false)
     <footer class="border-top footer text-muted bg-black ">
         <div class="container">
             &copy; 2023 - WWW - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -93,5 +94,14 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-</body>
+
+@*    <script type="text/javascript">
+        document.addEventListener('keydown', (e)=>{
+            if (e.key==='a'){
+                document.querySelector("#SideBar").click();
+            }
+
+        });
+    </script>*@
+    </body>
 </html>
