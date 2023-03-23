@@ -1,14 +1,14 @@
 ﻿@using WWW.Domain.Entity;
-@model IEnumerable<Article>
+@model PageIndexViewModel<Article>
 @{
     ViewData["Title"] = "List";
 }
 
 @{
 
-    if (@Model.First().Category != null)
+    if (@Model.Data.First().Category != null)
     {
-        <strong><h1>List of @Model.First().Category.Name</h1></strong>
+        <strong><h1>List of @Model.Data.First().Category.Name</h1></strong>
     }
     else{
         <h1>List of all</h1>
@@ -17,7 +17,7 @@
 
 <div class="row mt-5 mb-2">
     <h4 >Articles</h4>
-    @foreach (var i in Model){
+    @foreach (var i in Model.Data){
         <div class="col-lg-4">
             <div class="modal-body articleDescription">
                 <img class="img-thumbnail " src="@i.Picture" alt="@i.Title" />
@@ -28,6 +28,55 @@
                 <p><a class="btn btn-primary">More</a></p>
             </div>
         </div>
+    }
+    @section Pagination {
+            <div class="container" style="display: flex;justify-content: center;flex-wrap: wrap;">
+        <ul class="pagination pagination-lg ">
+            @if (Model.PageViewModel.HasPreviousPage) {
+                <li class="page-item">
+                        <a class="page-link rounded-0 " asp-action="List" asp-route-page="@(Model.PageViewModel.СurrentlyPageNumber - 1)">&laquo;</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <a class="page-link rounded-0 " >&laquo;</a>
+                </li>
+            }
+            @for (int i = 1; i <= Model.PageViewModel.TotalPages;i++)
+            {
+                @if (i == Model.PageViewModel.СurrentlyPageNumber)
+                    {
+                    <li class="page-item active" >
+                            <a class="page-link" asp-action="List" asp-route-page="@i">@i</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                            <a class="page-link" asp-action="List" asp-route-page="@i">@i</a>
+                    </li>
+                }
+            }
+            @if (Model.PageViewModel.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link rounded-0 "
+                   asp-action="List"
+                   asp-route-page="@(Model.PageViewModel.СurrentlyPageNumber + 1)">
+                        &raquo;
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <a class="page-link rounded-0 " href="#">&raquo;</a>
+                </li>
+            }
+        </ul>
+    </div>
+
     }
 </div>
 

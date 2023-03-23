@@ -1,21 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WWW.DAL.Interfaces;
 using WWW.Domain.Entity;
+using WWW.Domain.Response;
 using WWW.Models;
+using WWW.Service.Implementations;
 using WWW.Service.Interfaces;
 
 namespace WWW.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly IArticleRepository _articleRepository;
+        //private readonly IArticleRepository _articleRepository;
+        private readonly IArticleService _articleService;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ICategoryService _categoryService;
         private readonly ILogger<CategoryController> _logger;
 
-        public CategoryController( IArticleRepository articleRepository, ICategoryRepository categoryRepository, ICategoryService categoryService, ILogger<CategoryController> logger)
+        public CategoryController( IArticleService articleService, ICategoryRepository categoryRepository, ICategoryService categoryService, ILogger<CategoryController> logger)
         {
-            _articleRepository = articleRepository;
+            //_articleRepository = articleRepository;
+            _articleService = articleService;
             _categoryRepository = categoryRepository;
             _categoryService = categoryService;
             _logger = logger;   
@@ -37,8 +42,8 @@ namespace WWW.Controllers
             //};
 
             int pageSize = 3;
-            IEnumerable<Category> data = await _categoryRepository.GetAll();
-            PageIndexViewModel<Category> viewModel = new PageIndexViewModel<Category>(data, pageSize, page);
+            BaseResponse<IEnumerable<Category>> data = await _categoryService.GetAll();
+            PageIndexViewModel<Category> viewModel = new PageIndexViewModel<Category>(data.Data, pageSize, page);
             return View(viewModel);
         }
         public IActionResult Create() {
@@ -59,14 +64,18 @@ namespace WWW.Controllers
         }
 
 
-        public async Task<IActionResult> List(string category = "")
+        public async Task<IActionResult> List(string category = "", int page=0)
         {
-
-            return View(await _articleRepository.GetByCategoryName(category));
+            int pageSize = 5;
+            BaseResponse<IEnumerable<Article>> data = await _articleService.GetByCategoryName(category);
+            _logger.LogInformation(data.StatusCode.ToString());
+            PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);
+            return View(paginator);
         }
 
         public ActionResult Delete(int Id) {
             _categoryService.DeleteById(Id);
+            
             return Redirect("/Category");
 
         }

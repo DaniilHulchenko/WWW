@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WWW.Domain.Entity;
 using WWW.DAL;
+using WWW.Domain.Response;
 
 namespace WWW.DAL.Interfaces
 {

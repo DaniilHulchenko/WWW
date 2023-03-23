@@ -28,7 +28,7 @@ namespace WWW.Service.Implementations
         return _categoryRepository.Delete(category);
     }
 
-        public async Task<IBaseResponse<IEnumerable<Category>>> GetAll()
+        public async Task<BaseResponse<IEnumerable<Category>>> GetAll()
         {
             var BaseResponse = new BaseResponse<IEnumerable<Category>>();
             try{

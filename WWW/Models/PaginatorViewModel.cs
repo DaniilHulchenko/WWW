@@ -1,11 +1,9 @@
-﻿using WWW.Domain.Entity;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
-
-namespace WWW.Models
+﻿namespace WWW.Models
 {
-    public class PageIndexViewModel <T>
+    public class PageIndexViewModel<T>
     {
-        public PageIndexViewModel(IEnumerable<T> data, int pageSize, int СurrentlyPageNumber) {
+        public PageIndexViewModel(IEnumerable<T> data, int pageSize, int СurrentlyPageNumber)
+        {
             Data = data.Skip((СurrentlyPageNumber - 1) * pageSize).Take(pageSize).ToList();
             PageViewModel = new PageViewModel(data.Count(), СurrentlyPageNumber, pageSize);
         }

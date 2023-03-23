@@ -2,7 +2,7 @@
 using WWW.Domain.Response;
 using WWW.Service.Interfaces;
 using WWW.DAL.Interfaces;
-using Grpc.Core;
+using WWW.Domain.Enum.StatusCode;
 
 namespace WWW.Service.Implementations
 {
@@ -15,7 +15,7 @@ namespace WWW.Service.Implementations
             _articleRepository = articleRepository;
         }
 
-        public async Task<IBaseResponse<IEnumerable<Article>>> GetAll()
+        public async Task<BaseResponse<IEnumerable<Article>>> GetAll()
         {
             var BaseResponse = new BaseResponse<IEnumerable<Article>>();
             try{
@@ -39,6 +39,21 @@ namespace WWW.Service.Implementations
                     ErrorDescription = $"[Articles.GetAll]:{ex.Message}",
                 };
             }
+        }
+
+        public async Task<BaseResponse<IEnumerable<Article>>> GetByCategoryName(string CatName)
+        {
+            var BaseResponse = new BaseResponse<IEnumerable<Article>>();
+            try
+            {
+                BaseResponse.Data = await _articleRepository.GetByCategoryName(CatName);
+                BaseResponse.StatusCode = StatusCode.OK;
+            }
+            catch(Exception ex) { 
+                BaseResponse.ErrorDescription += ex.Message;
+                BaseResponse.StatusCode = StatusCode.InternalServerError;
+            }
+            return BaseResponse;
         }
     }
 }

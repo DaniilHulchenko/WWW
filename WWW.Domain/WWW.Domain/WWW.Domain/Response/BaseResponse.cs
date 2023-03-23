@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WWW.Domain.Enum.StatusCode;
 namespace WWW.Domain.Response
 {
+
     public class BaseResponse<T>: IBaseResponse<T>
     {
         public string ErrorDescription { get; set; }
