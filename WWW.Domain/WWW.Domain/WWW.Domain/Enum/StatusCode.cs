@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WWW.Domain.Enum.StatusCode
+namespace WWW.Domain.Enum
 {
     public enum StatusCode
     {
-        OK=200,
-        InternalServerError=500
+        OK = 200,
+        InternalServerError = 500
     }
 }

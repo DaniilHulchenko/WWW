@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WWW.Domain.Enum.StatusCode;
+using WWW.Domain.Enum;
 namespace WWW.Domain.Response
 {
 

@@ -1,0 +1,104 @@
+﻿@model WWW.Domain.ViewModels.Article.ArticleViewModal
+@{
+    ViewData["Title"] = "Create category";
+}
+
+<h1>Creation form</h1>
+@*<form metgod="Post" asp-controller="Article" asp-action="Check">
+    <label asp-for="Title"></label>
+    <input asp-for="Title" />
+    <span asp-validation-for="Title"></span><br>
+
+    <label asp-for="ShortDescription"></label>
+    <input asp-for="ShortDescription" />
+    <span asp-validation-for="ShortDescription"></span><br>
+
+    <label asp-for="Description"></label>
+    <input asp-for="Description" />
+    <span asp-validation-for="Description"></span><br>
+
+    <label asp-for="Picture"></label>
+    <input asp-for="Picture" />
+    <span asp-validation-for="Picture"></span><br>
+
+    <label asp-for="Published"></label>
+    <input asp-for="Published" />
+    <span asp-validation-for="Published"></span><br>
+
+    <label asp-for="IsFavorite"></label>
+    <input asp-for="IsFavorite" />
+    <span asp-validation-for="IsFavorite"></span><br>
+
+    <label asp-for="Category"></label>
+    <input  asp-for="Category" />
+    <span asp-validation-for="Category"></span><br>
+
+
+
+    <input type="submit" value="SUBMIT" />
+</form>*@
+
+
+<center>
+<form class="w-60 p-3" metgod="Post" asp-controller="Article" asp-action="Check">
+    <fieldset control-id="ControlID-7">
+
+        <div class="form-group">
+            <label asp-for="Title" for="exampleInputEmail1" class="form-label mt-4"></label>
+            <input asp-for="Title" class="form-control"  control-id="ControlID-9">
+        </div>
+        <div class="form-group">
+            <label asp-for="ShortDescription"  for="exampleInputPassword1" class="form-label mt-4"></label>
+            <input asp-for="ShortDescription" class="form-control" control-id="ControlID-10">
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"  for="exampleTextarea" class="form-label mt-4">Example textarea</label>
+            <textarea asp-for="Description" class="form-control" id="exampleTextarea" rows="3" control-id="ControlID-13"></textarea>
+        </div>
+        <div class="form-group">
+            <label asp-for="Category" for="exampleSelect1" class="form-label mt-4">Example select</label>
+            <select asp-for ="Category" class="form-select" id="exampleSelect1" control-id="ControlID-11">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Picture" class="form-label mt-4">Default file input example</label>
+            <input asp-for="Picture" class="form-control" type="file" id="formFile" control-id="ControlID-14">
+        </div>
+        <fieldset style="margin-top:10px;" class="form-group" control-id="ControlID-18">
+            <div class="form-check">
+                    <label asp-for="IsFavorite">    </label>&nbsp &nbsp
+                <input asp-for="IsFavorite"  type="checkbox"  control-id="ControlID-19">
+            </div>
+            <div class="form-check">
+                    <label asp-for="Published">    </label>&nbsp &nbsp
+                <input asp-for="Published"  type="checkbox"  control-id="ControlID-19">
+            </div>
+        </fieldset>
+        @*<fieldset class="form-group" control-id="ControlID-21">
+            <legend class="mt-4">Switches</legend>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" control-id="ControlID-22">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="" control-id="ControlID-23">
+                <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+            </div>
+        </fieldset>*@
+        
+        <button type="submit" class="btn btn-primary" control-id="ControlID-28">Submit</button>
+    </fieldset>
+</form>
+</center>
+
+
+
+
+
+
+

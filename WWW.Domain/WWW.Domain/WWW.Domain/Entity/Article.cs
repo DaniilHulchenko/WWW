@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 namespace WWW.Domain.Entity
 {
     public class Article
@@ -7,7 +8,9 @@ namespace WWW.Domain.Entity
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
-        public string Picture { get; set; }
+        //public Author Author { get; set; }
+        public byte[]? Picture { get; set; }
+
         public bool Published { get; set; }
         public bool IsFavorite { get; set; }
         public int CategoryID { get; set; }

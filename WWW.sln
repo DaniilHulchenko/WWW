@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WWW.Service", "WWW.Service\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{390C37F7-16BF-496B-B5FA-654CCEC0641A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WWW.Test", "TastBase\WWW.Test.csproj", "{A87B189F-DF1C-4CC2-B655-2DE21E1575BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WWW.Test", "TastBase\WWW.Test.csproj", "{A87B189F-DF1C-4CC2-B655-2DE21E1575BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

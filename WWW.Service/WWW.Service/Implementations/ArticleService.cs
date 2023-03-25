@@ -2,7 +2,7 @@
 using WWW.Domain.Response;
 using WWW.Service.Interfaces;
 using WWW.DAL.Interfaces;
-using WWW.Domain.Enum.StatusCode;
+using WWW.Domain.Enum;
 
 namespace WWW.Service.Implementations
 {
@@ -23,12 +23,12 @@ namespace WWW.Service.Implementations
                 if (Articles.Count() == 0)
                 {
                     BaseResponse.ErrorDescription = "Found 0 elements";
-                    BaseResponse.StatusCode = (Domain.Enum.StatusCode.StatusCode)StatusCode.OK;
+                    BaseResponse.StatusCode = (StatusCode)StatusCode.OK;
                 }
                 else
                 {
                     BaseResponse.Data = Articles;
-                    BaseResponse.StatusCode = (Domain.Enum.StatusCode.StatusCode)StatusCode.OK;
+                    BaseResponse.StatusCode = (StatusCode)StatusCode.OK;
                 }
                     return BaseResponse;
             }
@@ -43,7 +43,7 @@ namespace WWW.Service.Implementations
 
         public async Task<BaseResponse<IEnumerable<Article>>> GetByCategoryName(string CatName)
         {
-            var BaseResponse = new BaseResponse<IEnumerable<Article>>();
+            BaseResponse<IEnumerable<Article>> BaseResponse = new BaseResponse<IEnumerable<Article>>();
             try
             {
                 BaseResponse.Data = await _articleRepository.GetByCategoryName(CatName);

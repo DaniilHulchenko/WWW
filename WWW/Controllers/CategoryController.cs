@@ -67,9 +67,12 @@ namespace WWW.Controllers
         public async Task<IActionResult> List(string category = "", int page=0)
         {
             int pageSize = 5;
-            BaseResponse<IEnumerable<Article>> data = await _articleService.GetByCategoryName(category);
+            var data = await _articleService.GetByCategoryName(category);
             _logger.LogInformation(data.StatusCode.ToString());
             PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);
+            if (data.StatusCode != Domain.Enum.StatusCode.OK){
+                return RedirectToAction("Error");
+            }
             return View(paginator);
         }
 
