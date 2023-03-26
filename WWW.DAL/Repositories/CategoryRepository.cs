@@ -34,9 +34,9 @@ namespace WWW.DAL.Repositories
         }
 
 
-        public Category GetValueByID(int id)
+        public async Task<Category> GetValueByID(int id)
         {
-            return _db.Categories.First(c => c.Id == id);
+            return await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<bool> Create(Category entity)
@@ -46,11 +46,17 @@ namespace WWW.DAL.Repositories
             return true;
         }
 
-        public bool Delete(Category entity)
+        public async Task<bool> Delete(Category entity)
         {
             _db.Categories.Remove(entity);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return true;
         }
+
+        public IQueryable<Category> GetALL()
+        {
+            return _db.Categories;
+        }
+
     }
 }

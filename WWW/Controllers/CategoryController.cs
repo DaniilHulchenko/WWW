@@ -77,7 +77,7 @@ namespace WWW.Controllers
         }
 
         public ActionResult Delete(int Id) {
-            _categoryService.DeleteById(Id);
+            _categoryService.Delete(Id);
             
             return Redirect("/Category");
 

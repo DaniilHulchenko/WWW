@@ -10,13 +10,13 @@ namespace WWW.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ICategoryService _categoryService;
+        private readonly IArticleService _articleService;
         //private readonly ILogger<HomeController> _logger;
 
         //public HomeController( )
-        public HomeController(ICategoryService categoryRepository)
+        public HomeController(IArticleService articleService)
         {
-            _categoryService = categoryRepository;
+            _articleService = articleService;
         }
 
         public IActionResult Index()
@@ -24,10 +24,10 @@ namespace WWW.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Privacy()
+        public async Task<IActionResult> Privacy(int i)
         {
-            var data = await _categoryService.GetAll();
-            return View(data.Data);
+            //var data = await _articleService.foo(i);
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

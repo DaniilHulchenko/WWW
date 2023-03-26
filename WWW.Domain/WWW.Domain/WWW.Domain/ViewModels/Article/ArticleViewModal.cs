@@ -7,6 +7,7 @@ namespace WWW.Domain.ViewModels.Article
 {
     public class ArticleViewModal
     {
+
         [Display(Name = "Title")]
         [Required(ErrorMessage = "Enter Title")]
         [MinLength(2, ErrorMessage = "Minimum lenght: 2")]
@@ -27,9 +28,7 @@ namespace WWW.Domain.ViewModels.Article
         [MinLength(2, ErrorMessage = "Minimum lenght: 2")]
         public IFormFile Picture { get; set; }
         //IFormFile
-
         public bool Published { get; set; }
-        public bool IsFavorite { get; set; }
         public Category Category { get; set; }
 
     }

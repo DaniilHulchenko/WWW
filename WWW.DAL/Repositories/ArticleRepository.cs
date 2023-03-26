@@ -17,12 +17,15 @@ namespace WWW.DAL.Repositories
             _db=db;
         }
 
-        public bool Create(Article entity)
+
+        public async Task<bool> Create(Article entity)
         {
-            throw new NotImplementedException();
+            await _db.Articles.AddAsync(entity);   
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public bool Delete(Article entity)
+        public Task<bool> Delete(Article entity)
         {
             throw new NotImplementedException();
         }
@@ -30,6 +33,10 @@ namespace WWW.DAL.Repositories
         public async Task<IEnumerable<Article>> GetAll()
         {
             return await _db.Articles.ToListAsync();
+        }
+        public IQueryable<Article> GetALL()
+        {
+            return _db.Articles;
         }
 
         public async Task< IEnumerable <Article >> GetByCategoryName(string CatName)
@@ -52,14 +59,9 @@ namespace WWW.DAL.Repositories
 
         }
 
-        public Article GetValueByID(int id)
+        public async Task<Article> GetValueByID(int id)
         {
-            return _db.Articles.SingleOrDefault(a => a.Id == id);
-        }
-
-        Task<bool> IBaseRepository<Article>.Create(Article entity)
-        {
-            throw new NotImplementedException();
+            return await _db.Articles.FirstOrDefaultAsync(a => a.Id == id);
         }
 
     }

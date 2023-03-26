@@ -1,14 +1,15 @@
 ﻿@using WWW.Domain.Entity;
-@model IEnumerable<Category>;
+@using WWW.Domain.Response;
+@model BaseResponse<IEnumerable<Article>>;
 @{
     ViewData["Title"] = "Privacy Policy";
 }
 <h1>@ViewData["Title"]</h1>
 
-
-@foreach(var i in Model)
+@Model.StatusCode
+@foreach(var i in Model.Data)
 {
-    @i.Name;<br>
+    @i.Title;<br>
 }
 <p>Use this page to detail your site's privacy policy.</p>
 

@@ -10,7 +10,8 @@ namespace WWW.DAL {
         }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Category> Categories { get; set; }
-        //public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Tags> Tags { get; set; }
 
     }
 }

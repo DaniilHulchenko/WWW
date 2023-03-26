@@ -3,6 +3,7 @@ using WWW.Domain.Response;
 using WWW.Domain.Enum;
 using WWW.Service.Interfaces;
 using WWW.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace WWW.Service.Implementations
 {
@@ -21,12 +22,11 @@ namespace WWW.Service.Implementations
           
         }
 
-
-    public bool DeleteById(int id)
-    {
-        var category = _categoryRepository.GetValueByID(id);
-        return _categoryRepository.Delete(category);
-    }
+        public async Task<bool> Delete(int id)
+        {
+            var category = await _categoryRepository.GetALL().FirstOrDefaultAsync(c=>c.Id==id);
+            return await _categoryRepository.Delete(category);
+        }
 
     public async Task<BaseResponse<IEnumerable<Category>>> GetAll()
     {

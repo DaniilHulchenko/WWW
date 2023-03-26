@@ -10,7 +10,6 @@
     <Compile Remove="Implementations\ArticleService 1.cs" />
     <Compile Remove="Implementations\BaseService.cs" />
     <Compile Remove="Implementations\CategoryService 1.cs" />
-    <Compile Remove="Interfaces\IBaseService.cs" />
   </ItemGroup>
 
   <ItemGroup>

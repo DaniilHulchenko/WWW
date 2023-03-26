@@ -4,10 +4,8 @@ using WWW.Domain.Response;
 
 namespace WWW.Service.Interfaces
 {
-    public interface ICategoryService
+    public interface ICategoryService: IBaseService<Category>
     {
-        public Task<BaseResponse<IEnumerable<Domain.Entity.Category>>> GetAll();
-        public Task<bool> Create(Category category);
-        public bool DeleteById(int Id);
+        
     }
 }

@@ -1,0 +1,5 @@
+add-migration "Name"
+update-database
+
+
+https://metanit.com/sharp/entityframework/3.12.php

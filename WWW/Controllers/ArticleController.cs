@@ -1,10 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WWW.Domain.Entity;
+using WWW.Service.Interfaces;
 
 namespace WWW.Controllers
 {
     public class ArticleController : Controller
     {
+        IArticleService _articleService;
+        public ArticleController(IArticleService articleService) {
+            _articleService = articleService;
+        }
         // GET: Article
         public ActionResult Index()
         {
@@ -26,15 +32,15 @@ namespace WWW.Controllers
         // POST: Article/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Check(IFormCollection collection)
+        public async Task<ActionResult> Check(Article collection)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid) {
+                    await _articleService.Create(collection);
+                    return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
-                return View();
+                return View(collection);
             }
         }
 

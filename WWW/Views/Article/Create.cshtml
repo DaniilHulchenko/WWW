@@ -70,14 +70,10 @@
             <input asp-for="Picture" class="form-control" type="file" id="formFile" control-id="ControlID-14">
         </div>
         <fieldset style="margin-top:10px;" class="form-group" control-id="ControlID-18">
-            <div class="form-check">
-                    <label asp-for="IsFavorite">    </label>&nbsp &nbsp
-                <input asp-for="IsFavorite"  type="checkbox"  control-id="ControlID-19">
-            </div>
-            <div class="form-check">
+                <div class="form-check" >
                     <label asp-for="Published">    </label>&nbsp &nbsp
-                <input asp-for="Published"  type="checkbox"  control-id="ControlID-19">
-            </div>
+                    <input asp-for="Published" type="checkbox" checked="" control-id="ControlID-19">
+                </div>
         </fieldset>
         @*<fieldset class="form-group" control-id="ControlID-21">
             <legend class="mt-4">Switches</legend>

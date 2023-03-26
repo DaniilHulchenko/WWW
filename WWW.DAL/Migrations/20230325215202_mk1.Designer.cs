@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WWW.DAL;
 
@@ -11,9 +12,11 @@ using WWW.DAL;
 namespace WWW.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230325215202_mk1")]
+    partial class mk1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace WWW.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ArticleTags", b =>
-                {
-                    b.Property<int>("ArticlesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArticlesId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("ArticleTags");
-                });
 
             modelBuilder.Entity("WWW.Domain.Entity.Article", b =>
                 {
@@ -124,11 +112,16 @@ namespace WWW.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ArticleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
 
                     b.ToTable("Tags");
                 });
@@ -176,21 +169,6 @@ namespace WWW.DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ArticleTags", b =>
-                {
-                    b.HasOne("WWW.Domain.Entity.Article", null)
-                        .WithMany()
-                        .HasForeignKey("ArticlesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WWW.Domain.Entity.Tags", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("WWW.Domain.Entity.Article", b =>
                 {
                     b.HasOne("WWW.Domain.Entity.User", "Author")
@@ -208,6 +186,18 @@ namespace WWW.DAL.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("WWW.Domain.Entity.Tags", b =>
+                {
+                    b.HasOne("WWW.Domain.Entity.Article", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("ArticleId");
+                });
+
+            modelBuilder.Entity("WWW.Domain.Entity.Article", b =>
+                {
+                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,10 @@ namespace WWW.DAL.Interfaces
 {
     public interface IBaseRepository<T>
     {
-        Task<bool> Create(T entity);
-        T GetValueByID(int id);
-        Task<IEnumerable<T>> GetAll();
-        bool Delete(T entity);
+        public Task<bool> Create(T entity);
+        public Task<bool> Delete(T entity);
+        public Task<T> GetValueByID(int id);
+        public Task<IEnumerable<T>> GetAll();
+        public IQueryable<T> GetALL();
     }
 }
