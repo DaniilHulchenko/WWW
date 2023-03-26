@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WWW.Domain.Entity;
+using WWW.Domain.ViewModels.Article;
 using WWW.Service.Interfaces;
 
 namespace WWW.Controllers
@@ -8,8 +9,10 @@ namespace WWW.Controllers
     public class ArticleController : Controller
     {
         IArticleService _articleService;
-        public ArticleController(IArticleService articleService) {
+        ICategoryService _categoryService;
+        public ArticleController(IArticleService articleService, ICategoryService categoryService) {
             _articleService = articleService;
+            _categoryService = categoryService;
         }
         // GET: Article
         public ActionResult Index()
@@ -31,16 +34,25 @@ namespace WWW.Controllers
 
         // POST: Article/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Check(Article collection)
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> Check(ArticleViewModal collection)
         {
-            if (ModelState.IsValid) {
-                    await _articleService.Create(collection);
-                    return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                Article data = new Article()
+                {
+                    Title = collection.Title,
+                    ShortDescription = collection.ShortDescription,
+                    Description = collection.Description,
+                    Published = collection.Published,
+                    CategoryID=collection.Category
+                };
+                await _articleService.Create(data);
+                return RedirectToAction(nameof(Index));
             }
             else
             {
-                return View(collection);
+                return View("Create", collection);
             }
         }
 

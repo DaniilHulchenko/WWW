@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using WWW.DAL.Interfaces;
@@ -17,6 +18,16 @@ namespace WWW.DAL.Repositories
             _db=db;
         }
 
+        public async Task<bool> AddTags(Article article,Tags tags)
+        {
+            if (article.Tags == null) 
+                article.Tags = new List<Tags> { tags };
+            else
+                article.Tags.Add(tags);
+
+            await _db.SaveChangesAsync();
+            return true;
+        }
 
         public async Task<bool> Create(Article entity)
         {

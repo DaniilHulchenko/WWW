@@ -6,15 +6,16 @@ using WWW.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 
 using WWW.DAL.Repositories;
+using WWW.Domain.ViewModels.Article;
 
 namespace WWW.Service.Implementations
 {
     public class ArticleService : IArticleService
     {
         private readonly IArticleRepository _articleRepository;
-        private readonly UserRepository _userRepository;
+        private readonly IBaseRepository<User> _userRepository;
 
-        public ArticleService(IArticleRepository articleRepository, UserRepository userRepository )
+        public ArticleService(IArticleRepository articleRepository, IBaseRepository<User> userRepository )
         {
             _articleRepository = articleRepository;
             _userRepository = userRepository;
@@ -83,9 +84,11 @@ namespace WWW.Service.Implementations
 
         public async Task<bool> Create(Article entity)
         {
-            entity.slug = $"{entity.Title}-{entity.Id}";
-            entity.DateOfCreation = entity.DateOfModification = DateTime.Now;
+            entity.slug = $"{entity.Title}-{entity.Id+1}";
+            entity.DateOfCreation = entity.DateOfEvent = DateTime.Now;
             entity.Author = _userRepository.GetALL().First();
+            entity.Location = "m3h5x7";
+            entity.IsFavorite = true;
 
             return await _articleRepository.Create(entity);  
         }
@@ -93,6 +96,12 @@ namespace WWW.Service.Implementations
         public async Task<bool> Delete(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> AddTag(Article article,Tags tags)
+        {
+            await _articleRepository.AddTags(article, tags);
+            return true;
         }
     }
 }

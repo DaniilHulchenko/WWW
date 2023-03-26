@@ -24,12 +24,14 @@ namespace WWW.Domain.ViewModels.Article
         public string Description { get; set; }
 
         [Display(Name = "Picture")]
-        [Required(ErrorMessage = "Upload Picture")]
         [MinLength(2, ErrorMessage = "Minimum lenght: 2")]
-        public IFormFile Picture { get; set; }
+        public IFormFile? Picture { get; set; }
         //IFormFile
         public bool Published { get; set; }
-        public Category Category { get; set; }
+
+        [Display(Name = "Category")]
+        [Required(ErrorMessage = "Enter Category ID")]
+        public int Category { get; set; }
 
     }
 }

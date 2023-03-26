@@ -20,7 +20,7 @@ namespace WWW.ViewComponents
             _categoryRepository=categoryRepository; 
             _logger = logger;
         }
-        public IViewComponentResult InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             return View("Index", _categoryRepository.GetNotEmptyCategory());
         }

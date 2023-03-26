@@ -20,13 +20,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
     builder.Configuration.GetConnectionString("StoreDatabase")
     ));
 //                        Services
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
-builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
+builder.Services.AddTransient<IBaseRepository<User>, UserRepository>();
+builder.Services.AddTransient<IBaseRepository<Tags>,TagRepository>();
 
-builder.Services.AddScoped<IArticleService, ArticleService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IBaseService<User>, UserService>();
+builder.Services.AddTransient<IArticleService, ArticleService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IBaseService<User>, UserService>();
+
 /*#################################################################################*/
 
 var app = builder.Build();
