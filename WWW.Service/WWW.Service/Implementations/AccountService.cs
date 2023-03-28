@@ -136,8 +136,6 @@ namespace WWW.Service.Implementations
             }
         }
 
-
-
         private ClaimsIdentity Authenticate(User user)
         {
             var claims = new List<Claim>
