@@ -32,11 +32,10 @@ namespace WWW.Controllers
 
         public async Task<IActionResult> Privacy()
         {
-            BaseResponse< IEnumerable<Article>> article = await _articleService.GetAll();
-            Console.WriteLine("!!!"+article.ErrorDescription);
-            var article1= article.Data.First();
-
-            await _articleService.AddTag(article1, _tagsRepository.GetALL().First());
+            //BaseResponse< IEnumerable<Article>> article = await _articleService.GetAll();
+            //Console.WriteLine("!!!"+article.ErrorDescription);
+            //var article1= article.Data.First
+            //await _articleService.AddTag(article1, _tagsRepository.GetALL().First());
             return View();
         }
 

@@ -9,10 +9,10 @@ using WWW.Domain.Entity;
 
 namespace WWW.DAL.Repositories
 {
-    public class UserRepository : IBaseRepository<User>
+    public class AccountRepository : IAccountRepository
     {
         private ApplicationDbContext _db;
-        public UserRepository(ApplicationDbContext db)
+        public AccountRepository(ApplicationDbContext db)
         {
             _db = db;
         }

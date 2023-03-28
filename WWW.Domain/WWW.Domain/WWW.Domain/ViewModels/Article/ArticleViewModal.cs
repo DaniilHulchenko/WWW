@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
 using System.Xml.Linq;
 using WWW.Domain.Entity;
 
@@ -32,6 +33,14 @@ namespace WWW.Domain.ViewModels.Article
         [Display(Name = "Category")]
         [Required(ErrorMessage = "Enter Category ID")]
         public int Category { get; set; }
+
+        [Display(Name = "Location")]
+        [Required(ErrorMessage = "Enter Location")]
+        public string Location { get; set; }
+
+        [Display(Name = "Date Of Event")]
+        [Required(ErrorMessage = "Enter Date Of Event")]
+        public DateTime DateOfEvent { get; set; }
 
     }
 }

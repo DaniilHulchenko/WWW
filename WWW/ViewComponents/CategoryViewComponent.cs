@@ -24,6 +24,10 @@ namespace WWW.ViewComponents
         {
             return View("Index", _categoryRepository.GetNotEmptyCategory());
         }
+        //public async Task<IViewComponentHelper> Allcat()
+        //{
+        //    return _categoryRepository.GetALL();
+        //}
     }
 }
 

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using WWW.Domain.Enum;
 
-namespace WWW.Domain.ViewModels.User
+namespace WWW.Domain.ViewModels.Account
 {
-    internal class UserViewModal
+    public class RegisterViewModel
     {
         [Display(Name = "First Name")]
         [Required(ErrorMessage = "Enter First Name")]

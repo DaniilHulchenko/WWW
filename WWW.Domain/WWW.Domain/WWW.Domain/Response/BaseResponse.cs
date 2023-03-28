@@ -12,6 +12,7 @@ namespace WWW.Domain.Response
         public string ErrorDescription { get; set; }
         public StatusCode StatusCode { get; set; } 
         public T Data { get; set; }
+
     }
 
     public interface IBaseResponse<T>

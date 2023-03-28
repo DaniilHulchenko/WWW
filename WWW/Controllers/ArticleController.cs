@@ -45,10 +45,13 @@ namespace WWW.Controllers
                     ShortDescription = collection.ShortDescription,
                     Description = collection.Description,
                     Published = collection.Published,
-                    CategoryID=collection.Category
+                    CategoryID=collection.Category,
+                    Location = collection.Location.ToString(),
+                    DateOfCreation=collection.DateOfEvent,
+                    
                 };
                 await _articleService.Create(data);
-                return RedirectToAction(nameof(Index));
+                return Redirect("/Index");
             }
             else
             {

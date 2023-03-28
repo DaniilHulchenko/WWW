@@ -13,9 +13,9 @@ namespace WWW.Service.Implementations
     public class ArticleService : IArticleService
     {
         private readonly IArticleRepository _articleRepository;
-        private readonly IBaseRepository<User> _userRepository;
+        private readonly IAccountRepository _userRepository;
 
-        public ArticleService(IArticleRepository articleRepository, IBaseRepository<User> userRepository )
+        public ArticleService(IArticleRepository articleRepository, IAccountRepository userRepository )
         {
             _articleRepository = articleRepository;
             _userRepository = userRepository;
@@ -86,7 +86,7 @@ namespace WWW.Service.Implementations
         {
             entity.slug = $"{entity.Title}-{entity.Id+1}";
             entity.DateOfCreation = entity.DateOfEvent = DateTime.Now;
-            entity.Author = _userRepository.GetALL().First();
+            entity.Author = await _userRepository.GetALL().FirstAsync();
             entity.Location = "m3h5x7";
             entity.IsFavorite = true;
 

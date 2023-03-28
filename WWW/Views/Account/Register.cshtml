@@ -1,0 +1,121 @@
+﻿@model WWW.Domain.ViewModels.Account.RegisterViewModel
+
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Регистрация";
+}
+
+<div style="padding: 20px;"></div>
+<style>
+    .form-group{
+        margin-top:20px;
+    }
+</style>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <span class="anchor"></span>
+                    <div class="card card-account card-outline-secondary border border-white">
+                        <div class="card-header">
+                            <h3 class="mb-0 text-center paragraphHome text-black">Registration</h3>
+                        </div>
+                        <div class="card-body">
+                            <form asp-controller="Account" asp-action="Register">
+                                <div asp-validation-summary="All" style="font-size:23px; font-family:Impact" class="text-danger text-center"></div>
+                                <div class="form-group">
+                                    <input asp-for="FirstName" class="form-control textbox-dg font-weight-bold text-center" placeholder="FirstName" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="LastName" class="form-control textbox-dg font-weight-bold text-center" placeholder="LastName" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="NickName" class="form-control textbox-dg font-weight-bold text-center" placeholder="NickName" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Email" class="form-control textbox-dg font-weight-bold text-center" placeholder="Email" type="email">
+                                </div>
+                                <div class="form-group">
+                                    <textarea asp-for="Introdaction" class="form-control textbox-dg font-weight-bold text-center" placeholder="Introdaction" type="text"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <input autocomplete="new-password" asp-for="Password" placeholder="Password" class="form-control textbox-dg font-weight-bold text-center" type="password">
+                                </div>
+                                <span class="text-black" style="font-size: small; font-family:'Comic Sans MS'">The password must be more than 6 characters long and contain only Latin characters</span>
+                                <div class="form-group">
+                                    <input autocomplete="new-password" asp-for="PasswordConfirm" placeholder="Password Confirm" class="form-control textbox-dg font-weight-bold text-center" type="password">
+                                </div>
+                                @*<div>
+                                    <h2 class="paragraphHome text-center"><a asp-controller="Account" target="_blank" asp-action="Login" style="color:deepskyblue;">Вход</a></h2>
+                                </div>*@
+                                <center><button class="btn btn-success btn-lg float-right" style="margin-top: 10px;padding:5px;" type="submit">Submit</button></center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="form-group">
+    <fieldset disabled="" control-id="ControlID-29">
+        <label class="form-label" for="disabledInput">Disabled input</label>
+        <input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled="" control-id="ControlID-30">
+    </fieldset>
+</div>
+<div class="form-group">
+    <fieldset control-id="ControlID-31">
+        <label class="form-label mt-4" for="readOnlyInput">Readonly input</label>
+        <input class="form-control" id="readOnlyInput" type="text" placeholder="Readonly input here..." readonly="" control-id="ControlID-32">
+    </fieldset>
+</div>
+<div class="form-group has-success">
+    <label class="form-label mt-4" for="inputValid">Valid input</label>
+    <input type="text" value="correct value" class="form-control is-valid" id="inputValid" control-id="ControlID-33">
+    <div class="valid-feedback">Success! You've done it.</div>
+</div>
+<div class="form-group has-danger">
+    <label class="form-label mt-4" for="inputInvalid">Invalid input</label>
+    <input type="text" value="wrong value" class="form-control is-invalid" id="inputInvalid" control-id="ControlID-34">
+    <div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
+</div>
+<div class="form-group">
+    <label class="col-form-label col-form-label-lg mt-4" for="inputLarge">Large input</label>
+    <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" id="inputLarge" control-id="ControlID-35">
+</div>
+<div class="form-group">
+    <label class="col-form-label mt-4" for="inputDefault">Default input</label>
+    <input type="text" class="form-control" placeholder="Default input" id="inputDefault" control-id="ControlID-36">
+</div>
+<div class="form-group">
+    <label class="col-form-label col-form-label-sm mt-4" for="inputSmall">Small input</label>
+    <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" id="inputSmall" control-id="ControlID-37">
+</div>
+<div class="form-group">
+    <label class="form-label mt-4">Input addons</label>
+    <div class="form-group">
+        <div class="input-group mb-3">
+            <span class="input-group-text">$</span>
+            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" control-id="ControlID-38">
+            <span class="input-group-text">.00</span>
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" control-id="ControlID-39">
+            <button class="btn btn-primary" type="button" id="button-addon2" control-id="ControlID-40">Button</button>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="form-label mt-4">Floating labels</label>
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" control-id="ControlID-41">
+        <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" control-id="ControlID-42">
+        <label for="floatingPassword">Password</label>
+    </div>
+*@</div>

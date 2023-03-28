@@ -1,4 +1,5 @@
-﻿@model WWW.Domain.ViewModels.Article.ArticleViewModal
+﻿@using WWW.Service.Implementations;
+@model WWW.Domain.ViewModels.Article.ArticleViewModal
 @{
     ViewData["Title"] = "Create category";
 }
@@ -60,35 +61,33 @@
             <div class="form-group">
                 <label asp-for="Category" for="exampleSelect1" class="form-label mt-4"></label>
                 <input asp-for="Category" class="form-control" control-id="ControlID-10">
-                @*
-                <select asp-for ="Category" class="form-select" id="exampleSelect1" control-id="ControlID-11">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
+                
+                @*<select asp-for ="Category" class="form-select" id="exampleSelect1" control-id="ControlID-11">
+                    @foreach (i in Modal.AdditionalData)
+                    {
+                        <option>1</option>
+                    }
                 </select>*@
             </div>
+            <div class="form-group">
+                <label asp-for="DateOfEvent" for="exampleSelect1" class="form-label mt-4"></label>
+                <input asp-for="DateOfEvent" class="form-control" control-id="ControlID-10">
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" for="exampleTextarea" class="form-label mt-4"></label>
+                <input asp-for="Location" class="form-control" id="exampleTextarea" rows="3" control-id="ControlID-13"></input>
+            </div>
+
             <div class="form-group">
                 <label asp-for="Picture" class="form-label mt-4">Default file input example</label>
                 <input asp-for="Picture" class="form-control" type="file" id="formFile" control-id="ControlID-14">
             </div>
             <fieldset style="margin-top:10px;" class="form-group" control-id="ControlID-18">
                     <div class="form-check" >
-                        <label asp-for="Published">    </label>&nbsp &nbsp
-                        <input asp-for="Published" type="checkbox" checked="" control-id="ControlID-19">
+                        <label asp-for="Published"></label>&nbsp &nbsp
+                        <input asp-for="Published" type="checkbox" checked="" control-id="ControlID-19" value="true">
                     </div>
             </fieldset>
-            @*<fieldset class="form-group" control-id="ControlID-21">
-                <legend class="mt-4">Switches</legend>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" control-id="ControlID-22">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="" control-id="ControlID-23">
-                    <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
-                </div>
-            </fieldset>*@
         
             <button type="submit" class="btn btn-primary" control-id="ControlID-28">Submit</button>
         </fieldset>
