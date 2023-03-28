@@ -40,6 +40,45 @@ namespace WWW.Service.Implementations
             throw new NotImplementedException();
         }
 
+        public async Task<BaseResponse<ClaimsIdentity>> Login(LoginViewModel model)
+        {
+            try
+            {
+                var user = await _userRepository.GetALL().FirstOrDefaultAsync(x => x.NickName == model.NickName);
+                if (user == null)
+                {
+                    return new BaseResponse<ClaimsIdentity>()
+                    {
+                        ErrorDescription = "User not found"
+                    };
+                }
+
+                if (user.Password != HashPasswordHelper.HashPassowrd(model.Password))
+                {
+                    return new BaseResponse<ClaimsIdentity>()
+                    {
+                        ErrorDescription = "Invalid password or user name "
+                    };
+                }
+                var result = Authenticate(user);
+
+                return new BaseResponse<ClaimsIdentity>()
+                {
+                    Data = result,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("!!!"+ex+ $"[Login]: {ex.Message}");
+                return new BaseResponse<ClaimsIdentity>()
+                {
+                    ErrorDescription = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
         public async Task<BaseResponse<ClaimsIdentity>> Register(RegisterViewModel model)
         {
             try
@@ -65,7 +104,7 @@ namespace WWW.Service.Implementations
                 };
 
                 await _userRepository.Create(user);
-
+                
                 //var profile = new Profile()
                 //{
                 //    UserId = user.Id,

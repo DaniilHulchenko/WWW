@@ -14,6 +14,7 @@ namespace WWW.Service.Interfaces
     public interface IAccountService : IBaseService<User>
     {
         public Task<BaseResponse<ClaimsIdentity>> Register(RegisterViewModel model);
+        public Task<BaseResponse<ClaimsIdentity>> Login(LoginViewModel model);
 
         public Task<bool> Create(User category);
 
