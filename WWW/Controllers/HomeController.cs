@@ -30,12 +30,9 @@ namespace WWW.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Privacy()
+        public async Task<IActionResult> PageForTests()
         {
-            //BaseResponse< IEnumerable<Article>> article = await _articleService.GetAll();
-            //Console.WriteLine("!!!"+article.ErrorDescription);
-            //var article1= article.Data.First
-            //await _articleService.AddTag(article1, _tagsRepository.GetALL().First());
+            
             return View();
         }
 

@@ -1,7 +1,7 @@
 ﻿@using WWW.Service.Implementations;
 @model WWW.Domain.ViewModels.Article.ArticleViewModal
 @{
-    ViewData["Title"] = "Create category";
+    ViewData["Title"] = "Create article";
 }
 
 <h1>Creation form</h1>
@@ -55,19 +55,16 @@
                 <input asp-for="ShortDescription" class="form-control" control-id="ControlID-10">
             </div>
             <div class="form-group">
-                <label asp-for="Description"  for="exampleTextarea" class="form-label mt-4">Example textarea</label>
+                <label asp-for="Description"  for="exampleTextarea" class="form-label mt-4"></label>
                 <textarea asp-for="Description" class="form-control" id="exampleTextarea" rows="3" control-id="ControlID-13"></textarea>
             </div>
             <div class="form-group">
                 <label asp-for="Category" for="exampleSelect1" class="form-label mt-4"></label>
-                <input asp-for="Category" class="form-control" control-id="ControlID-10">
+                @*<input asp-for="Category" class="form-control" control-id="ControlID-10">*@
                 
-                @*<select asp-for ="Category" class="form-select" id="exampleSelect1" control-id="ControlID-11">
-                    @foreach (i in Modal.AdditionalData)
-                    {
-                        <option>1</option>
-                    }
-                </select>*@
+                <select asp-for ="Category" class="form-select" id="exampleSelect1" control-id="ControlID-11">
+                    @await Component.InvokeAsync("SelectCategory")
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="DateOfEvent" for="exampleSelect1" class="form-label mt-4"></label>

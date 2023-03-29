@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WWW.DAL.Interfaces;
 using WWW.Domain.Entity;
 
@@ -19,12 +14,12 @@ namespace WWW.DAL.Repositories
             _db = db;
         }
 
-        public IEnumerable<Category> GetNotEmptyCategory() {         
+        public async Task<IEnumerable<Category>> GetNotEmptyCategory() {         
             string query = "select * from Categories " +
                     "where exists (" +
                     "select * from Articles where Articles.CategoryID = Categories.Id " +
                     "); ";
-            return _db.Categories.FromSqlRaw(query);
+            return await _db.Categories.FromSqlRaw(query).ToListAsync();
         }
 
 

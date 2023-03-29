@@ -84,10 +84,8 @@ namespace WWW.Service.Implementations
 
         public async Task<bool> Create(Article entity)
         {
-            entity.slug = $"{entity.Title}-{entity.Id+1}";
-            entity.DateOfCreation = entity.DateOfEvent = DateTime.Now;
+            entity.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
             entity.Author = await _userRepository.GetALL().FirstAsync();
-            entity.Location = "m3h5x7";
             entity.IsFavorite = true;
 
             return await _articleRepository.Create(entity);  

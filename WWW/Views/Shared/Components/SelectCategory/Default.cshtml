@@ -1,0 +1,6 @@
+﻿@model IEnumerable<WWW.Domain.Entity.Category>
+
+@foreach (var i in Model)
+{
+    <option value="@i.Id">@i.Name</option>
+}

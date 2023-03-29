@@ -51,7 +51,7 @@ namespace WWW.Controllers
                     
                 };
                 await _articleService.Create(data);
-                return Redirect("/Index");
+                return Redirect("/");
             }
             else
             {

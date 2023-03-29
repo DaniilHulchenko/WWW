@@ -10,19 +10,21 @@ using WWW.DAL.Interfaces;
 
 namespace WWW.ViewComponents
 {
-    [ViewComponent(Name = "Category")]
-    public class CategoryViewComponent: ViewComponent
+    //[ViewComponent(Name = "NECategory")]
+    public class NotEnptyCategoryViewComponent : ViewComponent
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly ILogger<CategoryViewComponent> _logger;
-        public CategoryViewComponent(ICategoryRepository categoryRepository, ILogger<CategoryViewComponent> logger)
+        private readonly ILogger<NotEnptyCategoryViewComponent> _logger;
+        public NotEnptyCategoryViewComponent(ICategoryRepository categoryRepository, ILogger<NotEnptyCategoryViewComponent> logger)
         {
-            _categoryRepository=categoryRepository; 
+            _categoryRepository = categoryRepository;
             _logger = logger;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("Index", _categoryRepository.GetNotEmptyCategory());
+            var data = await _categoryRepository.GetNotEmptyCategory();
+            //Console.WriteLine($"!!!{data}");
+            return View("Index", data);
         }
         //public async Task<IViewComponentHelper> Allcat()
         //{

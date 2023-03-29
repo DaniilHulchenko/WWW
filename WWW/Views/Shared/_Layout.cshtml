@@ -35,7 +35,7 @@
                                 
                                 <a class=" dropdown-item text-color-black" asp-controller="Category" asp-action="List">Categoryes</a>
                                 <div class="dropdown-divider"></div>
-                                @await Component.InvokeAsync("Category")  
+                                @await Component.InvokeAsync("NotEnptyCategory")
                             </div>
                         </li>
                     </ul>
@@ -100,7 +100,7 @@
     @RenderSection("Pagination", false)
     <footer class="border-top footer text-muted bg-black ">
         <div class="container">
-            &copy; 2023 - WWW - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - Daniil Hulchenko - <a asp-area="" asp-controller="Home" asp-action="PageForTests">PageForTests</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
