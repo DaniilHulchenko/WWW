@@ -75,6 +75,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WWW.API\WWW.API.csproj" />
     <ProjectReference Include="..\WWW.DAL\WWW.DAL.csproj" />
     <ProjectReference Include="..\WWW.Service\WWW.Service\WWW.Service.csproj" />
   </ItemGroup>

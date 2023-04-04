@@ -18,6 +18,7 @@ namespace WWW.Service.Implementations
 
         public async Task<bool> Create(Category category)
         {
+            category.slug=category.Name.ToLower().Replace(" ","-");
             return await _categoryRepository.Create(category);
         }
 

@@ -2,25 +2,14 @@
 @using WWW.Domain.Entity;
 @using WWW.Domain.Response;
 @using WWW.Domain.ViewModels.Article
-@using WWW.Domain.ViewModels.Article
+@model dynamic;
 @{
     ViewData["Title"] = "Page For Tests";
     var test = new ArticleViewModal();
 }
 <h1>@ViewData["Title"]</h1>
 
-    <form class="w-60 p-3" metgod="Post" asp-controller="Article" asp-action="Check">
-        <fieldset control-id="ControlID-7">
-        @foreach (var i in test.GetType().GetFields())
-        {
-                <div class="form-group">
-                    <label asp-for="@i" for="exampleInputEmail1" class="form-label mt-4"></label>
-                    <input asp-for="@i" class="form-control" control-id="ControlID-9">
-                </div>      
-            }
-        </fieldset>
-            <button type="submit" class="btn btn-primary" control-id="ControlID-28">Submit</button>
-    </form>
+   <h1>@Model</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
 

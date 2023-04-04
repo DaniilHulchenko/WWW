@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using WWW.DAL.Interfaces;
 using WWW.Domain.Entity;
 using WWW.Domain.Response;
+using WWW.Domain.ViewModels.Category;
 using WWW.Models;
 using WWW.Service.Implementations;
 using WWW.Service.Interfaces;
@@ -29,32 +30,25 @@ namespace WWW.Controllers
         //[HttpGet("Hello/World")]
         public async Task<IActionResult> Index(int page = 1)
         {
-            //foreach (Category category in data)
-            //{
-            //    _logger.LogInformation($"!!! : {category}");
-            //}
-            //IEnumerable<Category> items = data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            //PageViewModel PageViewModel = new PageViewModel(data.Count(), page, pageSize);
-            //PageIndexViewModel<Category> viewModel = new PageIndexViewModel<Category>
-            //{
-            //    PageViewModel = PageViewModel,
-            //    Data = items
-            //};
-
             int pageSize = 3;
             BaseResponse<IEnumerable<Category>> data = await _categoryService.GetAll();
-            PageIndexViewModel<Category> viewModel = new PageIndexViewModel<Category>(data.Data, pageSize, page);
+            PageIndexViewModel<Category> viewModel;
+            if (data.Data!=null)
+                viewModel = new PageIndexViewModel<Category>(data.Data, pageSize, page);
+            else
+                viewModel= new PageIndexViewModel<Category>(null, pageSize, page);
             return View(viewModel);
         }
         public IActionResult Create() {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Check(Category category) {
+        public async Task<IActionResult> Check(CategoryViewModal category) {
             if (ModelState.IsValid)
             {
-                await _categoryService.Create(category);
-                //await _categoryRepository.Create(category);
+                var data = new Category { Name = category.Name };
+                await _categoryService.Create(data);
+
                 return Redirect("/Category");
             }
             else
@@ -68,7 +62,7 @@ namespace WWW.Controllers
         {
             int pageSize = 5;
             var data = await _articleService.GetByCategoryName(category);
-            _logger.LogInformation(data.StatusCode.ToString());
+            //_logger.LogInformation(data.StatusCode.ToString());
             PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);
             if (data.StatusCode != Domain.Enum.StatusCode.OK){
                 return RedirectToAction("Error");
@@ -76,9 +70,8 @@ namespace WWW.Controllers
             return View(paginator);
         }
 
-        public ActionResult Delete(int Id) {
-            _categoryService.Delete(Id);
-            
+        public async Task<ActionResult> DeleteAsync(int Id) {
+            await _categoryService.Delete(Id);
             return Redirect("/Category");
 
         }

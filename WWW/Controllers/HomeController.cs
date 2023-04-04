@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WWW.DAL.Interfaces;
-using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
-using WWW.Domain.Response;
 using WWW.Models;
 using WWW.Service.Interfaces;
+using WWW.API;
+using Microsoft.Extensions.Primitives;
 
 namespace WWW.Controllers
 {
@@ -29,11 +29,15 @@ namespace WWW.Controllers
         {
             return View();
         }
-
         public async Task<IActionResult> PageForTests()
         {
-            
-            return View();
+            var config = new Dictionary<string, string>{
+                { "country", "CA" },
+            };
+            APIRequest api = new APIRequest("Events");
+            dynamic data = await api.GetData(config);
+
+            return View(data.results[1].location);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
