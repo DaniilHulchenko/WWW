@@ -9,18 +9,27 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using WWW.API.Helpers;
 
-namespace WWW.API { 
-    public class APIRequest: ApiAccess
+namespace WWW.API {
+    public class APIRequest : IApiRequrst
     {
-        public APIRequest(string ApiName) : base(ApiName) { }
+        private string _token;
+        private string _baseUrl;
+        private string _endpoint;
+        private readonly IConfiguration _configuration;
 
-        public async Task<dynamic> GetData(Dictionary<string, string> queryParams)
+        public APIRequest(IConfiguration configuration) { 
+            _configuration = configuration;
+        }
+
+        public async Task<dynamic> GetData(string ApiName, Dictionary<string, string> queryParams)
         {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            _token=_configuration.GetSection
 
-            var urlBuilder = new UriBuilder(baseUrl);
-            urlBuilder.Path = endpoint;
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
+
+            var urlBuilder = new UriBuilder(_baseUrl);
+            urlBuilder.Path = _endpoint;
             urlBuilder.Query = BuildQueryString(queryParams);
 
             var response = await client.GetAsync(urlBuilder.Uri);
