@@ -9,6 +9,7 @@ using WWW.Service.Interfaces;
 using WWW.Domain.Entity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using WWW.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,9 @@ builder.Services.AddTransient<IBaseRepository<Tags>,TagRepository>();
 builder.Services.AddTransient<IArticleService, ArticleService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
+
+//                          API
+builder.Services.AddTransient<IApiRequrst, APIRequest>();
 
 /*#####################################  AddAuthentication  #######################################*/
 

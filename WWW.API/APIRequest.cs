@@ -20,12 +20,18 @@ namespace WWW.API {
         public APIRequest(IConfiguration configuration) { 
             _configuration = configuration;
         }
-
-        public async Task<dynamic> GetData(string ApiName, Dictionary<string, string> queryParams)
+        
+        public void SetConfig(string ApiName)
         {
-            _token=_configuration.GetSection
+            _token = _configuration[$"API:{ApiName}:token"];
+            _baseUrl = _configuration[$"API:{ApiName}:baseUrl"];
+            _endpoint= _configuration[$"API:{ApiName}:endpoint"];
+        }
 
-            var client = new HttpClient();
+        public async Task<dynamic> GetData(Dictionary<string, string> queryParams)
+        {
+
+        var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
 
             var urlBuilder = new UriBuilder(_baseUrl);

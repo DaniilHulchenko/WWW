@@ -9,8 +9,9 @@ namespace WWW.API
 {
     public interface IApiRequrst
     {
-        public Task<dynamic> GetData(string ApiName,  Dictionary<string, string> queryParams);
-        private static string BuildQueryString( Dictionary<string, string> queryParams);
+        public Task<dynamic> GetData( Dictionary<string, string> queryParams);
+        public void SetConfig(string ApiName);
+        //private static string BuildQueryString(Dictionary<string, string> queryParams);
 
     }
 }

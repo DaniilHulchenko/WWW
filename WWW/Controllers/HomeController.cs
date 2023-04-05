@@ -37,9 +37,8 @@ namespace WWW.Controllers
             var config = new Dictionary<string, string>{
                 { "country", "CA" },
             };
-            //APIRequest api = new APIRequest("Events");
-            //dynamic data = await api.GetData(config);
-            dynamic data = _apiRequest.GetData("Events", config);
+            _apiRequest.SetConfig("Events");
+            dynamic data = await _apiRequest.GetData(config);
 
             return View(data.results[1].location);
         }
