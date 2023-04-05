@@ -10,7 +10,7 @@ namespace WWW.API
     public interface IApiRequrst
     {
         public Task<dynamic> GetData( Dictionary<string, string> queryParams);
-        public void SetConfig(string ApiName);
+        public void SetApiName(string ApiName);
         //private static string BuildQueryString(Dictionary<string, string> queryParams);
 
     }

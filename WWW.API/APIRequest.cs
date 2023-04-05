@@ -21,7 +21,7 @@ namespace WWW.API {
             _configuration = configuration;
         }
         
-        public void SetConfig(string ApiName)
+        public void SetApiName(string ApiName)
         {
             _token = _configuration[$"API:{ApiName}:token"];
             _baseUrl = _configuration[$"API:{ApiName}:baseUrl"];

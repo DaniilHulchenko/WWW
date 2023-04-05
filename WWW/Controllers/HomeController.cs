@@ -34,13 +34,12 @@ namespace WWW.Controllers
         }
         public async Task<IActionResult> PageForTests()
         {
-            var config = new Dictionary<string, string>{
+            _apiRequest.SetApiName("Events");
+            dynamic data = await _apiRequest.GetData(new Dictionary<string, string>{
                 { "country", "CA" },
-            };
-            _apiRequest.SetConfig("Events");
-            dynamic data = await _apiRequest.GetData(config);
+            });
 
-            return View(data.results[1].location);
+            return View(data.results[1].title);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
