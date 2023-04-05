@@ -37,7 +37,7 @@ namespace WWW.Controllers
             APIRequest api = new APIRequest("Events");
             dynamic data = await api.GetData(config);
 
-            return View(data.results[1].location);
+            return View(data.results[1].title);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
