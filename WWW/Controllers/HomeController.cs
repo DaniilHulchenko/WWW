@@ -34,7 +34,7 @@ namespace WWW.Controllers
         }
         public async Task<IActionResult> PageForTests()
         {
-            _apiRequest.SetApiName("Events");
+            _apiRequest.SetApiName("Events_predicthq");
             dynamic data = await _apiRequest.GetData(new Dictionary<string, string>{
                 { "country", "CA" },
             });
