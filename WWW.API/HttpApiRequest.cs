@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 //using WWW.API.Helpers;
 
 namespace WWW.API {
-    public class APIRequest : IBackgroundApiJob<APIRequest>
+    public class HttpApiRequest : IApiRepository<HttpApiRequest>
     {
         private string _token;
         private string _baseUrl;
         private string _endpoint;
         private readonly IConfiguration _configuration;
 
-        public APIRequest(IConfiguration configuration) { 
+        public HttpApiRequest(IConfiguration configuration) { 
             _configuration = configuration;
         }
         

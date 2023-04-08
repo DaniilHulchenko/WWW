@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WWW.API
 {
-    public interface IBackgroundApiJob<T>
+    public interface IApiRepository<T> 
     {
         public Task<dynamic> GetDataAsync( Dictionary<string, string> queryParams = null);
         public void ApiSelector(string ApiName);
