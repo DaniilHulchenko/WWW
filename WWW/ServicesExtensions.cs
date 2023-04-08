@@ -7,33 +7,51 @@ using WWW.Service.Interfaces;
 using WWW.API;
 using WWW.Domain.Entity;
 using WWW.Jobs;
+using WWW.Jobs.Implementations;
+using Org.BouncyCastle.Crypto.Tls;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using WWW.Jobs.Workers;
 
 public static class ServicesExtensions
 {
     public static void AddMyServices(this WebApplicationBuilder builder)
     {
-        //WebApplicationBuilder _builder = builder;
-        //                          SQL
-        builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+        IServiceCollection Services = builder.Services;
+//                          SQL
+        Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
             connectionString: builder.Configuration.GetConnectionString("StoreDatabase")
             ));
-        //                        Services
-        builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-        builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
-        builder.Services.AddTransient<IAccountRepository, AccountRepository>();
-        builder.Services.AddTransient<IBaseRepository<Tags>, TagRepository>();
+//                        Services DB
+        Services.AddTransient<ICategoryRepository, CategoryRepository>();
+        Services.AddTransient<IArticleRepository, ArticleRepository>();
+        Services.AddTransient<IAccountRepository, AccountRepository>();
+        Services.AddTransient<IBaseRepository<Tags>, TagRepository>();
 
-        builder.Services.AddTransient<IArticleService, ArticleService>();
-        builder.Services.AddTransient<ICategoryService, CategoryService>();
-        builder.Services.AddTransient<IAccountService, AccountService>();
+        Services.AddTransient<IArticleService, ArticleService>();
+        Services.AddTransient<ICategoryService, CategoryService>();
+        Services.AddTransient<IAccountService, AccountService>();
 
-        //                          API
-        builder.Services.AddTransient<IBackgroundApiJob<APIRequest>, APIRequest>();
-        builder.Services.AddTransient<IBackgroundApiJob<RestApiRequest>, RestApiRequest>();
+//                          API
+        Services.AddTransient<IApiRepository<HttpApiRequest>, HttpApiRequest>();
+        Services.AddTransient<IApiRepository<RestApiRequest>, RestApiRequest>();
 
-        //                          HangFire(Job Schedule)
-        //builder.Services.AddHostedService<EventsApiJobWorker>();
 
-        //return services;
+//                          Jobs
+        Services.AddTransient<EventApiJob>();
+
+//                          HangFire (Job Schedule)
+        builder.Services.AddHostedService<JobWorker>();
+
+        Services.AddSingleton<IJobService, JobService>();
+
+        Services.AddHangfire(configuration => configuration
+            .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UseMemoryStorage()
+        );
+        Services.AddHangfireServer();
+
     }
 }

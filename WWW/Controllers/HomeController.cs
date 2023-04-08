@@ -15,11 +15,11 @@ namespace WWW.Controllers
         private readonly IArticleService _articleService;
         private readonly ICategoryService _categoryService;
         private readonly IBaseRepository<Tags> _tagsRepository;
-        private readonly IBackgroundApiJob<RestApiRequest> _restApiRequest;
+        private readonly IApiRepository<RestApiRequest> _restApiRequest;
         //private readonly ILogger<HomeController> _logger;
 
 
-        public HomeController(IBackgroundApiJob<RestApiRequest> restApiRequest, IArticleService articleService, ICategoryService categoryService, IBaseRepository<Tags>  tagsRepository)
+        public HomeController(IApiRepository<RestApiRequest> restApiRequest, IArticleService articleService, ICategoryService categoryService, IBaseRepository<Tags>  tagsRepository)
         {
             _restApiRequest = restApiRequest;
             _articleService = articleService;

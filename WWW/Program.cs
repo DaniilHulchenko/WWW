@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 
@@ -27,6 +28,9 @@ builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
+
+// HangFire
+app.UseHangfireDashboard();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

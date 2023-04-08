@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace WWW.API
 {
-    public class RestApiRequest: IBackgroundApiJob<RestApiRequest>
+    public class RestApiRequest: IApiRepository<RestApiRequest>
     {
         private readonly IConfiguration _configuration;
 
@@ -37,9 +37,12 @@ namespace WWW.API
             var request = new RestRequest(_endpoint, Method.Get);
             request.AddParameter("apikey", _token);
 
-            foreach (var kvp in queryParams)
+            if (queryParams != null)
             {
-                request.AddParameter(kvp.Key,kvp.Value);
+                foreach (var kvp in queryParams)
+                {
+                    request.AddParameter(kvp.Key, kvp.Value);
+                }
             }
 
             var response = client.Get(request);
