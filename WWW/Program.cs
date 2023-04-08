@@ -1,42 +1,20 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
-using WWW.DAL;
-using WWW.DAL.Interfaces;
-using WWW.DAL.Repositories;
-using WWW.Service.Implementations;
-using WWW.Service.Interfaces;
-
-using WWW.Domain.Entity;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using WWW.API;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Azure Insights
 builder.Services.AddApplicationInsightsTelemetry();
 
-/*#################################### Add services to the container #####################################*/
 builder.Services.AddControllersWithViews();
-//                          SQL
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("StoreDatabase")
-    ));
-//                        Services
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
-builder.Services.AddTransient<IAccountRepository, AccountRepository>();
-builder.Services.AddTransient<IBaseRepository<Tags>,TagRepository>();
 
-builder.Services.AddTransient<IArticleService, ArticleService>();
-builder.Services.AddTransient<ICategoryService, CategoryService>();
-builder.Services.AddTransient<IAccountService, AccountService>();
 
-//                          API
-builder.Services.AddTransient<IApiRequrst, APIRequest>();
+/*################################### Add services to the container ###############################*/
+ServicesExtensions.AddMyServices(builder);
+
+
 
 /*#####################################  AddAuthentication  #######################################*/
-
 //SignInManager.CheckPasswordSignInAsync();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

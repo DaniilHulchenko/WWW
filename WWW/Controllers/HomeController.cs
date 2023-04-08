@@ -15,14 +15,13 @@ namespace WWW.Controllers
         private readonly IArticleService _articleService;
         private readonly ICategoryService _categoryService;
         private readonly IBaseRepository<Tags> _tagsRepository;
-        private readonly IApiRequrst _apiRequest;
-
+        private readonly IBackgroundApiJob<RestApiRequest> _restApiRequest;
         //private readonly ILogger<HomeController> _logger;
 
-        //public HomeController( )
-        public HomeController(IApiRequrst apiRequest, IArticleService articleService, ICategoryService categoryService, IBaseRepository<Tags>  tagsRepository)
+
+        public HomeController(IBackgroundApiJob<RestApiRequest> restApiRequest, IArticleService articleService, ICategoryService categoryService, IBaseRepository<Tags>  tagsRepository)
         {
-            _apiRequest = apiRequest;
+            _restApiRequest = restApiRequest;
             _articleService = articleService;
             _categoryService = categoryService;
             _tagsRepository = tagsRepository;
@@ -34,12 +33,18 @@ namespace WWW.Controllers
         }
         public async Task<IActionResult> PageForTests()
         {
-            _apiRequest.SetApiName("Events_predicthq");
-            dynamic data = await _apiRequest.GetData(new Dictionary<string, string>{
-                { "country", "CA" },
+            //_apiRequest.SetApiName("Events_predicthq");
+            //dynamic data = await _apiRequest.GetData(new Dictionary<string, string>{
+            //    { "country", "CA" },
+            //});
+            _restApiRequest.ApiSelector("Events:ticketmaster");
+            dynamic data = await _restApiRequest.GetDataAsync(new Dictionary<string, string>{
+                { "city", "Ottawa" },
             });
 
-            return View(data.results[1].title);
+            return View(data._embedded.events[0].name);
+
+            //return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -63,20 +63,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.22.0-beta2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0-beta2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.1.23111.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0-preview.1.23111.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0-preview.2.23128.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WWW.API\WWW.API.csproj" />
     <ProjectReference Include="..\WWW.DAL\WWW.DAL.csproj" />
+    <ProjectReference Include="..\WWW.Jobs\WWW.Jobs.csproj" />
     <ProjectReference Include="..\WWW.Service\WWW.Service\WWW.Service.csproj" />
   </ItemGroup>
 
