@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 //using WWW.API.Helpers;
 
 namespace WWW.API {
-    public class APIRequest : IApiRequrst
+    public class APIRequest : IBackgroundApiJob<APIRequest>
     {
         private string _token;
         private string _baseUrl;
@@ -21,22 +21,24 @@ namespace WWW.API {
             _configuration = configuration;
         }
         
-        public void SetApiName(string ApiName)
+        public void ApiSelector(string ApiName)
         {
             _token = _configuration[$"API:{ApiName}:token"];
             _baseUrl = _configuration[$"API:{ApiName}:baseUrl"];
             _endpoint= _configuration[$"API:{ApiName}:endpoint"];
         }
 
-        public async Task<dynamic> GetData(Dictionary<string, string> queryParams)
+        public async Task<dynamic> GetDataAsync(Dictionary<string, string> queryParams = null)
         {
 
-        var client = new HttpClient();
+            var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
 
             var urlBuilder = new UriBuilder(_baseUrl);
             urlBuilder.Path = _endpoint;
-            urlBuilder.Query = BuildQueryString(queryParams);
+            if (queryParams != null) { 
+                urlBuilder.Query = BuildQueryString(queryParams);
+                }
 
             var response = await client.GetAsync(urlBuilder.Uri);
 
@@ -49,7 +51,7 @@ namespace WWW.API {
             else
             {
                 return response.StatusCode;
-                Console.WriteLine("!!! API Error: " + response.StatusCode);
+                //Console.WriteLine("!!! API Error: " + response.StatusCode);
             }
         }
 
