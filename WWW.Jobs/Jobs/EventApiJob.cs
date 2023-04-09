@@ -11,8 +11,8 @@ namespace WWW.Jobs.Workers
     public class EventApiJob : IBackgroundJob
     {
         ILogger<EventApiJob> _logger;
-        private readonly IApiRepository<RestApiRequest> _restapiRepository;
-        public EventApiJob(IApiRepository<RestApiRequest> restapiRepository, ILogger<EventApiJob> logger)
+        private readonly RestApiRequest _restapiRepository;
+        public EventApiJob(RestApiRequest restapiRepository, ILogger<EventApiJob> logger)
         {
             _logger = logger;
             _restapiRepository = restapiRepository;

@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace WWW.API
 {
-    public class RestApiRequest: IApiRepository<RestApiRequest>
+    public class RestApiRequest
     {
         private readonly IConfiguration _configuration;
 

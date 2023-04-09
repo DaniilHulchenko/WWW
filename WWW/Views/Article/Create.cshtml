@@ -1,5 +1,6 @@
 ﻿@using WWW.Service.Implementations;
 @model WWW.Domain.ViewModels.Article.ArticleViewModal
+@inject WWW.DAL.Interfaces.ICategoryRepository categoryRepository
 @{
     ViewData["Title"] = "Create article";
 }
@@ -63,7 +64,11 @@
                 @*<input asp-for="Category" class="form-control" control-id="ControlID-10">*@
                 
                 <select asp-for ="Category" class="form-select" id="exampleSelect1" control-id="ControlID-11">
-                    @await Component.InvokeAsync("SelectCategory")
+                    @*@await Component.InvokeAsync("SelectCategory")*@
+                    @foreach (var i in await categoryRepository.GetAll())
+                    {
+                        <option value="@i.Id">@i.Name</option>
+                    }
                 </select>
             </div>
             <div class="form-group">

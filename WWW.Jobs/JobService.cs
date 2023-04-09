@@ -30,7 +30,7 @@ namespace WWW.Jobs.Implementations
             {
                 throw new ArgumentException($"Job type: {type} already exsist");
             }
-            RecurringJob.AddOrUpdate<JobService>(type.Name, s => s.ExecuteJob(type), cron);
+            RecurringJob.AddOrUpdate<JobService>(type.Name, s => this.ExecuteJob(type), cron);
 
             _jobs.Add(type, new JobConfig() {
                 Name= type.Name,
