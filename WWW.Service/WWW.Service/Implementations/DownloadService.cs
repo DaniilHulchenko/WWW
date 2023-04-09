@@ -25,7 +25,7 @@ namespace WWW.Service.Interfaces
                 client.DownloadFile(url, fileName);
             }
 
-            _logger.LogInformation($"Изображение сохранено в файл: {fileName}");
+            _logger.LogInformation($"Pictre was saved in : {fileName}");
 
         }
     }
