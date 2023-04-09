@@ -32,9 +32,11 @@ public static class ServicesExtensions
         Services.AddTransient<ICategoryService, CategoryService>();
         Services.AddTransient<IAccountService, AccountService>();
 
+        Services.AddTransient<DownloadService>();
+
 //                          API
         Services.AddTransient<IApiRepository<HttpApiRequest>, HttpApiRequest>();
-        Services.AddTransient<IApiRepository<RestApiRequest>, RestApiRequest>();
+        Services.AddTransient<RestApiRequest>();
 
 
 //                          Jobs
