@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WWW.API\WWW.API.csproj" />
+    <ProjectReference Include="..\WWW.DAL\WWW.DAL.csproj" />
   </ItemGroup>
 
 </Project>

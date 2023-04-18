@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
 using WWW.Domain.Entity;
 
@@ -25,9 +26,9 @@ namespace WWW.Domain.ViewModels.Article
         public string Description { get; set; }
 
         [Display(Name = "Picture")]
-        [MinLength(2, ErrorMessage = "Minimum lenght: 2")]
-        public IFormFile? Picture { get; set; }
-        //IFormFile
+        [AllowNull]
+        public IFormFile Picture { get; set; }
+
         public bool Published { get; set; }
 
         [Display(Name = "Category")]

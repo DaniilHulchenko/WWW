@@ -20,7 +20,8 @@
     @foreach (var i in Model.Data){
         <div class="col-lg-4">
             <div class="modal-body articleDescription">
-                <img class="img-thumbnail " src="@i.Picture" alt="@i.Title" />
+                <img src="@Url.Action("GetImageById", "Help", new { id = i.Id })" alt="Image" />
+
                 <p>@i.Title</p>
                 <p>@i.ShortDescription</p>
             </div>
