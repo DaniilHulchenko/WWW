@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 using WWW.Domain.Entity;
 using WWW.Domain.ViewModels.Article;
+using WWW.Models;
 using WWW.Service.Interfaces;
 
 namespace WWW.Controllers
@@ -15,13 +17,21 @@ namespace WWW.Controllers
             _categoryService = categoryService;
         }
         // GET: Article
-        public ActionResult Index()
+        public async Task<IActionResult> Index(string category = "", int page = 0)
         {
-            return View();
+            int pageSize = 5;
+            var data = await _articleService.GetByCategoryName(category);
+            //_logger.LogInformation(data.StatusCode.ToString());
+            PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);
+            if (data.StatusCode != Domain.Enum.StatusCode.OK)
+            {
+                return RedirectToAction("Error");
+            }
+            return View(paginator);
         }
 
         // GET: Article/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string stug)
         {
             return View();
         }
@@ -31,7 +41,6 @@ namespace WWW.Controllers
         {
             return View();
         }
-
         // POST: Article/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
@@ -50,21 +59,30 @@ namespace WWW.Controllers
                     DateOfCreation=collection.DateOfEvent,
                     
                 };
+                if (collection.Picture != null)
+                {
+                    using(var memoryStream = new MemoryStream())
+                    {
+                        await collection.Picture.CopyToAsync(memoryStream);
+                        data.Picture= memoryStream.ToArray();
+                    }
+                }
                 await _articleService.Create(data);
                 return Redirect("/");
             }
             else
             {
+                //ModelState.AddModelError("");
                 return View("Create", collection);
             }
         }
+
 
         // GET: Article/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
-
         // POST: Article/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -80,12 +98,12 @@ namespace WWW.Controllers
             }
         }
 
+
         // GET: Article/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
-
         // POST: Article/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -100,5 +118,7 @@ namespace WWW.Controllers
                 return View();
             }
         }
+
+
     }
 }

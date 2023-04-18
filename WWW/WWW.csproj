@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <None Include="Views\Category\Index.cshtml" />
-    <None Include="Views\Category\List.cshtml" />
+    <None Include="Views\Article\Index.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\PageForTests.cshtml" />
     <None Include="Views\Shared\Components\NotEnptyCategory\Index.cshtml" />

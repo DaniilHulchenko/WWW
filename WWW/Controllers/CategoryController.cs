@@ -39,6 +39,7 @@ namespace WWW.Controllers
                 viewModel= new PageIndexViewModel<Category>(null, pageSize, page);
             return View(viewModel);
         }
+
         public IActionResult Create() {
             return View();
         }
@@ -56,20 +57,6 @@ namespace WWW.Controllers
                 return View("Create", category);
             }
         }
-
-
-        public async Task<IActionResult> List(string category = "", int page=0)
-        {
-            int pageSize = 5;
-            var data = await _articleService.GetByCategoryName(category);
-            //_logger.LogInformation(data.StatusCode.ToString());
-            PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);
-            if (data.StatusCode != Domain.Enum.StatusCode.OK){
-                return RedirectToAction("Error");
-            }
-            return View(paginator);
-        }
-
         public async Task<ActionResult> DeleteAsync(int Id) {
             await _categoryService.Delete(Id);
             return Redirect("/Category");

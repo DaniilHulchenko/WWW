@@ -44,7 +44,7 @@
 
 
 <center>
-    <form class="w-60 p-3" metgod="Post" asp-controller="Article" asp-action="Check">
+    <form metgod="Post" enctype="multipart/form-data" class="w-60 p-3" asp-controller="Article" asp-action="Check">
         <fieldset control-id="ControlID-7">
 
             <div class="form-group">
@@ -82,7 +82,7 @@
 
             <div class="form-group">
                 <label asp-for="Picture" class="form-label mt-4">Default file input example</label>
-                <input asp-for="Picture" class="form-control" type="file" id="formFile" control-id="ControlID-14">
+                <input asp-for="Picture" class="form-control" type="file" id="formFile" control-id="ControlID-14" name="Picture">
             </div>
             <fieldset style="margin-top:10px;" class="form-group" control-id="ControlID-18">
                     <div class="form-check" >

@@ -12,6 +12,7 @@ using Org.BouncyCastle.Crypto.Tls;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using WWW.Jobs.Workers;
+using Microsoft.Extensions.FileProviders;
 
 public static class ServicesExtensions
 {
@@ -40,7 +41,7 @@ public static class ServicesExtensions
 
 
 //                          Jobs
-        Services.AddTransient<EventApiJob>();
+        Services.AddTransient<EventApiJob_ParseToDb>();
 
 //                          HangFire (Job Schedule)
         builder.Services.AddHostedService<JobWorker>();
@@ -54,6 +55,8 @@ public static class ServicesExtensions
             .UseMemoryStorage()
         );
         Services.AddHangfireServer();
-
+//                          Picture 
+        //Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
+        //       Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
     }
 }

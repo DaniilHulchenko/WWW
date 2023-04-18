@@ -84,7 +84,10 @@ namespace WWW.Service.Implementations
 
         public async Task<bool> Create(Article entity)
         {
-            entity.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
+            if (!_articleRepository.GetALL().Any())
+                entity.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (0);
+            else 
+                entity.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
             entity.Author = await _userRepository.GetALL().FirstAsync();
             entity.IsFavorite = true;
 
@@ -100,6 +103,28 @@ namespace WWW.Service.Implementations
         {
             await _articleRepository.AddTags(article, tags);
             return true;
+        }
+
+        public async Task<BaseResponse<Article>> GetById(int id)
+        {
+            try
+            {
+                var data = await _articleRepository.GetALL().FirstOrDefaultAsync(a => a.Id == id);
+                return new BaseResponse<Article>()
+                {
+                    Data = data,
+                    StatusCode = StatusCode.OK,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Article>()
+                {
+                    ErrorDescription = ex.Message,
+                };
+            }
+
+
         }
     }
 }

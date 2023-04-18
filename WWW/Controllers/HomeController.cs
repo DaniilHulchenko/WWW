@@ -41,13 +41,13 @@ namespace WWW.Controllers
             //dynamic data = await _apiRequest.GetData(new Dictionary<string, string>{
             //    { "country", "CA" },
             //});
-            //_restApiRequest.ApiSelector("Events:ticketmaster");
-            //dynamic data = await _restApiRequest.GetDataAsync(new Dictionary<string, string>{
-            //{ "city", "Ottawa" },
-            //});
-            //_downloadService.DownloadPng("https://static.nachasi.com/wp-content/uploads/2022/06/watermelon-2-1.gif-1.gif");
+            _restApiRequest.ApiSelector("Events:ticketmaster");
+            dynamic data = await _restApiRequest.GetDataAsync(new Dictionary<string, string>{
+            { "city", "Ottawa" },
+            });
+            //_downloadService.DownloadPngUrl("https://static.nachasi.com/wp-content/uploads/2022/06/watermelon-2-1.gif-1.gif");
 
-            return View();
+            return View(data);
 
             //return View();
         }
