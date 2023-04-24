@@ -22,7 +22,7 @@ namespace WWW.Controllers
             int pageSize = 5;
             var data = await _articleService.GetByCategoryName(category);
             //_logger.LogInformation(data.StatusCode.ToString());
-            PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);
+            PageIndexViewModel<Event> paginator = new PageIndexViewModel<Event>(data.Data, pageSize, page);
             if (data.StatusCode != Domain.Enum.StatusCode.OK)
             {
                 return RedirectToAction("Error");
@@ -48,7 +48,7 @@ namespace WWW.Controllers
         {
             if (ModelState.IsValid)
             {
-                Article data = new Article()
+                Event data = new Event()
                 {
                     Title = collection.Title,
                     ShortDescription = collection.ShortDescription,
