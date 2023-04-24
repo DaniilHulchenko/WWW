@@ -22,9 +22,9 @@ namespace WWW.Service.Implementations
         }
 
 
-        public async Task<BaseResponse<IEnumerable<Article>>> GetAll()
+        public async Task<BaseResponse<IEnumerable<Event>>> GetAll()
         {
-            var BaseResponse = new BaseResponse<IEnumerable<Article>>();
+            var BaseResponse = new BaseResponse<IEnumerable<Event>>();
             try {
                 var Articles = await _articleRepository.GetAll();
                 if (Articles.Count() == 0)
@@ -41,15 +41,15 @@ namespace WWW.Service.Implementations
             }
             catch (Exception ex)
             {
-                return new BaseResponse<IEnumerable<Article>>()
+                return new BaseResponse<IEnumerable<Event>>()
                 {
                     ErrorDescription = $"[Articles.GetAll]:{ex.Message}",
                 };
             }
         }
-        public async Task<BaseResponse<IEnumerable<Article>>> GetByCategoryName(string CatName)
+        public async Task<BaseResponse<IEnumerable<Event>>> GetByCategoryName(string CatName)
         {
-            BaseResponse<IEnumerable<Article>> BaseResponse = new BaseResponse<IEnumerable<Article>>();
+            BaseResponse<IEnumerable<Event>> BaseResponse = new BaseResponse<IEnumerable<Event>>();
             try
             {
                 BaseResponse.Data = await _articleRepository.GetByCategoryName(CatName);
@@ -82,7 +82,7 @@ namespace WWW.Service.Implementations
         //    return baseres;
         //}
 
-        public async Task<bool> Create(Article entity)
+        public async Task<bool> Create(Event entity)
         {
             if (!_articleRepository.GetALL().Any())
                 entity.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (0);
@@ -99,18 +99,18 @@ namespace WWW.Service.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task<bool> AddTag(Article article,Tags tags)
+        public async Task<bool> AddTag(Event article,Tags tags)
         {
             await _articleRepository.AddTags(article, tags);
             return true;
         }
 
-        public async Task<BaseResponse<Article>> GetById(int id)
+        public async Task<BaseResponse<Event>> GetById(int id)
         {
             try
             {
                 var data = await _articleRepository.GetALL().FirstOrDefaultAsync(a => a.Id == id);
-                return new BaseResponse<Article>()
+                return new BaseResponse<Event>()
                 {
                     Data = data,
                     StatusCode = StatusCode.OK,
@@ -118,7 +118,7 @@ namespace WWW.Service.Implementations
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Article>()
+                return new BaseResponse<Event>()
                 {
                     ErrorDescription = ex.Message,
                 };

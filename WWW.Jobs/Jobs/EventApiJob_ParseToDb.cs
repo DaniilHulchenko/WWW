@@ -26,7 +26,7 @@ namespace WWW.Jobs.Workers
         {
             _restapiRepository.ApiSelector("Events:ticketmaster");
             dynamic ApiData = (await _restapiRepository.GetDataAsync())._embedded.events;
-            await _articleRepository.Create(new Article()
+            await _articleRepository.Create(new Event()
             {
                 Title = ApiData.name
             });

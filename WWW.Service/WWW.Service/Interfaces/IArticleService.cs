@@ -6,10 +6,10 @@ using WWW.Domain.ViewModels.Article;
 
 namespace WWW.Service.Interfaces
 {
-    public interface IArticleService:  IBaseService<Article>
+    public interface IArticleService:  IBaseService<Event>
     {
-        public Task<BaseResponse<IEnumerable<Article>>> GetByCategoryName(string CatName);
-        public Task<BaseResponse<Article>> GetById(int id);
-        public Task<bool> AddTag(Article article,Tags tags);
+        public Task<BaseResponse<IEnumerable<Event>>> GetByCategoryName(string CatName);
+        public Task<BaseResponse<Event>> GetById(int id);
+        public Task<bool> AddTag(Event article,Tags tags);
     } 
 }
