@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WWW.Domain.Enum
 {
-    public enum EventStatus
+    public enum ArticleStatus
     {
         expected = 1,
         Onsale = 2,

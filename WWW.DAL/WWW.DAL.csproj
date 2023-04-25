@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.3.23174.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.0-preview.3.23174.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.1.23111.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0-preview.3.23174.2">
       <PrivateAssets>all</PrivateAssets>
@@ -17,10 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WWW.Domain\WWW.Domain\WWW.Domain\WWW.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

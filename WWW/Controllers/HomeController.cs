@@ -37,11 +37,11 @@ namespace WWW.Controllers
         }
         public async Task<IActionResult> PageForTests()
         {
-            //_apiRequest.SetApiName("Events_predicthq");
+            //_apiRequest.SetApiName("Articles_predicthq");
             //dynamic data = await _apiRequest.GetData(new Dictionary<string, string>{
             //    { "country", "CA" },
             //});
-            _restApiRequest.ApiSelector("Events:ticketmaster");
+            _restApiRequest.ApiSelector("Articles:ticketmaster");
             dynamic data = await _restApiRequest.GetDataAsync(new Dictionary<string, string>{
             { "city", "Ottawa" },
             });

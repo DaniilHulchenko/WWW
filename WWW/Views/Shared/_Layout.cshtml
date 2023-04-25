@@ -110,7 +110,7 @@
     @await RenderSectionAsync("Scripts", required: false)
 
 @*    <script type="text/javascript">
-        document.addEventListener('keydown', (e)=>{
+        document.addArticleListener('keydown', (e)=>{
             if (e.key==='a'){
                 document.querySelector("#SideBar").click();
             }

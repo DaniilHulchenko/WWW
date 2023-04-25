@@ -39,9 +39,9 @@ namespace WWW.Domain.ViewModels.Article
         [Required(ErrorMessage = "Enter Location")]
         public string Location { get; set; }
 
-        [Display(Name = "Date Of Event")]
-        [Required(ErrorMessage = "Enter Date Of Event")]
-        public DateTime DateOfEvent { get; set; }
+        [Display(Name = "Date Of Article")]
+        [Required(ErrorMessage = "Enter Date Of Article")]
+        public DateTime DateOfArticle { get; set; }
 
     }
 }

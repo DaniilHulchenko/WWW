@@ -10,9 +10,10 @@ namespace WWW.Domain.Entity
 {
     public class Picture
     {
-        public int idPicture { get; set; }
-        [Key, ForeignKey(nameof(idPicture))]
-        public Event EventID { get; set; }
+        //[Key]
+        [Key,ForeignKey(nameof(Article))]
+        public int PictureID { get; set; }
+        public virtual Article Article { get; set; }
 
         public byte[] picture { get; set; }
         public string Type { get; set; }

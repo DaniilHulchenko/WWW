@@ -22,7 +22,7 @@ namespace WWW.Controllers
             int pageSize = 5;
             var data = await _articleService.GetByCategoryName(category);
             //_logger.LogInformation(data.StatusCode.ToString());
-            PageIndexViewModel<Event> paginator = new PageIndexViewModel<Event>(data.Data, pageSize, page);
+            PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);
             if (data.StatusCode != Domain.Enum.StatusCode.OK)
             {
                 return RedirectToAction("Error");
@@ -48,23 +48,24 @@ namespace WWW.Controllers
         {
             if (ModelState.IsValid)
             {
-                Event data = new Event()
+                Article data = new Article()
                 {
                     Title = collection.Title,
                     ShortDescription = collection.ShortDescription,
                     Description = collection.Description,
                     Published = collection.Published,
-                    CategoryID=collection.Category,
-                    Location = collection.Location.ToString(),
-                    DateOfCreation=collection.DateOfEvent,
-                    
+                    //Category= collection.Category,
+
+                    Location = new Location() { location= collection.Location },
+                    Date = new Date() { Date_of_Creation= collection.DateOfArticle },
+
                 };
                 if (collection.Picture != null)
                 {
                     using(var memoryStream = new MemoryStream())
                     {
                         await collection.Picture.CopyToAsync(memoryStream);
-                        data.Picture= memoryStream.ToArray();
+                        data.Picture= new Picture() { picture = memoryStream.ToArray() };
                     }
                 }
                 await _articleService.Create(data);

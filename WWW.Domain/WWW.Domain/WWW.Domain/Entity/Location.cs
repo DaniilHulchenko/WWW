@@ -10,7 +10,7 @@ namespace WWW.Domain.Entity
     public class Location
     {
         [Key]
-        public int idLocation { get; set; }
+        public int LocationID { get; set; }
         public string location { get; set; }
         public string City { get; set; }
         public string Building { get; set; }

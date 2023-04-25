@@ -7,7 +7,7 @@ using WWW.Domain.Enum;
 namespace WWW.Domain.Entity
 {
     [Table("Articles")]
-    public class Event
+    public class Article
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,24 +15,15 @@ namespace WWW.Domain.Entity
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
+        public ArticleStatus Status { get; set; }
 
-        public int LocationId { get; set; }
-        [ForeignKey(nameof(LocationId))]
-        public Location FkLocationId { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual User Autor { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual Picture Picture { get; set; }
+        public virtual Date Date { get; set; }
+        public virtual List<Tags>? Tags { get; set; }
 
-        public EventStatus Status { get; set; }
-
-        public int AutorID { get; set; }
-        [ForeignKey(nameof(AutorID))]
-        public User FkAutorID { get; set; }
-
-        public int CategoryID { get; set; }
-        [ForeignKey(nameof(CategoryID))]
-        public Category FkCategoryID { get; set; }
-
-        public List<Tags>? Tags { get; set; }
-
-        //public Picture Picture { get; set; }
         [DefaultValue(1)]
         public bool Published { get; set; }
         [DefaultValue(1)]

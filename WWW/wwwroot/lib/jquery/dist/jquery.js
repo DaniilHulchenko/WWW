@@ -1150,12 +1150,12 @@ setDocument = Sizzle.setDocument = function( node ) {
 		( subWindow = document.defaultView ) && subWindow.top !== subWindow ) {
 
 		// Support: IE 11, Edge
-		if ( subWindow.addEventListener ) {
-			subWindow.addEventListener( "unload", unloadHandler, false );
+		if ( subWindow.addArticleListener ) {
+			subWindow.addArticleListener( "unload", unloadHandler, false );
 
 		// Support: IE 9 - 10 only
-		} else if ( subWindow.attachEvent ) {
-			subWindow.attachEvent( "onunload", unloadHandler );
+		} else if ( subWindow.attachArticle ) {
+			subWindow.attachArticle( "onunload", unloadHandler );
 		}
 	}
 
@@ -4111,8 +4111,8 @@ jQuery.ready.then = readyList.then;
 
 // The ready event handler and self cleanup method
 function completed() {
-	document.removeEventListener( "DOMContentLoaded", completed );
-	window.removeEventListener( "load", completed );
+	document.removeArticleListener( "DOMContentLoaded", completed );
+	window.removeArticleListener( "load", completed );
 	jQuery.ready();
 }
 
@@ -4129,10 +4129,10 @@ if ( document.readyState === "complete" ||
 } else {
 
 	// Use the handy event callback
-	document.addEventListener( "DOMContentLoaded", completed );
+	document.addArticleListener( "DOMContentLoaded", completed );
 
 	// A fallback to window.onload, that will always work
-	window.addEventListener( "load", completed );
+	window.addArticleListener( "load", completed );
 }
 
 
@@ -5090,8 +5090,8 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 
 
 var
-	rkeyEvent = /^key/,
-	rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/,
+	rkeyArticle = /^key/,
+	rmouseArticle = /^(?:mouse|pointer|contextmenu|drag|drop)|click/,
 	rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
 
 function returnTrue() {
@@ -5184,7 +5184,7 @@ function on( elem, types, selector, data, fn, one ) {
 
 /*
  * Helper functions for managing events -- not part of the public interface.
- * Props to Dean Edwards' addEvent library for many of the ideas.
+ * Props to Dean Edwards' addArticle library for many of the ideas.
  */
 jQuery.event = {
 
@@ -5273,12 +5273,12 @@ jQuery.event = {
 				handlers = events[ type ] = [];
 				handlers.delegateCount = 0;
 
-				// Only use addEventListener if the special events handler returns false
+				// Only use addArticleListener if the special events handler returns false
 				if ( !special.setup ||
 					special.setup.call( elem, data, namespaces, eventHandle ) === false ) {
 
-					if ( elem.addEventListener ) {
-						elem.addEventListener( type, eventHandle );
+					if ( elem.addArticleListener ) {
+						elem.addArticleListener( type, eventHandle );
 					}
 				}
 			}
@@ -5365,7 +5365,7 @@ jQuery.event = {
 				if ( !special.teardown ||
 					special.teardown.call( elem, namespaces, elemData.handle ) === false ) {
 
-					jQuery.removeEvent( elem, type, elemData.handle );
+					jQuery.removeArticle( elem, type, elemData.handle );
 				}
 
 				delete events[ type ];
@@ -5378,20 +5378,20 @@ jQuery.event = {
 		}
 	},
 
-	dispatch: function( nativeEvent ) {
+	dispatch: function( nativeArticle ) {
 
 		var i, j, ret, matched, handleObj, handlerQueue,
 			args = new Array( arguments.length ),
 
-			// Make a writable jQuery.Event from the native event object
-			event = jQuery.event.fix( nativeEvent ),
+			// Make a writable jQuery.Article from the native event object
+			event = jQuery.event.fix( nativeArticle ),
 
 			handlers = (
 					dataPriv.get( this, "events" ) || Object.create( null )
 				)[ event.type ] || [],
 			special = jQuery.event.special[ event.type ] || {};
 
-		// Use the fix-ed jQuery.Event rather than the (read-only) native event
+		// Use the fix-ed jQuery.Article rather than the (read-only) native event
 		args[ 0 ] = event;
 
 		for ( i = 1; i < arguments.length; i++ ) {
@@ -5461,7 +5461,7 @@ jQuery.event = {
 
 			// Support: Firefox <=42
 			// Suppress spec-violating clicks indicating a non-primary pointer button (trac-3861)
-			// https://www.w3.org/TR/DOM-Level-3-Events/#event-type-click
+			// https://www.w3.org/TR/DOM-Level-3-Articles/#event-type-click
 			// Support: IE 11 only
 			// ...but not arrow key "clicks" of radio inputs, which can have `button` -1 (gh-2343)
 			!( event.type === "click" && event.button >= 1 ) ) {
@@ -5505,19 +5505,19 @@ jQuery.event = {
 	},
 
 	addProp: function( name, hook ) {
-		Object.defineProperty( jQuery.Event.prototype, name, {
+		Object.defineProperty( jQuery.Article.prototype, name, {
 			enumerable: true,
 			configurable: true,
 
 			get: isFunction( hook ) ?
 				function() {
-					if ( this.originalEvent ) {
-							return hook( this.originalEvent );
+					if ( this.originalArticle ) {
+							return hook( this.originalArticle );
 					}
 				} :
 				function() {
-					if ( this.originalEvent ) {
-							return this.originalEvent[ name ];
+					if ( this.originalArticle ) {
+							return this.originalArticle[ name ];
 					}
 				},
 
@@ -5532,10 +5532,10 @@ jQuery.event = {
 		} );
 	},
 
-	fix: function( originalEvent ) {
-		return originalEvent[ jQuery.expando ] ?
-			originalEvent :
-			new jQuery.Event( originalEvent );
+	fix: function( originalArticle ) {
+		return originalArticle[ jQuery.expando ] ?
+			originalArticle :
+			new jQuery.Article( originalArticle );
 	},
 
 	special: {
@@ -5597,8 +5597,8 @@ jQuery.event = {
 
 				// Support: Firefox 20+
 				// Firefox doesn't alert if the returnValue field is not set.
-				if ( event.result !== undefined && event.originalEvent ) {
-					event.originalEvent.returnValue = event.result;
+				if ( event.result !== undefined && event.originalArticle ) {
+					event.originalArticle.returnValue = event.result;
 				}
 			}
 		}
@@ -5679,7 +5679,7 @@ function leverageNative( el, type, expectSync ) {
 
 						// Support: IE <=9 - 11+
 						// Extend with the prototype to reset the above stopImmediatePropagation()
-						jQuery.extend( saved[ 0 ], jQuery.Event.prototype ),
+						jQuery.extend( saved[ 0 ], jQuery.Article.prototype ),
 						saved.slice( 1 ),
 						this
 					)
@@ -5692,27 +5692,27 @@ function leverageNative( el, type, expectSync ) {
 	} );
 }
 
-jQuery.removeEvent = function( elem, type, handle ) {
+jQuery.removeArticle = function( elem, type, handle ) {
 
 	// This "if" is needed for plain objects
-	if ( elem.removeEventListener ) {
-		elem.removeEventListener( type, handle );
+	if ( elem.removeArticleListener ) {
+		elem.removeArticleListener( type, handle );
 	}
 };
 
-jQuery.Event = function( src, props ) {
+jQuery.Article = function( src, props ) {
 
 	// Allow instantiation without the 'new' keyword
-	if ( !( this instanceof jQuery.Event ) ) {
-		return new jQuery.Event( src, props );
+	if ( !( this instanceof jQuery.Article ) ) {
+		return new jQuery.Article( src, props );
 	}
 
-	// Event object
+	// Article object
 	if ( src && src.type ) {
-		this.originalEvent = src;
+		this.originalArticle = src;
 		this.type = src.type;
 
-		// Events bubbling up the document may have been marked as prevented
+		// Articles bubbling up the document may have been marked as prevented
 		// by a handler lower down the tree; reflect the correct value.
 		this.isDefaultPrevented = src.defaultPrevented ||
 				src.defaultPrevented === undefined &&
@@ -5732,7 +5732,7 @@ jQuery.Event = function( src, props ) {
 		this.currentTarget = src.currentTarget;
 		this.relatedTarget = src.relatedTarget;
 
-	// Event type
+	// Article type
 	} else {
 		this.type = src;
 	}
@@ -5749,17 +5749,17 @@ jQuery.Event = function( src, props ) {
 	this[ jQuery.expando ] = true;
 };
 
-// jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
-// https://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
-jQuery.Event.prototype = {
-	constructor: jQuery.Event,
+// jQuery.Article is based on DOM3 Articles as specified by the ECMAScript Language Binding
+// https://www.w3.org/TR/2003/WD-DOM-Level-3-Articles-20030331/ecma-script-binding.html
+jQuery.Article.prototype = {
+	constructor: jQuery.Article,
 	isDefaultPrevented: returnFalse,
 	isPropagationStopped: returnFalse,
 	isImmediatePropagationStopped: returnFalse,
 	isSimulated: false,
 
 	preventDefault: function() {
-		var e = this.originalEvent;
+		var e = this.originalArticle;
 
 		this.isDefaultPrevented = returnTrue;
 
@@ -5768,7 +5768,7 @@ jQuery.Event.prototype = {
 		}
 	},
 	stopPropagation: function() {
-		var e = this.originalEvent;
+		var e = this.originalArticle;
 
 		this.isPropagationStopped = returnTrue;
 
@@ -5777,7 +5777,7 @@ jQuery.Event.prototype = {
 		}
 	},
 	stopImmediatePropagation: function() {
-		var e = this.originalEvent;
+		var e = this.originalArticle;
 
 		this.isImmediatePropagationStopped = returnTrue;
 
@@ -5789,7 +5789,7 @@ jQuery.Event.prototype = {
 	}
 };
 
-// Includes all common event props including KeyEvent and MouseEvent specific props
+// Includes all common event props including KeyArticle and MouseArticle specific props
 jQuery.each( {
 	altKey: true,
 	bubbles: true,
@@ -5826,12 +5826,12 @@ jQuery.each( {
 		var button = event.button;
 
 		// Add which for key events
-		if ( event.which == null && rkeyEvent.test( event.type ) ) {
+		if ( event.which == null && rkeyArticle.test( event.type ) ) {
 			return event.charCode != null ? event.charCode : event.keyCode;
 		}
 
 		// Add which for click: 1 === left; 2 === middle; 3 === right
-		if ( !event.which && button !== undefined && rmouseEvent.test( event.type ) ) {
+		if ( !event.which && button !== undefined && rmouseArticle.test( event.type ) ) {
 			if ( button & 1 ) {
 				return 1;
 			}
@@ -5926,7 +5926,7 @@ jQuery.fn.extend( {
 		var handleObj, type;
 		if ( types && types.preventDefault && types.handleObj ) {
 
-			// ( event )  dispatched jQuery.Event
+			// ( event )  dispatched jQuery.Article
 			handleObj = types.handleObj;
 			jQuery( types.delegateTarget ).off(
 				handleObj.namespace ?
@@ -5998,7 +5998,7 @@ function restoreScript( elem ) {
 	return elem;
 }
 
-function cloneCopyEvent( src, dest ) {
+function cloneCopyArticle( src, dest ) {
 	var i, l, type, pdataOld, udataOld, udataCur, events;
 
 	if ( dest.nodeType !== 1 ) {
@@ -6162,7 +6162,7 @@ jQuery.extend( {
 		return html;
 	},
 
-	clone: function( elem, dataAndEvents, deepDataAndEvents ) {
+	clone: function( elem, dataAndArticles, deepDataAndArticles ) {
 		var i, l, srcElements, destElements,
 			clone = elem.cloneNode( true ),
 			inPage = isAttached( elem );
@@ -6181,16 +6181,16 @@ jQuery.extend( {
 		}
 
 		// Copy the events from the original to the clone
-		if ( dataAndEvents ) {
-			if ( deepDataAndEvents ) {
+		if ( dataAndArticles ) {
+			if ( deepDataAndArticles ) {
 				srcElements = srcElements || getAll( elem );
 				destElements = destElements || getAll( clone );
 
 				for ( i = 0, l = srcElements.length; i < l; i++ ) {
-					cloneCopyEvent( srcElements[ i ], destElements[ i ] );
+					cloneCopyArticle( srcElements[ i ], destElements[ i ] );
 				}
 			} else {
-				cloneCopyEvent( elem, clone );
+				cloneCopyArticle( elem, clone );
 			}
 		}
 
@@ -6219,7 +6219,7 @@ jQuery.extend( {
 
 							// This is a shortcut to avoid jQuery.event.remove's overhead
 							} else {
-								jQuery.removeEvent( elem, type, data.handle );
+								jQuery.removeArticle( elem, type, data.handle );
 							}
 						}
 					}
@@ -6312,12 +6312,12 @@ jQuery.fn.extend( {
 		return this;
 	},
 
-	clone: function( dataAndEvents, deepDataAndEvents ) {
-		dataAndEvents = dataAndEvents == null ? false : dataAndEvents;
-		deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : deepDataAndEvents;
+	clone: function( dataAndArticles, deepDataAndArticles ) {
+		dataAndArticles = dataAndArticles == null ? false : dataAndArticles;
+		deepDataAndArticles = deepDataAndArticles == null ? dataAndArticles : deepDataAndArticles;
 
 		return this.map( function() {
-			return jQuery.clone( this, dataAndEvents, deepDataAndEvents );
+			return jQuery.clone( this, dataAndArticles, deepDataAndArticles );
 		} );
 	},
 
@@ -8650,10 +8650,10 @@ jQuery.extend( jQuery.event, {
 		}
 		ontype = type.indexOf( ":" ) < 0 && "on" + type;
 
-		// Caller can pass in a jQuery.Event object, Object, or just an event type string
+		// Caller can pass in a jQuery.Article object, Object, or just an event type string
 		event = event[ jQuery.expando ] ?
 			event :
-			new jQuery.Event( type, typeof event === "object" && event );
+			new jQuery.Article( type, typeof event === "object" && event );
 
 		// Trigger bitmask: & 1 for native handlers; & 2 for jQuery (always true)
 		event.isTrigger = onlyHandlers ? 2 : 3;
@@ -8748,13 +8748,13 @@ jQuery.extend( jQuery.event, {
 					jQuery.event.triggered = type;
 
 					if ( event.isPropagationStopped() ) {
-						lastElement.addEventListener( type, stopPropagationCallback );
+						lastElement.addArticleListener( type, stopPropagationCallback );
 					}
 
 					elem[ type ]();
 
 					if ( event.isPropagationStopped() ) {
-						lastElement.removeEventListener( type, stopPropagationCallback );
+						lastElement.removeArticleListener( type, stopPropagationCallback );
 					}
 
 					jQuery.event.triggered = undefined;
@@ -8773,7 +8773,7 @@ jQuery.extend( jQuery.event, {
 	// Used only for `focus(in | out)` events
 	simulate: function( type, elem, event ) {
 		var e = jQuery.extend(
-			new jQuery.Event(),
+			new jQuery.Article(),
 			event,
 			{
 				type: type,
@@ -8808,7 +8808,7 @@ jQuery.fn.extend( {
 //
 // Support: Chrome <=48 - 49, Safari <=9.0 - 9.1
 // focus(in | out) events fire after focus & blur events,
-// which is spec violation - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
+// which is spec violation - http://www.w3.org/TR/DOM-Level-3-Articles/#events-focusevent-event-order
 // Related ticket - https://bugs.chromium.org/p/chromium/issues/detail?id=449857
 if ( !support.focusin ) {
 	jQuery.each( { focus: "focusin", blur: "focusout" }, function( orig, fix ) {
@@ -8827,7 +8827,7 @@ if ( !support.focusin ) {
 					attaches = dataPriv.access( doc, fix );
 
 				if ( !attaches ) {
-					doc.addEventListener( orig, handler, true );
+					doc.addArticleListener( orig, handler, true );
 				}
 				dataPriv.access( doc, fix, ( attaches || 0 ) + 1 );
 			},
@@ -8836,7 +8836,7 @@ if ( !support.focusin ) {
 					attaches = dataPriv.access( doc, fix ) - 1;
 
 				if ( !attaches ) {
-					doc.removeEventListener( orig, handler, true );
+					doc.removeArticleListener( orig, handler, true );
 					dataPriv.remove( doc, fix );
 
 				} else {
@@ -9412,7 +9412,7 @@ jQuery.extend( {
 			callbackContext = s.context || s,
 
 			// Context for global events is callbackContext if it is a DOM node or jQuery collection
-			globalEventContext = s.context &&
+			globalArticleContext = s.context &&
 				( callbackContext.nodeType || callbackContext.jquery ) ?
 					jQuery( callbackContext ) :
 					jQuery.event,
@@ -9662,7 +9662,7 @@ jQuery.extend( {
 
 			// Send global event
 			if ( fireGlobals ) {
-				globalEventContext.trigger( "ajaxSend", [ jqXHR, s ] );
+				globalArticleContext.trigger( "ajaxSend", [ jqXHR, s ] );
 			}
 
 			// If request was aborted inside ajaxSend, stop there
@@ -9793,7 +9793,7 @@ jQuery.extend( {
 			statusCode = undefined;
 
 			if ( fireGlobals ) {
-				globalEventContext.trigger( isSuccess ? "ajaxSuccess" : "ajaxError",
+				globalArticleContext.trigger( isSuccess ? "ajaxSuccess" : "ajaxError",
 					[ jqXHR, s, isSuccess ? success : error ] );
 			}
 
@@ -9801,7 +9801,7 @@ jQuery.extend( {
 			completeDeferred.fireWith( callbackContext, [ jqXHR, statusText ] );
 
 			if ( fireGlobals ) {
-				globalEventContext.trigger( "ajaxComplete", [ jqXHR, s ] );
+				globalArticleContext.trigger( "ajaxComplete", [ jqXHR, s ] );
 
 				// Handle the global AJAX counter
 				if ( !( --jQuery.active ) ) {

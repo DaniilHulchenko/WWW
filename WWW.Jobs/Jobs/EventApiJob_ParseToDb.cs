@@ -10,12 +10,12 @@ using WWW.Domain.Entity;
 
 namespace WWW.Jobs.Workers
 {
-    public class EventApiJob_ParseToDb : IBackgroundJob
+    public class ArticleApiJob_ParseToDb : IBackgroundJob
     {
-        ILogger<EventApiJob_ParseToDb> _logger;
+        ILogger<ArticleApiJob_ParseToDb> _logger;
         private readonly RestApiRequest _restapiRepository;
         private readonly IArticleRepository _articleRepository;
-        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository)
+        public ArticleApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<ArticleApiJob_ParseToDb> logger, IArticleRepository articleRepository)
         {
             _restapiRepository = restapiRepository;
             _logger = logger;
@@ -24,14 +24,14 @@ namespace WWW.Jobs.Workers
         }
         public async Task ExecuteAsync()
         {
-            _restapiRepository.ApiSelector("Events:ticketmaster");
+            _restapiRepository.ApiSelector("Articles:ticketmaster");
             dynamic ApiData = (await _restapiRepository.GetDataAsync())._embedded.events;
-            await _articleRepository.Create(new Event()
+            await _articleRepository.Create(new Article()
             {
                 Title = ApiData.name
             });
             
-            _logger.LogInformation($"!!! : EventApiJob done");
+            _logger.LogInformation($"!!! : ArticleApiJob done");
 
 
 

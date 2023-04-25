@@ -10,9 +10,9 @@ using System.Runtime.CompilerServices;
 
 namespace WWW.DAL.Interfaces
 {
-    public interface IArticleRepository:IBaseRepository<Event>
+    public interface IArticleRepository:IBaseRepository<Article>
     {
-        Task<IEnumerable<Event>> GetByCategoryName(string CatName);
-        Task<bool> AddTags(Event article,Tags tags);
+        Task<IEnumerable<Article>> GetByCategoryName(string CatName);
+        Task<bool> AddTags(Article article,Tags tags);
     }
 }
