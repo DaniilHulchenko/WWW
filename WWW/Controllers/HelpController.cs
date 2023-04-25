@@ -44,7 +44,7 @@ namespace WWW.Controllers
 
         public async Task<IActionResult> GetImageById(int id)
         {
-            var db_image = (await _articleService.GetById(id)).Data.Picture;
+            var db_image = (await _articleService.GetById(id)).Data.Picture.picture;
 
             string contentType = "";
             using (var ms = new MemoryStream(db_image))

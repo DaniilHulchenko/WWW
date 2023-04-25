@@ -18,7 +18,7 @@ namespace WWW.DAL.Repositories
             _db=db;
         }
 
-        public async Task<bool> AddTags(Event article,Tags tags)
+        public async Task<bool> AddTags(Article article,Tags tags)
         {
             if (article.Tags == null) 
                 article.Tags = new List<Tags> { tags };
@@ -29,35 +29,35 @@ namespace WWW.DAL.Repositories
             return true;
         }
 
-        public async Task<bool> Create(Event entity)
+        public async Task<bool> Create(Article entity)
         {
             await _db.Articles.AddAsync(entity);   
             await _db.SaveChangesAsync();
             return true;
         }
 
-        public Task<bool> Delete(Event entity)
+        public Task<bool> Delete(Article entity)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Event>> GetAll()
+        public async Task<IEnumerable<Article>> GetAll()
         {
             return await _db.Articles.ToListAsync();
         }
-        public IQueryable<Event> GetALL()
+        public IQueryable<Article> GetALL()
         {
             return _db.Articles;
         }
 
-        public async Task< IEnumerable <Event >> GetByCategoryName(string CatName)
+        public async Task< IEnumerable <Article >> GetByCategoryName(string CatName)
         {
             if (CatName != "")
             {
                 Category CatId = await _db.Categories.FirstOrDefaultAsync(c => c.Name == CatName);
 
                 if (CatId != null)
-                    return await _db.Articles.Where(a => a.CategoryID == CatId.Id).ToListAsync();
+                    return await _db.Articles.Where(a => a.Category.Id == CatId.Id).ToListAsync();
                 else
                 {
                     return await _db.Articles.ToListAsync();
@@ -70,7 +70,7 @@ namespace WWW.DAL.Repositories
 
         }
 
-        public async Task<Event> GetValueByID(int id)
+        public async Task<Article> GetValueByID(int id)
         {
             return await _db.Articles.FirstOrDefaultAsync(a => a.Id == id);
         }

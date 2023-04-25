@@ -5,10 +5,10 @@ namespace WWW.DAL {
     public class ApplicationDbContext: DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){
-            //ChangeTracker.LazyLoadingEnabled = true;
+            ChangeTracker.LazyLoadingEnabled = true;
         }
 
-        public DbSet<Event> Articles { get; set; }
+        public DbSet<Article> Articles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Tags> Tags { get; set; }
@@ -16,5 +16,9 @@ namespace WWW.DAL {
         public DbSet<Picture> Picture { get; set; }
         public DbSet<Date> Date { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
     }
 }

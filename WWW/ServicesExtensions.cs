@@ -41,7 +41,7 @@ public static class ServicesExtensions
 
 
 //                          Jobs
-        Services.AddTransient<EventApiJob_ParseToDb>();
+        Services.AddTransient<ArticleApiJob_ParseToDb>();
 
 //                          HangFire (Job Schedule)
         builder.Services.AddHostedService<JobWorker>();

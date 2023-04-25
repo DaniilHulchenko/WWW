@@ -22,9 +22,9 @@ namespace WWW.Service.Implementations
         }
 
 
-        public async Task<BaseResponse<IEnumerable<Event>>> GetAll()
+        public async Task<BaseResponse<IEnumerable<Article>>> GetAll()
         {
-            var BaseResponse = new BaseResponse<IEnumerable<Event>>();
+            var BaseResponse = new BaseResponse<IEnumerable<Article>>();
             try {
                 var Articles = await _articleRepository.GetAll();
                 if (Articles.Count() == 0)
@@ -41,15 +41,15 @@ namespace WWW.Service.Implementations
             }
             catch (Exception ex)
             {
-                return new BaseResponse<IEnumerable<Event>>()
+                return new BaseResponse<IEnumerable<Article>>()
                 {
                     ErrorDescription = $"[Articles.GetAll]:{ex.Message}",
                 };
             }
         }
-        public async Task<BaseResponse<IEnumerable<Event>>> GetByCategoryName(string CatName)
+        public async Task<BaseResponse<IEnumerable<Article>>> GetByCategoryName(string CatName)
         {
-            BaseResponse<IEnumerable<Event>> BaseResponse = new BaseResponse<IEnumerable<Event>>();
+            BaseResponse<IEnumerable<Article>> BaseResponse = new BaseResponse<IEnumerable<Article>>();
             try
             {
                 BaseResponse.Data = await _articleRepository.GetByCategoryName(CatName);
@@ -82,13 +82,13 @@ namespace WWW.Service.Implementations
         //    return baseres;
         //}
 
-        public async Task<bool> Create(Event entity)
+        public async Task<bool> Create(Article entity)
         {
             if (!_articleRepository.GetALL().Any())
                 entity.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (0);
             else 
                 entity.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
-            entity.Author = await _userRepository.GetALL().FirstAsync();
+            entity.Autor = await _userRepository.GetALL().FirstAsync();
             entity.IsFavorite = true;
 
             return await _articleRepository.Create(entity);  
@@ -99,18 +99,18 @@ namespace WWW.Service.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task<bool> AddTag(Event article,Tags tags)
+        public async Task<bool> AddTag(Article article,Tags tags)
         {
             await _articleRepository.AddTags(article, tags);
             return true;
         }
 
-        public async Task<BaseResponse<Event>> GetById(int id)
+        public async Task<BaseResponse<Article>> GetById(int id)
         {
             try
             {
                 var data = await _articleRepository.GetALL().FirstOrDefaultAsync(a => a.Id == id);
-                return new BaseResponse<Event>()
+                return new BaseResponse<Article>()
                 {
                     Data = data,
                     StatusCode = StatusCode.OK,
@@ -118,7 +118,7 @@ namespace WWW.Service.Implementations
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Event>()
+                return new BaseResponse<Article>()
                 {
                     ErrorDescription = ex.Message,
                 };
