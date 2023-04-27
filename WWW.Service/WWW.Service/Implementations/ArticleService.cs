@@ -14,11 +14,12 @@ namespace WWW.Service.Implementations
     {
         private readonly IArticleRepository _articleRepository;
         private readonly IAccountRepository _userRepository;
-
-        public ArticleService(IArticleRepository articleRepository, IAccountRepository userRepository )
+        private readonly ICategoryRepository _categoryRepository;
+        public ArticleService(IArticleRepository articleRepository, IAccountRepository userRepository, ICategoryRepository categoryRepository )
         {
             _articleRepository = articleRepository;
             _userRepository = userRepository;
+            _categoryRepository = categoryRepository;
         }
 
 
@@ -61,50 +62,6 @@ namespace WWW.Service.Implementations
             }
             return BaseResponse;
         }
-
-        //public async Task<BaseResponse<IEnumerable<Article>>> foo(int i)
-        //{
-        //    var Data = await _articleRepository.GetALL().Where(a => a.Id == i).ToListAsync();
-        //    var baseres = new BaseResponse<IEnumerable<Article>>()
-        //    {
-        //        Data = await _articleRepository.GetALL().Where(a => a.Id == i).ToListAsync(),
-        //        StatusCode = StatusCode.OK
-        //    };
-        //    if (Data.Count > 0)
-        //    {
-        //        baseres.Data = Data;
-        //        baseres.StatusCode = StatusCode.OK;
-        //    }
-        //    else
-        //    {
-        //        baseres.StatusCode= StatusCode.InternalServerError;
-        //    }
-        //    return baseres;
-        //}
-
-        public async Task<bool> Create(Article entity)
-        {
-            if (!_articleRepository.GetALL().Any())
-                entity.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (0);
-            else 
-                entity.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
-            entity.Autor = await _userRepository.GetALL().FirstAsync();
-            entity.IsFavorite = true;
-
-            return await _articleRepository.Create(entity);  
-        }
-
-        public async Task<bool> Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> AddTag(Article article,Tags tags)
-        {
-            await _articleRepository.AddTags(article, tags);
-            return true;
-        }
-
         public async Task<BaseResponse<Article>> GetById(int id)
         {
             try
@@ -125,6 +82,57 @@ namespace WWW.Service.Implementations
             }
 
 
+        }
+
+        public async Task<bool> Create(ArticleCreateViewModal entity)
+        {
+            Article data = new Article()
+            {
+                Title = entity.Title,
+                ShortDescription = entity.ShortDescription,
+                Description = entity.Description,
+                Published = entity.Published,
+                Category = await _categoryRepository.GetValueByID(entity.Category),
+
+                Location = new Location() { location = entity.Location },
+                Date = new Date() { Date_of_Creation = entity.DateOfArticle },
+
+            };
+            if (entity.Picture != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await entity.Picture.CopyToAsync(memoryStream);
+                    data.Picture = new Picture() { picture = memoryStream.ToArray() };
+                }
+            }
+
+            if (!_articleRepository.GetALL().Any())
+                data.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (0);
+            else
+                data.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
+            data.Autor = await _userRepository.GetALL().FirstAsync();
+            data.IsFavorite = true;
+
+            return await _articleRepository.Create(data);
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> AddTag(Article article,Tags tags)
+        {
+            await _articleRepository.AddTags(article, tags);
+            return true;
+        }
+
+
+
+                public Task<bool> Create(Article category)
+        {
+            throw new NotImplementedException();
         }
     }
 }

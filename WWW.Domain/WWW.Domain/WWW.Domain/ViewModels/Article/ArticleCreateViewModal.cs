@@ -7,7 +7,7 @@ using WWW.Domain.Entity;
 
 namespace WWW.Domain.ViewModels.Article
 {
-    public class ArticleViewModal
+    public class ArticleCreateViewModal
     {
 
         [Display(Name = "Title")]

@@ -8,8 +8,10 @@ namespace WWW.Service.Interfaces
 {
     public interface IArticleService:  IBaseService<Article>
     {
-        public Task<BaseResponse<IEnumerable<Article>>> GetByCategoryName(string CatName);
-        public Task<BaseResponse<Article>> GetById(int id);
-        public Task<bool> AddTag(Article article,Tags tags);
-    } 
+        Task<BaseResponse<IEnumerable<Article>>> GetByCategoryName(string CatName);
+        Task<BaseResponse<Article>> GetById(int id);
+        Task<bool> AddTag(Article article,Tags tags);
+        Task<bool> Create(ArticleCreateViewModal entity);
+
+    }
 }
