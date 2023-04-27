@@ -44,32 +44,12 @@ namespace WWW.Controllers
         // POST: Article/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> Check(ArticleViewModal collection)
+        public async Task<ActionResult> Check(ArticleCreateViewModal collection)
         {
             if (ModelState.IsValid)
             {
-                Article data = new Article()
-                {
-                    Title = collection.Title,
-                    ShortDescription = collection.ShortDescription,
-                    Description = collection.Description,
-                    Published = collection.Published,
-                    //Category= collection.Category,
-
-                    Location = new Location() { location= collection.Location },
-                    Date = new Date() { Date_of_Creation= collection.DateOfArticle },
-
-                };
-                if (collection.Picture != null)
-                {
-                    using(var memoryStream = new MemoryStream())
-                    {
-                        await collection.Picture.CopyToAsync(memoryStream);
-                        data.Picture= new Picture() { picture = memoryStream.ToArray() };
-                    }
-                }
-                await _articleService.Create(data);
-                return Redirect("/");
+                await _articleService.Create(collection);
+                return Redirect("/Article");
             }
             else
             {

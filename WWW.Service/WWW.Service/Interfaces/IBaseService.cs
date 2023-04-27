@@ -10,8 +10,8 @@ namespace WWW.Service.Interfaces
 {
     public interface IBaseService <T>  
     {
-        public Task<BaseResponse<IEnumerable<T>>> GetAll();
-        public Task<bool> Create(T category);
-        public Task<bool> Delete(int id);
+        Task<BaseResponse<IEnumerable<T>>> GetAll();
+        Task<bool> Create(T category);
+        Task<bool> Delete(int id);
     }
 }
