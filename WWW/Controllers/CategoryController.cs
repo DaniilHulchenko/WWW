@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WWW.DAL.Interfaces;
 using WWW.Domain.Entity;
@@ -10,6 +11,7 @@ using WWW.Service.Interfaces;
 
 namespace WWW.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         //private readonly IArticleRepository _articleRepository;

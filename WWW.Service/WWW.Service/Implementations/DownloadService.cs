@@ -7,6 +7,7 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using WWW.Domain.Entity;
 
 namespace WWW.Service.Interfaces
 {
@@ -31,10 +32,16 @@ namespace WWW.Service.Interfaces
             _logger.LogInformation($"Pictre was saved in : {fileName}");
 
         }
-        public async Task<byte[]> DownloadJpgToByteArrowAsync(string url) { 
+        public async Task<Picture> DownloadJpgAsync(string url) { 
             using(WebClient client = new WebClient())
             {
-                return await client.DownloadDataTaskAsync(url);
+                
+            return new Picture()
+                {
+                    picture = await client.DownloadDataTaskAsync(url),
+                    Type = Path.GetExtension(url),
+                    Name = Path.GetFileName(url)
+                };
             };
         }
     }

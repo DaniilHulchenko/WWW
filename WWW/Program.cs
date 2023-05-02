@@ -1,6 +1,6 @@
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,14 +9,25 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 builder.Services.AddControllersWithViews();
 
+/*#####################################  Add Swager ###############################################*/
 
-/*################################### Add services to the container ###############################*/
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+});
+
+/*####################################### Add Services ############################################*/
+
 ServicesExtensions.AddMyServices(builder);
-
-
 
 /*#####################################  AddAuthentication  #######################################*/
 //SignInManager.CheckPasswordSignInAsync();
+//builder.Services.AddAuthentication()
+//        .AddGoogle(options =>
+//        {
+//            options.ClientId = Configuration["Authentication:Google:ClientId"];
+//            options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+//        });
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -24,8 +35,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
     });
 builder.Services.AddAuthorization();
-/*##################################################################################################*/
 
+/*##################################################################################################*/
 
 var app = builder.Build();
 
@@ -48,5 +59,19 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+/*################################### Swager ###############################*/
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+});
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+/*##########################################################################*/
 
 app.Run();
