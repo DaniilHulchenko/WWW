@@ -67,6 +67,7 @@
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.22.0-beta2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0-beta2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-preview.3.23174.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -74,6 +75,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.1.23111.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0-preview.2.23128.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>

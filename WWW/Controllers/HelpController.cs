@@ -27,15 +27,16 @@ namespace WWW.Controllers
         {
             try
             {
-                byte[] image_arrow = await _downloadService.DownloadJpgToByteArrowAsync(url);
-                string contentType;
-                using (var ms = new MemoryStream(image_arrow)) { 
-                    using (var img = System.Drawing.Image.FromStream(ms))
-                        {
-                            contentType = GetContentType(img.ToString());
-                        }
-                }
-                return File(image_arrow, contentType);
+                Picture data = (await _downloadService.DownloadJpgAsync(url));
+                //byte[] image_arrow = data.picture;
+                //string contentType;
+                //using (var ms = new MemoryStream(image_arrow)) { 
+                //    using (var img = System.Drawing.Image.FromStream(ms))
+                //        {
+                //            contentType = GetContentType(img.ToString());
+                //        }
+                //}
+                return File(data.picture, data.Type);
             }
             catch {
                 return NotFound();

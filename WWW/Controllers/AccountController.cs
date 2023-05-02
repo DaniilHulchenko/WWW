@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WWW.Service.Implementations;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WWW.Controllers.Account
 {
+    //[Authorize]
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;

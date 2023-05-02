@@ -2,7 +2,10 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 using WWW.Domain.Enum;
+using WWW.Domain.ViewModels.Article;
+using static Grpc.Core.Metadata;
 
 namespace WWW.Domain.Entity
 {
@@ -32,6 +35,12 @@ namespace WWW.Domain.Entity
         public string slug { get; set; }
 
 
-
+        public Article() { }
+        public Article(ArticleCreateViewModal entity) {
+            Title = entity.Title;
+            ShortDescription = entity.ShortDescription;
+            Description = entity.Description;
+            Published = entity.Published;
+        }
     }
 }

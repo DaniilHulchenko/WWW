@@ -7,6 +7,7 @@ using WWW.Service.Interfaces;
 using WWW.API;
 using Microsoft.Extensions.Primitives;
 using GoogleApi.Entities.Interfaces;
+using WWW.Jobs.Workers;
 
 namespace WWW.Controllers
 {
@@ -20,8 +21,10 @@ namespace WWW.Controllers
 
         DownloadService _downloadService;
 
+        ArticleApiJob_ParseToDb _articleApiJob_ParseToDb;
 
-        public HomeController(DownloadService downloadService,RestApiRequest restApiRequest, IArticleService articleService, ICategoryService categoryService, IBaseRepository<Tags>  tagsRepository)
+
+        public HomeController(ArticleApiJob_ParseToDb articleApiJob_ParseToDb,DownloadService downloadService,RestApiRequest restApiRequest, IArticleService articleService, ICategoryService categoryService, IBaseRepository<Tags>  tagsRepository)
         {
             _restApiRequest = restApiRequest;
             _articleService = articleService;
@@ -29,6 +32,8 @@ namespace WWW.Controllers
             _tagsRepository = tagsRepository;
 
             _downloadService = downloadService;
+
+            _articleApiJob_ParseToDb = articleApiJob_ParseToDb; 
         }
 
         public IActionResult Index()
@@ -41,13 +46,14 @@ namespace WWW.Controllers
             //dynamic data = await _apiRequest.GetData(new Dictionary<string, string>{
             //    { "country", "CA" },
             //});
-            _restApiRequest.ApiSelector("Articles:ticketmaster");
-            dynamic data = await _restApiRequest.GetDataAsync(new Dictionary<string, string>{
-            { "city", "Ottawa" },
-            });
-            //_downloadService.DownloadPngUrl("https://static.nachasi.com/wp-content/uploads/2022/06/watermelon-2-1.gif-1.gif");
+            //_restApiRequest.ApiSelector("Events:ticketmaster");
+            //dynamic data = await _restApiRequest.GetDataAsync(new Dictionary<string, string>{
+            //{ "city", "Ottawa" },
+            //});
+            await _articleApiJob_ParseToDb.ExecuteAsync();
 
-            return View(data);
+            ////_downloadService.DownloadJpgAsync("https://static.nachasi.com/wp-content/uploads/2022/06/watermelon-2-1.gif-1.gif");
+            return View();
 
             //return View();
         }

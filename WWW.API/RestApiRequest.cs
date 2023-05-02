@@ -30,8 +30,7 @@ namespace WWW.API
             _baseUrl = _configuration[$"API:{ApiName}:baseUrl"];
             _endpoint = _configuration[$"API:{ApiName}:endpoint"];
         }
-
-        public async Task<dynamic> GetDataAsync(Dictionary<string, string> queryParams=null)
+        public async Task<dynamic> GetDataAsync(Dictionary<string, string> queryParams = null)
         {
             var client = new RestClient(_baseUrl);
             var request = new RestRequest(_endpoint, Method.Get);

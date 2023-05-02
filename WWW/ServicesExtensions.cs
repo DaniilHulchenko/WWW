@@ -23,17 +23,21 @@ public static class ServicesExtensions
         Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
             connectionString: builder.Configuration.GetConnectionString("StoreDatabase")
             ));
-//                        Services DB
+        //                        Services DB
         Services.AddTransient<ICategoryRepository, CategoryRepository>();
         Services.AddTransient<IArticleRepository, ArticleRepository>();
         Services.AddTransient<IAccountRepository, AccountRepository>();
         Services.AddTransient<IBaseRepository<Tags>, TagRepository>();
+        Services.AddTransient<IDateRepository, DateRepository>();
+        Services.AddTransient<IPictureRepository, PictureRepository>();
+        Services.AddTransient<ILocationRepository, LocationRepository>();
+
 
         Services.AddTransient<IArticleService, ArticleService>();
         Services.AddTransient<ICategoryService, CategoryService>();
         Services.AddTransient<IAccountService, AccountService>();
-
-        Services.AddTransient<DownloadService>();
+//                          Picture 
+        Services.AddScoped<DownloadService>();
 
 //                          API
         Services.AddTransient<IApiRepository<HttpApiRequest>, HttpApiRequest>();
@@ -55,7 +59,6 @@ public static class ServicesExtensions
             .UseMemoryStorage()
         );
         Services.AddHangfireServer();
-//                          Picture 
         //Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
         //       Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
     }

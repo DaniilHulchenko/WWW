@@ -86,24 +86,20 @@ namespace WWW.Service.Implementations
 
         public async Task<bool> Create(ArticleCreateViewModal entity)
         {
-            Article data = new Article()
+            Article data = new Article(entity)
             {
-                Title = entity.Title,
-                ShortDescription = entity.ShortDescription,
-                Description = entity.Description,
-                Published = entity.Published,
-                Category = await _categoryRepository.GetValueByID(entity.Category),
-
                 Location = new Location() { location = entity.Location },
                 Date = new Date() { Date_of_Creation = entity.DateOfArticle },
-
+                Category = await _categoryRepository.GetValueByID(entity.Category),
             };
             if (entity.Picture != null)
             {
                 using (var memoryStream = new MemoryStream())
                 {
                     await entity.Picture.CopyToAsync(memoryStream);
-                    data.Picture = new Picture() { picture = memoryStream.ToArray() };
+                    data.Picture = new Picture() { 
+                        picture = memoryStream.ToArray(),
+                    };
                 }
             }
 
