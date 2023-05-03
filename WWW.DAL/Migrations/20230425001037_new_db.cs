@@ -147,7 +147,7 @@ namespace WWW.DAL.Migrations
                     ArticleID = table.Column<int>(type: "int", nullable: false),
                     Date_of_Creation = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Date_Of_Start = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Date_Of_End = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    //Date_Of_End = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Date_Of_Updated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
