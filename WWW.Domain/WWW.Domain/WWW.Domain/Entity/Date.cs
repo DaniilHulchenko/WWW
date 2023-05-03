@@ -17,7 +17,7 @@ namespace WWW.Domain.Entity
 
         public DateTime Date_of_Creation { get; set; }
         public DateTime Date_Of_Start { get; set; }
-        public DateTime Date_Of_End { get; set; }
+        //public DateTime Date_Of_End { get; set; }
         public DateTime Date_Of_Updated { get; set; }
 
     }

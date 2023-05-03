@@ -8,6 +8,7 @@ using WWW.API;
 using Microsoft.Extensions.Primitives;
 using GoogleApi.Entities.Interfaces;
 using WWW.Jobs.Workers;
+using WWW.Domain.Api;
 
 namespace WWW.Controllers
 {
@@ -50,9 +51,15 @@ namespace WWW.Controllers
             //dynamic data = await _restApiRequest.GetDataAsync(new Dictionary<string, string>{
             //{ "city", "Ottawa" },
             //});
-            await _articleApiJob_ParseToDb.ExecuteAsync();
+            //await _articleApiJob_ParseToDb.ExecuteAsync();
 
             ////_downloadService.DownloadJpgAsync("https://static.nachasi.com/wp-content/uploads/2022/06/watermelon-2-1.gif-1.gif");
+
+
+
+            //_restApiRequest.ApiSelector("Events:ticketmaster");
+            //Rootobject a = await _restApiRequest.GetDataAsync<Rootobject>();
+            //string b = a._embedded.events[0].name;
             return View();
 
             //return View();

@@ -8,6 +8,7 @@ using RestSharp;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
+
 namespace WWW.API
 {
     public class RestApiRequest
@@ -30,7 +31,7 @@ namespace WWW.API
             _baseUrl = _configuration[$"API:{ApiName}:baseUrl"];
             _endpoint = _configuration[$"API:{ApiName}:endpoint"];
         }
-        public async Task<dynamic> GetDataAsync(Dictionary<string, string> queryParams = null)
+        public Task<dynamic> GetDataAsync (Dictionary<string, string> queryParams = null)
         {
             var client = new RestClient(_baseUrl);
             var request = new RestRequest(_endpoint, Method.Get);
@@ -46,10 +47,15 @@ namespace WWW.API
 
             var response = client.Get(request);
 
-            dynamic responseString = response.Content;
+            string responseString = response.Content;
+
             dynamic data = JsonConvert.DeserializeObject<dynamic>(responseString);
             return data;
         }
-
+        public async Task<T> GetDataAsync<T>(Dictionary<string, string> queryParams = null)
+        {
+            T data = (await GetDataAsync(queryParams)).ToObject<T>();
+            return data;
+        }
     }
 }

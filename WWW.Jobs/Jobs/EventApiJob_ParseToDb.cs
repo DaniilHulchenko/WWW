@@ -44,10 +44,17 @@ namespace WWW.Jobs.Workers
         }
         public async Task ExecuteAsync()
         {
+            //if (keyValuePairs==null) keyValuePairs = new();
             _restapiRepository.ApiSelector("Events:ticketmaster");
-            Dictionary<string, string> keyValuePairs = new() {
-                    { "city", "London" } };
 
+            //keyValuePairs.AddRange(new Dictionary<string, string>() {
+
+            //        { "city", "London" }
+            //});
+            Dictionary<string, string> keyValuePairs = new(){
+
+                    { "city", "London" }
+            };
             keyValuePairs.Add("page", "0");
             dynamic apiData = (await _restapiRepository.GetDataAsync(keyValuePairs));
             int totalPages = (int)apiData.page.totalPages;
@@ -102,7 +109,7 @@ namespace WWW.Jobs.Workers
                         Article = newArticle,
                         Date_of_Creation = DateTime.Now,
                         Date_Of_Start = ApiData.dates.start.localTime,
-                        Date_Of_End = ApiData.dates.start.dateTime,
+                        //Date_Of_End = ApiData.dates.start.dateTime,
                         Date_Of_Updated = DateTime.Now,
                     };
                     await _dateRepository.Create(dat);
@@ -120,3 +127,6 @@ namespace WWW.Jobs.Workers
         }
     }
 }
+
+
+

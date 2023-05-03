@@ -11,7 +11,8 @@ namespace WWW.Domain.Enum
         expected = 1,
         Onsale = 2,
         Passed = 3,
-        tickets_over = 4
+        tickets_over = 4,
+        offsale = 5,
 
     }
 }
