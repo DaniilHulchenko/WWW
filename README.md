@@ -43,6 +43,7 @@ Than (if you have App Services) add line of your connection string to applicatio
 * ✅ Display User register and login
 * 🔳 Display User profile
 * ✅ List of Events 
+* 🔳 Order Form
 * 🍥 Creation Forms
 
 ### 2. Database
@@ -50,6 +51,7 @@ Than (if you have App Services) add line of your connection string to applicatio
 * ✅ Connect Database
 * ✅ Connect ORM Entity
 * ✅ Create Schemas for objects
+* 🔳 Order busket
 
 ### 3. API
 * 🔳 Controller
