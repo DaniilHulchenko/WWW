@@ -42,7 +42,7 @@ namespace WWW.Jobs.Workers
             _dateRepository = dateRepository;
             _pictureRepository = pictureRepository;
         }
-        public async Task ExecuteAsync()
+        public async Task ExecuteAsync()// сделать автомапер 
         {
             try
             {

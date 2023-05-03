@@ -9,32 +9,28 @@ using Microsoft.Extensions.Primitives;
 using GoogleApi.Entities.Interfaces;
 using WWW.Jobs.Workers;
 using WWW.Domain.Api;
+using WWW.DAL.Repositories;
 
 namespace WWW.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IArticleService _articleService;
-        private readonly ICategoryService _categoryService;
-        private readonly IBaseRepository<Tags> _tagsRepository;
-        private readonly RestApiRequest _restApiRequest;
+        //private readonly IArticleService _articleService;
+        //private readonly ICategoryService _categoryService;
+        //private readonly IBaseRepository<Tags> _tagsRepository;
+        //private readonly RestApiRequest _restApiRequest;
+        private readonly EntityBaseRepository<Article> _baseArticleRepository;
         //private readonly ILogger<HomeController> _logger;
 
-        DownloadService _downloadService;
+        //DownloadService _downloadService;
 
-        ArticleApiJob_ParseToDb _articleApiJob_ParseToDb;
+        //ArticleApiJob_ParseToDb _articleApiJob_ParseToDb;
 
-
-        public HomeController(ArticleApiJob_ParseToDb articleApiJob_ParseToDb,DownloadService downloadService,RestApiRequest restApiRequest, IArticleService articleService, ICategoryService categoryService, IBaseRepository<Tags>  tagsRepository)
+        //EntityBaseRepository<Article> baseRepository
+        //public HomeController(EntityBaseRepository<Article> baseRepository, ArticleApiJob_ParseToDb articleApiJob_ParseToDb,DownloadService downloadService,RestApiRequest restApiRequest, IArticleService articleService, ICategoryService categoryService, IBaseRepository<Tags>  tagsRepository)
+        public HomeController(EntityBaseRepository<Article> baseRepository)
         {
-            _restApiRequest = restApiRequest;
-            _articleService = articleService;
-            _categoryService = categoryService;
-            _tagsRepository = tagsRepository;
-
-            _downloadService = downloadService;
-
-            _articleApiJob_ParseToDb = articleApiJob_ParseToDb; 
+            _baseArticleRepository = baseRepository;
         }
 
         public IActionResult Index()
@@ -60,6 +56,7 @@ namespace WWW.Controllers
             //_restApiRequest.ApiSelector("Events:ticketmaster");
             //Rootobject a = await _restApiRequest.GetDataAsync<Rootobject>();
             //string b = a._embedded.events[0].name;
+            var articles = _baseArticleRepository.GetALL().First().Title;
             return View();
 
             //return View();

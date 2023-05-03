@@ -18,13 +18,13 @@ namespace WWW.API
         private string _token;
         private string _baseUrl;
         private string _endpoint;
-        private readonly Logger<RestApiRequest> _logger;
+        //private readonly Logger<RestApiRequest> _logger;
 
 
-        public RestApiRequest(IConfiguration configuration, Logger<RestApiRequest> logger)
+        public RestApiRequest(IConfiguration configuration)
         {
             _configuration = configuration;
-            _logger = logger;
+            //_logger = logger;
         }
 
         public void ApiSelector(string ApiName)
@@ -58,7 +58,7 @@ namespace WWW.API
             }
             catch (Exception ex)
             {
-                _logger.LogError("!!!!!" + ex.Message);
+                //_logger.LogError("!!!!!" + ex.Message);
                 throw new Exception(ex.Message);
             }
             

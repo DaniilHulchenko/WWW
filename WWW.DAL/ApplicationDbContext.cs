@@ -22,6 +22,7 @@ namespace WWW.DAL {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
+            //optionsBuilder.UseSqlServer("");
         }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)

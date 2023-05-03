@@ -10,7 +10,7 @@ using static Grpc.Core.Metadata;
 namespace WWW.Domain.Entity
 {
     [Table("Articles")]
-    public class Article
+    public class Article: DbBase
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
