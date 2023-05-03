@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using RestSharp;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-
+using Microsoft.Extensions.Logging;
 
 namespace WWW.API
 {
@@ -18,11 +18,13 @@ namespace WWW.API
         private string _token;
         private string _baseUrl;
         private string _endpoint;
+        private readonly Logger<RestApiRequest> _logger;
 
 
-        public RestApiRequest(IConfiguration configuration)
+        public RestApiRequest(IConfiguration configuration, Logger<RestApiRequest> logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         public void ApiSelector(string ApiName)
@@ -33,24 +35,33 @@ namespace WWW.API
         }
         public Task<dynamic> GetDataAsync (Dictionary<string, string> queryParams = null)
         {
-            var client = new RestClient(_baseUrl);
-            var request = new RestRequest(_endpoint, Method.Get);
-            request.AddParameter("apikey", _token);
-
-            if (queryParams != null)
+            try
             {
-                foreach (var kvp in queryParams)
+                var client = new RestClient(_baseUrl);
+                var request = new RestRequest(_endpoint, Method.Get);
+                request.AddParameter("apikey", _token);
+
+                if (queryParams != null)
                 {
-                    request.AddParameter(kvp.Key, kvp.Value);
+                    foreach (var kvp in queryParams)
+                    {
+                        request.AddParameter(kvp.Key, kvp.Value);
+                    }
                 }
+
+                var response = client.Get(request);
+
+                string responseString = response.Content;
+
+                dynamic data = JsonConvert.DeserializeObject<dynamic>(responseString);
+                return data;
             }
-
-            var response = client.Get(request);
-
-            string responseString = response.Content;
-
-            dynamic data = JsonConvert.DeserializeObject<dynamic>(responseString);
-            return data;
+            catch (Exception ex)
+            {
+                _logger.LogError("!!!!!" + ex.Message);
+                throw new Exception(ex.Message);
+            }
+            
         }
         public async Task<T> GetDataAsync<T>(Dictionary<string, string> queryParams = null)
         {

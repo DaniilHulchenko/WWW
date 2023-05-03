@@ -44,6 +44,10 @@ namespace WWW.Jobs.Workers
         }
         public async Task ExecuteAsync()
         {
+            try
+            {
+
+            
             //if (keyValuePairs==null) keyValuePairs = new();
             _restapiRepository.ApiSelector("Events:ticketmaster");
 
@@ -121,8 +125,12 @@ namespace WWW.Jobs.Workers
                 }
             }
             _logger.LogInformation($"!!! : ArticleApiJob done");
-
-
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("!!!!!" + ex.Message);
+                throw new Exception(ex.Message);
+            }
 
         }
     }
