@@ -62,10 +62,10 @@ Than (if you have App Services) add line of your connection string to applicatio
 * 🔳 Google Authorization
 
 
-### 5. Order
-* 🔳 Controllers
-* 🔳 Pages
-* 🔳 Features
+### 10. HangFire
+* ✅ Servise
+* ✅ Jobs 
+* ✅ Schedule
 
 ### 6. Loggs
 * 🔳 Add logs for Authorization
@@ -86,12 +86,7 @@ Than (if you have App Services) add line of your connection string to applicatio
 * ✅ Add README on GIT
 * ✅ CI/CD
 
-### 10. HangFire
-* ✅ Servise
-* ✅ Jobs 
-* ✅ Schedule
-
-### 11. Swagger
+### 10. Swagger
 * ✅ Servise
 * 🔳 Jobs 
 
