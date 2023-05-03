@@ -1,32 +1,98 @@
-ArticleTracker is a website that helps users discover and plan events in their local area. The website will have a searchable database of events, such as concerts, festivals, and art exhibits, that users can browse and filter by date, location, and category.
+﻿# [EventTracker](https://silver-side.azurewebsites.net/)
+### Project for `'Web Technology'` course in Lviv National University of Ivan Franko
+Contacts:
+* [Telegram](https://t.me/silverus_morgan) 
+* Email: lvov.danik@gmail.com@gmail.com
+## Stack
+* [.NET](https://dotnet.microsoft.com/) - free, open-source, cross-platform framework for building modern apps and powerful cloud services.
+* [Azure](https://azure.microsoft.com/) - cloud computing platform and a set of services provided by Microsoft for building, deploying, and managing applications and services through Microsoft-managed data centers.
+* [MS SQL Server](https://www.microsoft.com/sql-server/sql-server-2019) - relational database management system (RDBMS) developed by Microsoft that uses SQL (Structured Query Language) to manage and manipulate data, including storing, querying, and retrieving data.
+* [Entity Framework](https://learn.microsoft.com/uk-ua/ef/) - object-relational mapping (ORM) framework for .NET developers that enables them to work with databases using .NET objects, simplifying the process of data access and manipulation.
+* [MSTest](https://learn.microsoft.com/uk-ua/dotnet/core/testing/unit-testing-with-mstest) - unit testing framework for .NET developers that allows them to write and execute automated tests to ensure the correctness and reliability of their code.
+* [App Service](https://azure.microsoft.com/en-us/products/app-service/) - set of cloud-based services provided by Microsoft that enable developers and businesses to build, deploy, and manage applications and services in the cloud, including computing, storage, networking, databases, analytics, and more.
+* [NuGet packages](https://learn.microsoft.com/uk-ua/nuget/) - type of software package used in the Microsoft .NET ecosystem, containing compiled code and other resources, and are used by developers to easily add functionality to their projects and share code between teams.
+* [Razor Pages](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-7.0&tabs=visual-studio) - Razor Pages can make coding page-focused scenarios easier and more productive than using controllers and views.
+* [Bootstrap](https://getbootstrap.com/) - Build fast, responsive sites.
+## How to run project
+Open your system terminal and run commands:
+```sh
+git clone https://github.com/DaniilHulchenko/WWW.git
+cd DaniilHulchenko.WWW
+```
+Add your already deployed database connection string to files:
+In `\WWW\WWW\appsettings.json` in `"ConnectionStrings"` add line: `"NetworkConnection": "ConnectionString"`. Instead of `ConnectionString` add your database connection string. Code shluld look like this:
+```sh
+  "ConnectionStrings": 
+  {
+    "StoreDatabase": "ConnectionString"
+  },
+```
+Than (if you have App Services) add line of your connection string to application insights. Code in `WWW/WWW/appsettings.json` should look something like that, but also instead of `ConnectionString` should be yours.
+```sh
+  "ApplicationInsights": 
+  {
+    "LogLevel": {
+      "Default": "Information"
+    },
+  "StoreDatabase": "ConnectionString"
+```
+## Decomposition of tasks
+### 1. Frontend
+* ✅ Display Database
+* ✅ Display API
+* ✅ Display User register and login
+* 🔳 Display User profile
+* ✅ List of Events 
+* 🍥 Creation Forms
 
-Once users find an event they are interested in, they can add it to their personal event calendar or track it on the website. They can also set up notifications to remind them when the event is happening, and get alerts if the event is canceled or rescheduled.
+### 2. Database
+* ✅ Create Database
+* ✅ Connect Database
+* ✅ Connect ORM Entity
+* ✅ Create Schemas for objects
 
-ArticleTracker will also have a social component, where users can connect with other event-goers, share their experiences, and get recommendations for future events. The website will allow users to create profiles, add friends, and participate in discussion forums.
+### 3. API
+* 🔳 Controller
 
-In addition to searching for events, ArticleTracker will allow users to create their own events and promote them to the community. Users can create an event listing with details such as date, time, location, and ticket information. They can also add photos, videos, and links to social media pages.
+### 4. Authorization
+* ✅ Create Login and Register Pages
+* ✅ Create Controller
+* ✅ Create Service
+* ✅ Create Models
+* 🔳 Google Authorization
 
-ArticleTracker can generate revenue through advertising, sponsorships, and partnerships with event organizers and venues. The website can offer premium features, such as priority event listings and advanced filters, for users who subscribe to a paid membership.
 
-Overall, ArticleTracker aims to make event planning and discovery more accessible and convenient for users, while also building a community of event enthusiasts.
+### 5. Order
+* 🔳 Controllers
+* 🔳 Pages
+* 🔳 Features
+
+### 6. Loggs
+* 🔳 Add logs for Authorization
+* 🔳 Add logs for User Profile
+
+### 7. Test
+* 🔳 Test Authorization
+* 🔳 Test Orders
+* 🔳 Test User Profile
+
+### 8. Azure
+* ✅ Deploy the project
+* ✅ Connect Application Insights
+* ✅ Connect Azure Database
+* ✅ CI/CD
+
+### 9. Git
+* ✅ Add README on GIT
+* ✅ CI/CD
+
+### 10. HangFire
+* ✅ Servise
+* ✅ Jobs 
+* ✅ Schedule
+
+### 11. Swagger
+* ✅ Servise
+* 🔳 Jobs 
 
 
-
-################################################################################################################################
-To describe the algorithm of ArticleTracker, let's break it down into a few steps:
-
-Data Collection: The first step in the algorithm is to collect data about events happening in the local area. This can be done by scraping websites, receiving feeds from event organizers, and gathering data from various sources.
-
-Data Storage: Once the data is collected, it needs to be stored in a database. The database should be designed to store information such as event name, date, time, location, category, and other relevant details.
-
-User Input: Users will be able to search for events based on various parameters, such as location, date, and category. The algorithm will take in the user's search parameters and return a list of relevant events from the database.
-
-Article Tracking: Users can add events to their personal event calendar or track them on the website. The algorithm will add the event to the user's event list and set up notifications to remind them when the event is happening.
-
-Social Component: Users can connect with other event-goers, share their experiences, and get recommendations for future events. The algorithm will facilitate this by allowing users to create profiles, add friends, and participate in discussion forums.
-
-User-Generated Content: Users can also create their own events and promote them to the community. The algorithm will allow users to create an event listing with details such as date, time, location, and ticket information. They can also add photos, videos, and links to social media pages.
-
-Revenue Generation: ArticleTracker can generate revenue through advertising, sponsorships, and partnerships with event organizers and venues. The algorithm will facilitate this by displaying ads and promotions on the website, and providing premium features for paid members.
-
-Overall, the algorithm of ArticleTracker is designed to collect and store data about events, allow users to search for and track events, facilitate social interactions and user-generated content, and generate revenue through various channels.

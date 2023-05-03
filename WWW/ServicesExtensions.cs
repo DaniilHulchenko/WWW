@@ -24,6 +24,8 @@ public static class ServicesExtensions
             connectionString: builder.Configuration.GetConnectionString("StoreDatabase")
             ));
         //                        Services DB
+        Services.AddScoped(typeof(EntityBaseRepository<>)); 
+
         Services.AddTransient<ICategoryRepository, CategoryRepository>();
         Services.AddTransient<IArticleRepository, ArticleRepository>();
         Services.AddTransient<IAccountRepository, AccountRepository>();
@@ -31,6 +33,9 @@ public static class ServicesExtensions
         Services.AddTransient<IDateRepository, DateRepository>();
         Services.AddTransient<IPictureRepository, PictureRepository>();
         Services.AddTransient<ILocationRepository, LocationRepository>();
+        
+        //Services.AddScoped<IBaseRepository<Base>, EntityBaseRepository<Base>>();
+
 
 
         Services.AddTransient<IArticleService, ArticleService>();
