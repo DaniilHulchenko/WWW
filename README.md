@@ -88,8 +88,10 @@ Than (if you have App Services) add line of your connection string to applicatio
 * ✅ Add README on GIT
 * ✅ CI/CD
 
+
 ### 10. Swagger
 * ✅ Servise
 * 🔳 Jobs 
 
+LAB-3. Denys Zaruba(FEP-21). Removed trash and refactored code from _Layout.cshtml. Now this code more pleasent to read
 
