@@ -13,6 +13,8 @@ using Hangfire;
 using Hangfire.MemoryStorage;
 using WWW.Jobs.Workers;
 using Microsoft.Extensions.FileProviders;
+using WWW.Domain.Api;
+using AutoMapper;
 
 public static class ServicesExtensions
 {
@@ -64,6 +66,10 @@ public static class ServicesExtensions
             .UseMemoryStorage()
         );
         Services.AddHangfireServer();
+
+//                          AutoMapper
+        Services.AddAutoMapper(typeof(Program));
+
         //Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
         //       Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
     }

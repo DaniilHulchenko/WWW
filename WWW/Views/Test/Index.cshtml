@@ -1,22 +1,19 @@
-﻿@using System.Reflection;
-@using WWW.DAL.Interfaces;
-@using WWW.Domain.Entity;
-@using WWW.Domain.Response;
-@using WWW.Domain.ViewModels.Article
-@model dynamic;
+﻿@model object
 @{
     ViewData["Title"] = "Page For Tests";
-    //var test = new ArticleCreateViewModal();
 }
 <h1>@ViewData["Title"]</h1>
+
+
+
+<h1>@Model</h1>
+
+
+
+
 @*@inject ICategoryRepository _categoryRepository;*@
 @*@foreach (var i in await _categoryRepository.GetAll())
 {
     <h1>@i.Name</h1>
 }*@
 @*<img src="@Url.Action("GetImageByUrl", "Help", new { url = "https://s1.ticketm.net/dam/a/210/c403ed95-3d6d-4de8-895a-25b9d8958210_TABLET_LANDSCAPE_LARGE_16_9.jpg" })" alt="Image" />*@
-
-
-<h1>@Model</h1>
-
-

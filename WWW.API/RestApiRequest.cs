@@ -1,13 +1,8 @@
-﻿using Org.BouncyCastle.Asn1.Crmf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RestSharp;
+﻿using RestSharp;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
+//using WWW.Domain.Api;
 
 namespace WWW.API
 {
@@ -29,14 +24,15 @@ namespace WWW.API
 
         public void ApiSelector(string ApiName)
         {
-            _token = _configuration[$"API:{ApiName}:token"];
-            _baseUrl = _configuration[$"API:{ApiName}:baseUrl"];
-            _endpoint = _configuration[$"API:{ApiName}:endpoint"];
+                _token = _configuration[$"API:{ApiName}:token"];
+                _baseUrl = _configuration[$"API:{ApiName}:baseUrl"];
+                _endpoint = _configuration[$"API:{ApiName}:endpoint"];
         }
-        public Task<dynamic> GetDataAsync (Dictionary<string, string> queryParams = null)
+        public async Task<dynamic> GetDataAsync (Dictionary<string, string> queryParams = null)
         {
-            try
-            {
+            if (_token == null) { throw new ArgumentException("Api didn't find, cheap Api Selector arguments"); }
+            //try
+            //{
                 var client = new RestClient(_baseUrl);
                 var request = new RestRequest(_endpoint, Method.Get);
                 request.AddParameter("apikey", _token);
@@ -55,15 +51,15 @@ namespace WWW.API
 
                 dynamic data = JsonConvert.DeserializeObject<dynamic>(responseString);
                 return data;
-            }
-            catch (Exception ex)
-            {
-                //_logger.LogError("!!!!!" + ex.Message);
-                throw new Exception(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("!!!!!" + ex.Message);
+            //    //throw new Exception(ex.Message);
+            //}
             
         }
-        public async Task<T> GetDataAsync<T>(Dictionary<string, string> queryParams = null)
+        public async Task<T> GetDataAsync<T>(Dictionary<string, string> queryParams = null) // where T: BaseApiModel
         {
             T data = (await GetDataAsync(queryParams)).ToObject<T>();
             return data;
