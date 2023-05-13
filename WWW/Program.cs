@@ -1,5 +1,6 @@
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,7 @@ builder.Services.AddSwaggerGen(c =>
 
 ServicesExtensions.AddMyServices(builder);
 
-/*#####################################  AddAuthentication  #######################################*/
+/*#####################################  Add Authentication  #######################################*/
 //SignInManager.CheckPasswordSignInAsync();
 //builder.Services.AddAuthentication()
 //        .AddGoogle(options =>
@@ -28,12 +29,25 @@ ServicesExtensions.AddMyServices(builder);
 //            options.ClientId = Configuration["Authentication:Google:ClientId"];
 //            options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
 //        });
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                                
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+    })
     .AddCookie(options =>
     {
         options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
         options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-    });
+
+        options.LoginPath = "/account/login";
+    })
+    .AddGoogle(options =>
+    {
+        options.ClientId = "your-client-id";
+        options.ClientSecret = "your-client-secret";
+    }); 
+
 builder.Services.AddAuthorization();
 
 /*##################################################################################################*/
