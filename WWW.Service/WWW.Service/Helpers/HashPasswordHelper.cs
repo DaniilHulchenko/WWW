@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace WWW.Domain.Helpers
+namespace WWW.Service.Helpers
 {
     public class HashPasswordHelper
     {

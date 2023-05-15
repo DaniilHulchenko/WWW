@@ -1,18 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using WWW.Domain.Response;
 using WWW.Domain.ViewModels.Account;
 using WWW.Service.Interfaces;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using WWW.Service.Implementations;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authorization;
 
 namespace WWW.Controllers.Account
 {
@@ -67,6 +58,7 @@ namespace WWW.Controllers.Account
             }
             return View(model);
         }
+
 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()

@@ -21,7 +21,7 @@ namespace WWW.Domain.Entity
         public string Email { get; set; }
         public string Password { get; set; }
         [AllowNull]
-        public string Introdaction { get; set; }
+        public string ?Introdaction { get; set; }
         [AllowNull]
         public byte[]? Avatar { get; set; }
         public UserRole Role { get; set; }

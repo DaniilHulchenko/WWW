@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using WWW.DAL.Interfaces;
 using WWW.Domain.Entity;
 using WWW.Domain.Enum;
-using WWW.Domain.Helpers;
+using WWW.Service.Helpers;
 using WWW.Domain.Response;
 using WWW.Domain.ViewModels.Account;
 using WWW.Service.Interfaces;
@@ -88,7 +88,7 @@ namespace WWW.Service.Implementations
                 {
                     return new BaseResponse<ClaimsIdentity>()
                     {
-                        ErrorDescription = "Пользователь с таким логином уже есть",
+                        ErrorDescription = "Користувач с таким логином вже є",
                     };
                 }
 
@@ -105,18 +105,7 @@ namespace WWW.Service.Implementations
 
                 await _userRepository.Create(user);
                 
-                //var profile = new Profile()
-                //{
-                //    UserId = user.Id,
-                //};
 
-                //var basket = new Basket()
-                //{
-                //    UserId = user.Id
-                //};
-
-                //await _proFileRepository.Create(profile);
-                //await _basketRepository.Create(basket);
                 var result = Authenticate(user);
 
                 return new BaseResponse<ClaimsIdentity>()
@@ -136,12 +125,13 @@ namespace WWW.Service.Implementations
             }
         }
 
-        private ClaimsIdentity Authenticate(User user)
+        public ClaimsIdentity Authenticate(User user)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.NickName),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString()),
+                //new Claim("Email", user.Email),
             };
             return new ClaimsIdentity(claims, "ApplicationCookie",
                 ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

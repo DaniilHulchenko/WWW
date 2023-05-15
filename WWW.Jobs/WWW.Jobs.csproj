@@ -11,13 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.60.0" />
     <PackageReference Include="Hangfire" Version="1.7.34" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.34" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WWW.API\WWW.API.csproj" />
     <ProjectReference Include="..\WWW.DAL\WWW.DAL.csproj" />
     <ProjectReference Include="..\WWW.Service\WWW.Service\WWW.Service.csproj" />
   </ItemGroup>

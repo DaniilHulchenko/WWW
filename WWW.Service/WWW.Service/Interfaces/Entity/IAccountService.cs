@@ -22,5 +22,7 @@ namespace WWW.Service.Interfaces
 
         public Task<BaseResponse<IEnumerable<User>>> GetAll();
 
+        public ClaimsIdentity Authenticate(User user);
+
     }
 }

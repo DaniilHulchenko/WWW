@@ -1,8 +1,4 @@
-﻿using Hangfire;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using WWW.API;
-using WWW.Jobs.Workers;
+﻿using Microsoft.Extensions.Hosting;
 
 namespace WWW.Jobs
 {

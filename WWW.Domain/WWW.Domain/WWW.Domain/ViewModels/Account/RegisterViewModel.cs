@@ -41,7 +41,7 @@ namespace WWW.Domain.ViewModels.Account
         public string PasswordConfirm { get; set; }
 
         [Display(Name = "Introdaction")]
-        public string Introdaction { get; set; }
+        public string? Introdaction { get; set; }
 
 
         [AllowNull]

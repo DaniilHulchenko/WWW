@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using System.Security.AccessControl;
-using WWW.API;
 using WWW.DAL.Repositories;
-using WWW.Domain.Api;
 using WWW.Domain.Entity;
-using WWW.Domain.ViewModels.Article;
+using WWW.Domain.GoogleOAuth;
+using WWW.Service.Helpers;
+using WWW.Service.Implementations;
 
 namespace WWW.Controllers
 {
@@ -33,6 +31,7 @@ namespace WWW.Controllers
             _mapper = mapper;
             _restApiRequest = restApiRequest;
             _baseArticleRepository = baseRepository;
+            
         }
 
        
@@ -48,7 +47,7 @@ namespace WWW.Controllers
             //});
             //await _articleApiJob_ParseToDb.ExecuteAsync();
 
-            ////_downloadService.DownloadJpgAsync("https://static.nachasi.com/wp-content/uploads/2022/06/watermelon-2-1.gif-1.gif");
+            ////_downloadService.DownloadJpgPictAsync("https://static.nachasi.com/wp-content/uploads/2022/06/watermelon-2-1.gif-1.gif");
 
 
 
@@ -61,7 +60,10 @@ namespace WWW.Controllers
 
             //Article data = _mapper.Map<Article>(apidata._embedded.events[0]);
             //var articles = _baseArticleRepository.GetALL().First().Title;
-            return View();
+
+            //string token = "ya29.a0AWY7Ckngotaz_2PFpf25haTMQSNJp8zqC2inYC12M6gpYg-i9rh0H6G9jw9_gAydXKY8FrlQJRWRmMfKY3pRIhMOVWS8JuDFlhHrXGrjQrnvou1zAD7OfHLnlrneqGJJNO_XLoX1wTELyH5v9wDmY8a-UQc9aCgYKAdcSARISFQG1tDrpwmFSdcgAXjpNTH-4ARxSsA0163";
+            //var data = await _googleApiService.GetUserInfoAsync(token);
+            return View("Index");
         }
     }
 }

@@ -1,18 +1,9 @@
-﻿using GoogleApi.Entities.Search.Video.Common;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WWW.API;
 using WWW.DAL.Interfaces;
-using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
+using WWW.Service.Helpers;
 using WWW.Service.Interfaces;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace WWW.Jobs.Workers
 {
@@ -119,7 +110,7 @@ namespace WWW.Jobs.Workers
                     await _dateRepository.Create(dat);
 
 
-                    var Pic = await _downloadService.DownloadJpgAsync((string)ApiData.images[0].url);
+                    var Pic = await _downloadService.DownloadJpgPictAsync((string)ApiData.images[0].url);
                     Pic.Article = newArticle;
                     await _pictureRepository.Create(Pic);
                 }

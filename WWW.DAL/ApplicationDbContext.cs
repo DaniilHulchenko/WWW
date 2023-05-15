@@ -2,7 +2,6 @@
 using WWW.Domain.Entity;
 using WWW.DAL;
 using System.Data;
-using WWW.Domain.Helpers;
 
 namespace WWW.DAL {
     public class ApplicationDbContext : DbContext

@@ -27,7 +27,7 @@ namespace WWW.Controllers
         {
             try
             {
-                Picture data = (await _downloadService.DownloadJpgAsync(url));
+                Picture data = (await _downloadService.DownloadJpgPictAsync(url));
                 //byte[] image_arrow = data.picture;
                 //string contentType;
                 //using (var ms = new MemoryStream(image_arrow)) { 

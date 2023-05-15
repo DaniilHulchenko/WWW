@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 //using WWW.Domain.Api;
 
-namespace WWW.API
+namespace WWW.Service.Helpers
 {
     public class RestApiRequest
     {

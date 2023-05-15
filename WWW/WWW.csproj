@@ -15,8 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\GoogleOAuth\GetUserProfile.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Category\Index.cshtml" />
     <None Include="Views\Article\Index.cshtml" />
+    <None Include="Views\GoogleOAuth\GetUserProfile.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Shared\Components\NotEnptyCategory\Index.cshtml" />
     <None Include="wwwroot\js\site.js" />
@@ -76,12 +81,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.1.23111.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0-preview.2.23128.3" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WWW.API\WWW.API.csproj" />
     <ProjectReference Include="..\WWW.DAL\WWW.DAL.csproj" />
     <ProjectReference Include="..\WWW.Jobs\WWW.Jobs.csproj" />
     <ProjectReference Include="..\WWW.Service\WWW.Service\WWW.Service.csproj" />

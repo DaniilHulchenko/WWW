@@ -61,7 +61,7 @@ Than (if you have App Services) add line of your connection string to applicatio
 * ✅ Create Controller
 * ✅ Create Service
 * ✅ Create Models
-* 🔳 Google Authorization
+* ✅ Google Authorization
 
 
 ### 10. HangFire

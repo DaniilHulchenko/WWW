@@ -32,16 +32,23 @@ namespace WWW.Service.Interfaces
             _logger.LogInformation($"Pictre was saved in : {fileName}");
 
         }
-        public async Task<Picture> DownloadJpgAsync(string url) { 
-            using(WebClient client = new WebClient())
+        public async Task<Picture> DownloadJpgPictAsync(string url)
+        {
+            using (WebClient client = new WebClient())
             {
-                
-            return new Picture()
+                return new Picture()
                 {
                     picture = await client.DownloadDataTaskAsync(url),
                     Type = Path.GetExtension(url),
                     Name = Path.GetFileName(url)
                 };
+            };
+        }
+        public async Task<byte[]> DownloadJpgAsync(string url)
+        {
+            using (WebClient client = new WebClient())
+            {
+                return await client.DownloadDataTaskAsync(url);
             };
         }
     }

@@ -10,12 +10,6 @@ builder.Services.AddApplicationInsightsTelemetry();
 
 builder.Services.AddControllersWithViews();
 
-/*#####################################  Add Swager ###############################################*/
-
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-});
 
 /*####################################### Add Services ############################################*/
 
@@ -28,34 +22,30 @@ ServicesExtensions.AddMyServices(builder);
 //        {
 //            options.ClientId = Configuration["Authentication:Google:ClientId"];
 //            options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-//        });
-                                
+//        });                             
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+        //options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
     })
     .AddCookie(options =>
     {
         options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
         options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-
-        options.LoginPath = "/account/login";
-    })
+    })/*
     .AddGoogle(options =>
     {
-        options.ClientId = "your-client-id";
-        options.ClientSecret = "your-client-secret";
-    }); 
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    })*/;
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddSession();
 
 /*##################################################################################################*/
 
 var app = builder.Build();
-
-// HangFire
-app.UseHangfireDashboard();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -67,6 +57,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -74,18 +66,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-
-/*################################### Swager ###############################*/
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-});
-app.UseRouting();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-/*##########################################################################*/
+AppExtensions.AddMyAppExtensions(app);
 
 app.Run();

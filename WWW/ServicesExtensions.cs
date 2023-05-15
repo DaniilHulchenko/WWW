@@ -1,31 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hangfire;
+using Hangfire.MemoryStorage;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using WWW.DAL;
 using WWW.DAL.Interfaces;
 using WWW.DAL.Repositories;
-using WWW.Service.Implementations;
-using WWW.Service.Interfaces;
-using WWW.API;
 using WWW.Domain.Entity;
 using WWW.Jobs;
 using WWW.Jobs.Implementations;
-using Org.BouncyCastle.Crypto.Tls;
-using Hangfire;
-using Hangfire.MemoryStorage;
 using WWW.Jobs.Workers;
-using Microsoft.Extensions.FileProviders;
-using WWW.Domain.Api;
-using AutoMapper;
+using WWW.Service.Helpers;
+using WWW.Service.Implementations;
+using WWW.Service.Interfaces;
 
 public static class ServicesExtensions
 {
     public static void AddMyServices(this WebApplicationBuilder builder)
     {
         IServiceCollection Services = builder.Services;
-//                          SQL
+/*#####################################  Add SQL ###############################################*/
         Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
             connectionString: builder.Configuration.GetConnectionString("StoreDatabase")
             ));
-        //                        Services DB
+/*#####################################  Add  Services DB ###############################################*/
         Services.AddScoped(typeof(EntityBaseRepository<>)); 
 
         Services.AddTransient<ICategoryRepository, CategoryRepository>();
@@ -38,23 +35,26 @@ public static class ServicesExtensions
         
         //Services.AddScoped<IBaseRepository<Base>, EntityBaseRepository<Base>>();
 
-
-
         Services.AddTransient<IArticleService, ArticleService>();
         Services.AddTransient<ICategoryService, CategoryService>();
         Services.AddTransient<IAccountService, AccountService>();
-//                          Picture 
+/*#####################################  Add Other Services ###############################################*/
+        //                          Picture 
         Services.AddScoped<DownloadService>();
 
 //                          API
-        Services.AddTransient<IApiRepository<HttpApiRequest>, HttpApiRequest>();
+        //Services.AddTransient<IApiRepository<HttpApiRequest>, HttpApiRequest>();
         Services.AddTransient<RestApiRequest>();
-
+//                    GoogleOAuth
+        Services.AddTransient<GoogleOAuthService>();
 
 //                          Jobs
         Services.AddTransient<ArticleApiJob_ParseToDb>();
 
-//                          HangFire (Job Schedule)
+//                          google
+        //Services.AddTransient<GoogleApiService>();
+        Services.AddTransient<SingInFromGoogleService>();
+        /*#####################################   HangFire (Job Schedule) ###############################################*/
         builder.Services.AddHostedService<JobWorker>();
 
         Services.AddSingleton<IJobService, JobService>();
@@ -67,10 +67,20 @@ public static class ServicesExtensions
         );
         Services.AddHangfireServer();
 
-//                          AutoMapper
+/*#####################################  Add AutoMapper ###############################################*/
         Services.AddAutoMapper(typeof(Program));
+
+/*#####################################  Add Swager ###############################################*/
+
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+        });
+
 
         //Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
         //       Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+
+
     }
 }
