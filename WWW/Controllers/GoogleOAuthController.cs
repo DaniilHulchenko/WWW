@@ -11,7 +11,7 @@ namespace WWW.Controllers
     public class GoogleOAuthController : Controller
     {
         private readonly GoogleOAuthService _authService;
-        private readonly SingInFromGoogleService _singInFromGoogle;
+        private readonly GoogleSingInService _singInFromGoogle;
         private string RedirectUrl = "http://localhost:5188/GoogleOAuth/Code";
 
         string[] Scopes = new string[] { "https://www.googleapis.com/auth/userinfo.email", 
@@ -22,7 +22,7 @@ namespace WWW.Controllers
 
         private const string PkceSessionKey = "codeVerifier";
 
-        public GoogleOAuthController(GoogleOAuthService authService, SingInFromGoogleService singInFromGoogle)
+        public GoogleOAuthController(GoogleOAuthService authService, GoogleSingInService singInFromGoogle)
         {
             _authService = authService;
             _singInFromGoogle = singInFromGoogle;

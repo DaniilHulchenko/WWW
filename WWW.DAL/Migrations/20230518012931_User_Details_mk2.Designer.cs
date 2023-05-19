@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WWW.DAL;
 
@@ -11,9 +12,11 @@ using WWW.DAL;
 namespace WWW.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230518012931_User_Details_mk2")]
+    partial class User_Details_mk2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,7 +241,10 @@ namespace WWW.DAL.Migrations
 
             modelBuilder.Entity("WWW.Domain.Entity.User_Details", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("User_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Introdaction")
@@ -248,7 +254,7 @@ namespace WWW.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserID");
+                    b.HasKey("User_ID");
 
                     b.ToTable("User_Details");
                 });
@@ -321,7 +327,7 @@ namespace WWW.DAL.Migrations
                 {
                     b.HasOne("WWW.Domain.Entity.User", "User")
                         .WithOne("Details")
-                        .HasForeignKey("WWW.Domain.Entity.User_Details", "UserID")
+                        .HasForeignKey("WWW.Domain.Entity.User_Details", "User_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

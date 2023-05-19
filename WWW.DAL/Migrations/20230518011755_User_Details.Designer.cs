@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WWW.DAL;
 
@@ -11,9 +12,11 @@ using WWW.DAL;
 namespace WWW.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230518011755_User_Details")]
+    partial class User_Details
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,29 +231,16 @@ namespace WWW.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WWW.Domain.Entity.User_Details", b =>
-                {
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Introdaction")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserID");
-
-                    b.ToTable("User_Details");
                 });
 
             modelBuilder.Entity("ArticleTags", b =>
@@ -317,17 +307,6 @@ namespace WWW.DAL.Migrations
                     b.Navigation("Article");
                 });
 
-            modelBuilder.Entity("WWW.Domain.Entity.User_Details", b =>
-                {
-                    b.HasOne("WWW.Domain.Entity.User", "User")
-                        .WithOne("Details")
-                        .HasForeignKey("WWW.Domain.Entity.User_Details", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WWW.Domain.Entity.Article", b =>
                 {
                     b.Navigation("Date")
@@ -340,12 +319,6 @@ namespace WWW.DAL.Migrations
             modelBuilder.Entity("WWW.Domain.Entity.Category", b =>
                 {
                     b.Navigation("Articles");
-                });
-
-            modelBuilder.Entity("WWW.Domain.Entity.User", b =>
-                {
-                    b.Navigation("Details")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

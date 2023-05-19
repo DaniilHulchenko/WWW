@@ -7,7 +7,8 @@ using WWW.Domain.Entity;
 using Microsoft.Extensions.Logging;
 using WWW.Service.Interfaces;
 using static System.Net.Mime.MediaTypeNames;
-
+using NuGet.Protocol.Core.Types;
+using WWW.Domain.Api;
 
 namespace WWW.Controllers
 {
@@ -16,11 +17,13 @@ namespace WWW.Controllers
         private readonly IArticleService _articleService;
         private readonly ILogger<HelpController> _logger;  
         private readonly DownloadService _downloadService;
-        public HelpController(IArticleService articleService, ILogger<HelpController> logger, DownloadService downloadService)
+        private readonly IAccountService _accountService;
+        public HelpController(IArticleService articleService, ILogger<HelpController> logger, DownloadService downloadService, IAccountService accountService)
         {
             _articleService = articleService;
             _logger = logger;
             _downloadService = downloadService;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> GetImageByUrl(string url)
@@ -71,6 +74,26 @@ namespace WWW.Controllers
             return File(db_image, contentType);
 
         }
+
+
+
+        public async Task<IActionResult> GetAvatarByName(string name)
+        {
+            var pict = await _accountService.GetByName(name);
+            string contentType = "image/jpeg";
+            if (pict.StatusCode == Domain.Enum.StatusCode.OK)
+            {
+                return File(pict.Data.Avatar, contentType);
+            }
+
+            //byte[] photoBytes = File.ReadAllBytes("WWW\\WWW\\wwwroot\\img\\base-avatar.jpg");
+            //return File(photoBytes, contentType);
+            return Ok();
+        }
+
+
+
+
 
         public static string GetContentType(string fileName)
         {

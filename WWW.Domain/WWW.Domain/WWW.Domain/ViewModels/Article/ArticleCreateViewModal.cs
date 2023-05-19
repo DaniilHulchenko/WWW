@@ -43,5 +43,7 @@ namespace WWW.Domain.ViewModels.Article
         [Required(ErrorMessage = "Enter Date Of Article")]
         public DateTime DateOfArticle { get; set; }
 
+        public string User { get; set; }
+
     }
 }

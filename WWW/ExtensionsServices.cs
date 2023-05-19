@@ -13,7 +13,7 @@ using WWW.Service.Helpers;
 using WWW.Service.Implementations;
 using WWW.Service.Interfaces;
 
-public static class ServicesExtensions
+public static class ExtensionsServices
 {
     public static void AddMyServices(this WebApplicationBuilder builder)
     {
@@ -53,7 +53,7 @@ public static class ServicesExtensions
 
 //                          google
         //Services.AddTransient<GoogleApiService>();
-        Services.AddTransient<SingInFromGoogleService>();
+        Services.AddTransient<GoogleSingInService>();
         /*#####################################   HangFire (Job Schedule) ###############################################*/
         builder.Services.AddHostedService<JobWorker>();
 

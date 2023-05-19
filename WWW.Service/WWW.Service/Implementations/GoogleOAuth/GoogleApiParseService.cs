@@ -10,7 +10,7 @@ using WWW.Domain.Response;
 
 namespace WWW.Service.Implementations
 {
-    public static class GoogleApiService
+    public static class GoogleApiParseService
     {
         public static async Task<GoogleUserInfo> GetUserInfoAsync(string accessToken)
         {

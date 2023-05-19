@@ -13,7 +13,7 @@ builder.Services.AddControllersWithViews();
 
 /*####################################### Add Services ############################################*/
 
-ServicesExtensions.AddMyServices(builder);
+ExtensionsServices.AddMyServices(builder);
 
 /*#####################################  Add Authentication  #######################################*/
 //SignInManager.CheckPasswordSignInAsync();
@@ -66,6 +66,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-AppExtensions.AddMyAppExtensions(app);
+ExtensionsApp.AddMyAppExtensions(app);
 
 app.Run();

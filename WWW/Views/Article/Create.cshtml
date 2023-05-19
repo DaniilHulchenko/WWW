@@ -46,7 +46,7 @@
 <center>
     <form metgod="Post" enctype="multipart/form-data" class="w-60 p-3" asp-controller="Article" asp-action="Check">
         <fieldset control-id="ControlID-7">
-
+            <div asp-validation-summary="All" style="font-size:23px; font-family:Impact" class="text-danger text-center"></div>
             <div class="form-group">
                 <label asp-for="Title" for="exampleInputEmail1" class="form-label mt-4"></label>
                 <input asp-for="Title" class="form-control"  control-id="ControlID-9">
@@ -91,6 +91,8 @@
                     </div>
             </fieldset>
         
+
+            <input type="hidden" asp-for="User" value="@User.Identity.Name">
             <button type="submit" class="btn btn-primary" control-id="ControlID-28">Submit</button>
         </fieldset>
     </form>

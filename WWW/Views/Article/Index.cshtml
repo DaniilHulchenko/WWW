@@ -5,13 +5,14 @@
 }
 
 @{
-
-    if (@Model.Data.First().Category != null)
-    {
-        <strong><h1>List of @Model.Data.First().Category.Name</h1></strong>
-    }
-    else{
-        <h1>List of all</h1>
+    if (@Model.Data.Any()){
+        if (@Model.Data.First().Category != null)
+        {
+            <strong><h1>List of @Model.Data.First().Category.Name</h1></strong>
+        }
+        else{
+            <h1>List of all</h1>
+        }
     }
 }
 

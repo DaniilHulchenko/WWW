@@ -83,7 +83,6 @@ namespace WWW.Service.Implementations
 
 
         }
-
         public async Task<bool> Create(ArticleCreateViewModal entity)
         {
             Article data = new Article(entity)
@@ -107,7 +106,7 @@ namespace WWW.Service.Implementations
                 data.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (0);
             else
                 data.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
-            data.Autor = await _userRepository.GetALL().FirstAsync();
+            data.Autor = await _userRepository.GetALL().FirstAsync(u=>u.NickName==entity.User);
             data.IsFavorite = true;
 
             return await _articleRepository.Create(data);

@@ -17,11 +17,23 @@ namespace WWW.DAL {
         public DbSet<Location> Location { get; set; }
         public DbSet<Picture> Picture { get; set; }
         public DbSet<Date> Date { get; set; }
+        public DbSet<User_Details> User_Details { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
             //optionsBuilder.UseSqlServer("");
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User_Details>()
+                .Ignore(x => x.Id);
+            //modelBuilder.Entity<User>().HasData(new User { 
+            //    Id = 0,
+            //    NickName="admin",
+            //    Email="admin@gmail.com",
+            //    Role=WWW.Domain.Enum.UserRole.Admin
+            //});
         }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)

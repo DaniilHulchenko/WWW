@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
 using WWW.Domain.Entity;
@@ -37,6 +38,7 @@ namespace WWW.Controllers
         }
 
         // GET: Article/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -51,11 +53,7 @@ namespace WWW.Controllers
                 await _articleService.Create(collection);
                 return Redirect("/Article");
             }
-            else
-            {
-                //ModelState.AddModelError("");
-                return View("Create", collection);
-            }
+           return View("Create", collection);
         }
 
 

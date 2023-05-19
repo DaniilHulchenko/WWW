@@ -26,10 +26,10 @@
                         </div>
                     </li>
                 </ul>
-                <form class="d-flex">
+@*                <form class="d-flex">
                     <input class="form-control me-sm-2" type="search" placeholder="Search" control-id="ControlID-1">
                     <button class="btn btn-secondary my-2 my-sm-0" style="border-radius:0;" type="submit" control-id="ControlID-2">Search</button>
-                </form>
+                </form>*@
                 @if (!User.Identity.IsAuthenticated)
                 {
                     <ul class="navbar-nav ms-md-auto">
@@ -44,7 +44,7 @@
                 else
                 {
                     <h2 style="margin:0 10px; color:white;">@User.Identity.Name</h2>
-
+                    <img src="@Url.Action("GetAvatarByName", "Help", new { name = User.Identity.Name })" class="img-fluid" alt="Image" width="60" height="30" style="margin-right:1%;" />
                     <form method="post" asp-controller="Account" asp-action="Logout">
                         <input class="btn btn-secondary my-2 my-sm-0 text-bg-danger" style="border-radius:0;" type="submit" value="Logout" />
                     </form>
