@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using WWW.Jobs.Jobs;
 
 namespace WWW.Jobs
 {
@@ -14,7 +15,8 @@ namespace WWW.Jobs
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             // Jobs Here
-            //_jobService.Schedule<ArticleApiJob_ParseToDb>("* * * * *");
+            //_jobService.Schedule<EventApiJob_ParseToDb>("* * * * *");
+            //_jobService.Schedule<EventApiJob_ParseToDb>("");
             return Task.CompletedTask;
         }
     }

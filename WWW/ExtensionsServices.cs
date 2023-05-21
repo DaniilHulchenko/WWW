@@ -8,7 +8,7 @@ using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
 using WWW.Jobs;
 using WWW.Jobs.Implementations;
-using WWW.Jobs.Workers;
+using WWW.Jobs.Jobs;
 using WWW.Service.Helpers;
 using WWW.Service.Implementations;
 using WWW.Service.Interfaces;
@@ -49,7 +49,7 @@ public static class ExtensionsServices
         Services.AddTransient<GoogleOAuthService>();
 
 //                          Jobs
-        Services.AddTransient<ArticleApiJob_ParseToDb>();
+        Services.AddTransient<EventApiJob_ParseToDb>();
 
 //                          google
         //Services.AddTransient<GoogleApiService>();

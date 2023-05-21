@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 using WWW.DAL.Interfaces;
@@ -19,8 +22,30 @@ namespace WWW.DAL.Repositories
 
         public async Task<bool> Create(User entity)
         {
-            await _db.Users.AddAsync(entity);
-            await _db.SaveChangesAsync();
+                //USE www;
+                //SET IDENTITY_INSERT Users ON;
+
+                //INSERT INTO Users(Id, NickName, Email, Avatar, Role)
+                //VALUES(33, 'hi', 'gmail', NULL, 1);
+
+                //SET IDENTITY_INSERT Users OFF;
+
+            if (entity.Id != 0)
+            {
+                string sql = ("USE www; " +
+                    "SET IDENTITY_INSERT Users ON; " +
+                    "INSERT INTO Users (Id, NickName, Email, Avatar, Role) " +
+                    $"VALUES ({entity.Id}, '{entity.NickName}', '{entity.Email}', @Avatar, 0) " +
+                    "SET IDENTITY_INSERT Users OFF;");
+
+                _db.Database.ExecuteSqlRaw(sql, new SqlParameter("@Avatar", SqlDbType.VarBinary) { Value = entity.Avatar });
+
+                await _db.SaveChangesAsync();
+            }
+            else {
+                await _db.Users.AddAsync(entity);
+                await _db.SaveChangesAsync();
+            }
             return true;
         }
 

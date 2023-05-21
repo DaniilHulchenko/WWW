@@ -1,20 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using WWW.DAL.Interfaces;
+using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
 using WWW.Domain.Enum;
-using WWW.Service.Helpers;
 using WWW.Domain.Response;
 using WWW.Domain.ViewModels.Account;
+using WWW.Service.Helpers;
 using WWW.Service.Interfaces;
-using WWW.DAL.Repositories;
-using IdentityModel;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace WWW.Service.Implementations
 {
@@ -72,7 +67,6 @@ namespace WWW.Service.Implementations
                         ErrorDescription = "User not found"
                     };
                 }
-
                 if (user.Details.Password != HashPasswordHelper.HashPassowrd(model.Password))
                 {
                     return new BaseResponse<ClaimsIdentity>()
@@ -120,9 +114,18 @@ namespace WWW.Service.Implementations
                     Email = model.Email,
                     //Introdaction = model.Introdaction,
                     Role = WWW.Domain.Enum.UserRole.User,
+                    //Avatar = model.Avatar,
                 };
-
+                if (model.Avatar != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.Avatar.CopyToAsync(memoryStream);
+                        user.Avatar = memoryStream.ToArray();
+                    }
+                }
                 await _userRepository.Create(user);
+
 
                 await _userDetails.Create(new User_Details()
                 {
@@ -157,7 +160,7 @@ namespace WWW.Service.Implementations
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.NickName),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString()),
-                //new Claim("Email", user.Email),
+                new Claim("UserId", user.Id.ToString()),
             };
             return new ClaimsIdentity(claims, "ApplicationCookie",
                 ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

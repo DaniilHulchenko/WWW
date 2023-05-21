@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Numerics;
 using System.Security.Claims;
 using WWW.DAL.Interfaces;
 using WWW.DAL.Repositories;
@@ -26,16 +27,22 @@ namespace WWW.Service.Implementations
         public async Task<BaseResponse<ClaimsIdentity>> RegisterOrLogin(string accessToken)
         {
             GoogleUserInfo data = await GoogleApiParseService.GetUserInfoAsync(accessToken);
-            User user = new()
-            {
-                NickName=data.given_name,
-                Email = data.email,
-                Avatar= await _downloadService.DownloadJpgAsync(data.picture),
-                Role = Domain.Enum.UserRole.User,
-            };
             
-            if (await _accountRepository.GetALL().FirstOrDefaultAsync(u => u.NickName == user.NickName) == null)
+            int id = int.Parse(data.id[^8..]);
+
+            var user = await _accountRepository.GetALL().FirstOrDefaultAsync(u => u.Id == id);
+
+
+            if (user == null)
             {
+                user = new()
+                {
+                    Id = id,
+                    NickName = data.given_name,
+                    Email = data.email,
+                    Avatar = await _downloadService.DownloadJpgAsync(data.picture),
+                    Role = Domain.Enum.UserRole.User,
+                };
                 await _accountRepository.Create(user);
             }
 

@@ -13,19 +13,17 @@ namespace WWW.Controllers
         private readonly GoogleOAuthService _authService;
         private readonly GoogleSingInService _singInFromGoogle;
         private string RedirectUrl = "http://localhost:5188/GoogleOAuth/Code";
-
-        string[] Scopes = new string[] { "https://www.googleapis.com/auth/userinfo.email", 
-                                        "https://www.googleapis.com/auth/userinfo.profile" 
-                                        };//!!!!!!!!!!!!!!!!!!!!!!!1
+        private string[] Scopes;
 
 
 
         private const string PkceSessionKey = "codeVerifier";
 
-        public GoogleOAuthController(GoogleOAuthService authService, GoogleSingInService singInFromGoogle)
+        public GoogleOAuthController(GoogleOAuthService authService, GoogleSingInService singInFromGoogle, IConfiguration configuration)
         {
             _authService = authService;
             _singInFromGoogle = singInFromGoogle;
+            Scopes = configuration.GetSection("Authentication:Google:Scopes").Get<string[]>();
         }
         //public IActionResult Login(string returnUrl = "/")
         //{

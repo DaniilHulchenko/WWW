@@ -20,7 +20,7 @@ namespace WWW.Controllers
         // GET: Article
         public async Task<IActionResult> Index(string category = "", int page = 0)
         {
-            int pageSize = 5;
+            int pageSize = 6;
             var data = await _articleService.GetByCategoryName(category);
             //_logger.LogInformation(data.StatusCode.ToString());
             PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);

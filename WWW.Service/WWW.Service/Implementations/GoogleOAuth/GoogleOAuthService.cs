@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using WWW.Domain.GoogleOAuth;
 
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+
+
 namespace WWW.Service.Implementations
 {
     public class GoogleOAuthService

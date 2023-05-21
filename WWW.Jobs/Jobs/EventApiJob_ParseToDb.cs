@@ -5,11 +5,11 @@ using WWW.Domain.Entity;
 using WWW.Service.Helpers;
 using WWW.Service.Interfaces;
 
-namespace WWW.Jobs.Workers
+namespace WWW.Jobs.Jobs
 {
-    public class ArticleApiJob_ParseToDb : IBackgroundJob
+    public class EventApiJob_ParseToDb : IBackgroundJob
     {
-        ILogger<ArticleApiJob_ParseToDb> _logger;
+        ILogger<EventApiJob_ParseToDb> _logger;
         private readonly RestApiRequest _restapiRepository;
         private readonly IArticleRepository _articleRepository;
         private readonly IAccountRepository _accountRepository;
@@ -20,7 +20,7 @@ namespace WWW.Jobs.Workers
         private readonly IDateRepository _dateRepository;
         private readonly IPictureRepository _pictureRepository;
 
-        public ArticleApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<ArticleApiJob_ParseToDb> logger, IArticleRepository articleRepository, IAccountRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, ILocationRepository locationRepository, IDateRepository dateRepository, IPictureRepository pictureRepository)
+        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IAccountRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, ILocationRepository locationRepository, IDateRepository dateRepository, IPictureRepository pictureRepository)
         {
             _restapiRepository = restapiRepository;
             _logger = logger;
@@ -33,12 +33,10 @@ namespace WWW.Jobs.Workers
             _dateRepository = dateRepository;
             _pictureRepository = pictureRepository;
         }
-        public async Task ExecuteAsync()// сделать автомапер 
+        public async Task ExecuteAsync()// автомапер 
         {
             try
-            {
-
-            
+            {             
             //if (keyValuePairs==null) keyValuePairs = new();
             _restapiRepository.ApiSelector("Events:ticketmaster");
 
@@ -53,11 +51,11 @@ namespace WWW.Jobs.Workers
             keyValuePairs.Add("page", "0");
             dynamic apiData = (await _restapiRepository.GetDataAsync(keyValuePairs));
             int totalPages = (int)apiData.page.totalPages;
-            for (int p = 0; p < (totalPages <=10 ? totalPages : 9); p++)
+
+
+            for (int p = 0; p < (totalPages >10 ? 10 : totalPages); p++)
             {
                 keyValuePairs["page"] = $"{p}";
-
-                apiData = (await _restapiRepository.GetDataAsync(keyValuePairs));
                 for (int i = 0; i < (int)apiData.page.size; i++)
                 {
                     dynamic ApiData = apiData._embedded.events[i];
@@ -89,7 +87,7 @@ namespace WWW.Jobs.Workers
                         ShortDescription = $"{ApiData.name} event show",
                         Description = "-",
                         Status = ApiData.dates.status.code,
-                        Autor = await _accountRepository.GetALL().FirstAsync(a => a.NickName == "ticketmaster"),
+                        Autor = await _accountRepository.GetALL().FirstAsync(a => a.NickName == "Ticketmaster"),
                         Category = _categoryRepository.GetALL().First(c => c.Name == "Ticketmaster Events"),
                         Location = Loc,
                         Tags = null,
@@ -120,7 +118,7 @@ namespace WWW.Jobs.Workers
             catch (Exception ex)
             {
                 _logger.LogError("!!!!!" + ex.Message);
-                throw new Exception(ex.Message);
+                throw new Exception(ex.Message );
             }
 
         }

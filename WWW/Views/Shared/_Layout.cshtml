@@ -15,7 +15,7 @@
     @Html.Partial("_Header")
 
     @Html.Partial("_UserSidebar")
-    @if (User.IsInRole(UserRole.Admin.ToString()) || User.IsInRole(UserRole.Moderator.ToString()))
+    @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
     {
         <br></br>
         @Html.Partial("_AdminSidebar")
