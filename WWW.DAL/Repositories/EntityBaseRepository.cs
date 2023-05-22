@@ -43,6 +43,7 @@ namespace WWW.DAL.Repositories
             return _db.Set<T>();
         }
 
-        public Task<T> GetValueByID(int id) => _db.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+        //public Task<T> GetValueByID(int id) => _db.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+        public Task<T> GetValueByID(int id) { throw new Exception(); }
     }
 }

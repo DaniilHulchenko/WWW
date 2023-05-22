@@ -5,6 +5,7 @@ using System.Data;
 using System.Text;
 using System.Security.Cryptography;
 
+
 namespace WWW.DAL {
     public class ApplicationDbContext : DbContext
     {
@@ -27,8 +28,8 @@ namespace WWW.DAL {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User_Details>()
-                .Ignore(x => x.Id);
+            //modelBuilder.Entity<User_Details>()
+            //    .Ignore(x => x.Id);
 
             User[] users=new [] { 
                 new User { Id=1, NickName="admin",Email="admin@gmail.com",Role=Domain.Enum.UserRole.Admin },

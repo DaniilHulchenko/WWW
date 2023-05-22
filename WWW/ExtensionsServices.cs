@@ -28,10 +28,10 @@ public static class ExtensionsServices
         Services.AddTransient<ICategoryRepository, CategoryRepository>();
         Services.AddTransient<IArticleRepository, ArticleRepository>();
         Services.AddTransient<IAccountRepository, AccountRepository>();
-        Services.AddTransient<IBaseRepository<Tags>, TagRepository>();
-        Services.AddTransient<IDateRepository, DateRepository>();
-        Services.AddTransient<IPictureRepository, PictureRepository>();
-        Services.AddTransient<ILocationRepository, LocationRepository>();
+        //Services.AddTransient<IBaseRepository<Tags>, TagRepository>();
+        //Services.AddTransient<IDateRepository, DateRepository>();
+        //Services.AddTransient<IPictureRepository, PictureRepository>();
+        //Services.AddTransient<ILocationRepository, LocationRepository>();
         
         //Services.AddScoped<IBaseRepository<Base>, EntityBaseRepository<Base>>();
 

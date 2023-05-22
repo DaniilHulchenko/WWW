@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WWW.Domain.Entity
 {
-    public class Location
+    public class Location:DbBase
     {
         [Key]
         public int LocationID { get; set; }

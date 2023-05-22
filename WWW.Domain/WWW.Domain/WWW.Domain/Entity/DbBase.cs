@@ -8,6 +8,6 @@ namespace WWW.Domain.Entity
 {
     public class DbBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
     }
 }

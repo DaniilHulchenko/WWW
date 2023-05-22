@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WWW.Domain.Entity
 {
-    public class Date
+    public class Date:DbBase
     {
         //[Key]
         [Key,ForeignKey(nameof(Article))]

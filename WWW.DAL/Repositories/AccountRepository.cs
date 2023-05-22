@@ -22,14 +22,6 @@ namespace WWW.DAL.Repositories
 
         public async Task<bool> Create(User entity)
         {
-                //USE www;
-                //SET IDENTITY_INSERT Users ON;
-
-                //INSERT INTO Users(Id, NickName, Email, Avatar, Role)
-                //VALUES(33, 'hi', 'gmail', NULL, 1);
-
-                //SET IDENTITY_INSERT Users OFF;
-
             if (entity.Id != 0)
             {
                 string sql = ("USE www; " +

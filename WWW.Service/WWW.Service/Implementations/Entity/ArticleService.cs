@@ -18,12 +18,12 @@ namespace WWW.Service.Implementations
         private readonly IArticleRepository _articleRepository;
         private readonly IAccountRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IPictureRepository _pictureRepository;
-        private readonly ILocationRepository _locationRepository;
-        private readonly IDateRepository _dateRepository;
+        private readonly EntityBaseRepository<Picture> _pictureRepository;
+        private readonly EntityBaseRepository<Location> _locationRepository;
+        private readonly EntityBaseRepository<Date> _dateRepository;
 
 
-        public ArticleService(IArticleRepository articleRepository, IAccountRepository userRepository, ICategoryRepository categoryRepository, IPictureRepository pictureRepository, ILocationRepository locationRepository, IDateRepository dateRepository)
+        public ArticleService(IArticleRepository articleRepository, IAccountRepository userRepository, ICategoryRepository categoryRepository, EntityBaseRepository<Picture> pictureRepository, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<Date> dateRepository)
         {
             _articleRepository = articleRepository;
             _userRepository = userRepository;

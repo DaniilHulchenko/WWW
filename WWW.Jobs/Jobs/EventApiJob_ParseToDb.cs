@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WWW.DAL.Interfaces;
+using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
 using WWW.Service.Helpers;
 using WWW.Service.Interfaces;
@@ -16,11 +17,11 @@ namespace WWW.Jobs.Jobs
         private readonly ICategoryRepository _categoryRepository;
         private readonly DownloadService _downloadService;
 
-        private readonly ILocationRepository _locationRepository;
-        private readonly IDateRepository _dateRepository;
-        private readonly IPictureRepository _pictureRepository;
+        private readonly EntityBaseRepository<Location> _locationRepository;
+        private readonly EntityBaseRepository<Date> _dateRepository;
+        private readonly IBaseRepository<Picture> _pictureRepository;
 
-        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IAccountRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, ILocationRepository locationRepository, IDateRepository dateRepository, IPictureRepository pictureRepository)
+        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IAccountRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<Date> dateRepository, EntityBaseRepository<Picture> pictureRepository)
         {
             _restapiRepository = restapiRepository;
             _logger = logger;

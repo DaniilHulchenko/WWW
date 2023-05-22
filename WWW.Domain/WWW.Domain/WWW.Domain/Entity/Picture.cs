@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WWW.Domain.Entity
 {
-    public class Picture
+    public class Picture:DbBase
     {
         //[Key]
         [Key,ForeignKey(nameof(Article))]
