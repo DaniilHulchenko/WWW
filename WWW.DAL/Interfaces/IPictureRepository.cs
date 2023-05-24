@@ -7,7 +7,7 @@ using WWW.Domain.Entity;
 
 namespace WWW.DAL.Interfaces
 {
-    public interface IPictureRepository:IBaseRepository<Picture>
+    public interface IPictureRepository:IBaseRepository<Picture>// видалити
     {
     }
 }
