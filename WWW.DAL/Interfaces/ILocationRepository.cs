@@ -7,7 +7,7 @@ using WWW.Domain.Entity;
 
 namespace WWW.DAL.Interfaces
 {
-    public interface ILocationRepository:IBaseRepository<Location>
+    public interface ILocationRepository:IBaseRepository<Location>//видалити
     {
     }
 }
