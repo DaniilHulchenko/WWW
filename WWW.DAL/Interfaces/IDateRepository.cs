@@ -7,7 +7,7 @@ using WWW.Domain.Entity;
 
 namespace WWW.DAL.Interfaces
 {
-    public interface IDateRepository:IBaseRepository<Date>
+    public interface IDateRepository:IBaseRepository<Date>//видалити
     {
     }
 }
