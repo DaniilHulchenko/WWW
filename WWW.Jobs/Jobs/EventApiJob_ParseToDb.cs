@@ -33,6 +33,8 @@ namespace WWW.Jobs.Jobs
             _dateRepository = dateRepository;
             _pictureRepository = pictureRepository;
         }
+
+        public async Task ExecuteAsync()// Додати автомапер, винести кожен крок в окрему функцію, прибрати dynamic змінні  
         public async Task ExecuteAsync()// автомапер 
         {
             try
@@ -49,7 +51,7 @@ namespace WWW.Jobs.Jobs
                     { "city", "London" }
             };
             keyValuePairs.Add("page", "0");
-            dynamic apiData = (await _restapiRepository.GetDataAsync(keyValuePairs));
+            dynamic apiData = (await _restapiRepository.GetDataAsync(keyValuePairs));//прибрати dynamic змінні  
             int totalPages = (int)apiData.page.totalPages;
 
 
@@ -67,7 +69,7 @@ namespace WWW.Jobs.Jobs
                     Location Loc =await _locationRepository.GetALL().FirstOrDefaultAsync(l => l.location == loc);
                     if (Loc == null)
                     {
-                        Loc = new()
+                        Loc = new()// Додати автомапер,
                         {
                             location = ApiData._embedded.venues[0].name,
                             City = ApiData._embedded.venues[0].city.name,
@@ -97,7 +99,7 @@ namespace WWW.Jobs.Jobs
                     newArticle.slug = ApiData.name.ToString().ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().Any() ? _articleRepository.GetALL().OrderBy(o => o.Id).Last().Id + 1 : 0);
                     await _articleRepository.Create(newArticle);
 
-                    var dat = new Date()
+                    var dat = new Date()// Додати автомапер,
                     {
                         Article = newArticle,
                         Date_of_Creation = DateTime.Now,
