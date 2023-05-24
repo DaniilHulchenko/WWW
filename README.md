@@ -125,6 +125,7 @@ Than (if you have App Services) add line of your connection string to applicatio
 LAb-3: Made more readeable code from \_Layout.cshtml. Removed trashed code and refactored it. Now it looks more pelasent. Code more functional and reuse. Added admin sidebar
 =======
 LAB-3. Denys Zaruba(FEP-21): Made more readeable code from \_Layout.cshtml. Removed trashed code and refactored it. Now it looks more pelasent. Code more functional and reuse. Added admin sidebar(https://github.com/DaniilHulchenko/WWW/pull/1 )
+My project: https://github.com/BiigBan/Calendar
 
 
 LAB-4: Check file jobs, which connected to API(BE) which make requests. That`s code has a lot of trashes and unreadeable, to be perfect to add automapper there and repetitive logic into separate functions to improve code and maintainability. (ZARUBA DENYS)
