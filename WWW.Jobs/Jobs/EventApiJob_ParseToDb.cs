@@ -1,24 +1,15 @@
-﻿using GoogleApi.Entities.Search.Video.Common;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WWW.API;
 using WWW.DAL.Interfaces;
-using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
+using WWW.Service.Helpers;
 using WWW.Service.Interfaces;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace WWW.Jobs.Workers
+namespace WWW.Jobs.Jobs
 {
-    public class ArticleApiJob_ParseToDb : IBackgroundJob
+    public class EventApiJob_ParseToDb : IBackgroundJob
     {
-        ILogger<ArticleApiJob_ParseToDb> _logger;
+        ILogger<EventApiJob_ParseToDb> _logger;
         private readonly RestApiRequest _restapiRepository;
         private readonly IArticleRepository _articleRepository;
         private readonly IAccountRepository _accountRepository;
@@ -29,7 +20,7 @@ namespace WWW.Jobs.Workers
         private readonly IDateRepository _dateRepository;
         private readonly IPictureRepository _pictureRepository;
 
-        public ArticleApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<ArticleApiJob_ParseToDb> logger, IArticleRepository articleRepository, IAccountRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, ILocationRepository locationRepository, IDateRepository dateRepository, IPictureRepository pictureRepository)
+        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IAccountRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, ILocationRepository locationRepository, IDateRepository dateRepository, IPictureRepository pictureRepository)
         {
             _restapiRepository = restapiRepository;
             _logger = logger;
@@ -42,12 +33,10 @@ namespace WWW.Jobs.Workers
             _dateRepository = dateRepository;
             _pictureRepository = pictureRepository;
         }
-        public async Task ExecuteAsync()// сделать автомапер 
+        public async Task ExecuteAsync()// Додати автомапер, винести кожен крок в окрему функцію, прибрати dynamic змінні  
         {
             try
-            {
-
-            
+            {             
             //if (keyValuePairs==null) keyValuePairs = new();
             _restapiRepository.ApiSelector("Events:ticketmaster");
 
@@ -60,13 +49,13 @@ namespace WWW.Jobs.Workers
                     { "city", "London" }
             };
             keyValuePairs.Add("page", "0");
-            dynamic apiData = (await _restapiRepository.GetDataAsync(keyValuePairs));
+            dynamic apiData = (await _restapiRepository.GetDataAsync(keyValuePairs));//прибрати dynamic змінні  
             int totalPages = (int)apiData.page.totalPages;
-            for (int p = 0; p < (totalPages <=10 ? totalPages : 9); p++)
+
+
+            for (int p = 0; p < (totalPages >10 ? 10 : totalPages); p++)
             {
                 keyValuePairs["page"] = $"{p}";
-
-                apiData = (await _restapiRepository.GetDataAsync(keyValuePairs));
                 for (int i = 0; i < (int)apiData.page.size; i++)
                 {
                     dynamic ApiData = apiData._embedded.events[i];
@@ -78,7 +67,7 @@ namespace WWW.Jobs.Workers
                     Location Loc =await _locationRepository.GetALL().FirstOrDefaultAsync(l => l.location == loc);
                     if (Loc == null)
                     {
-                        Loc = new()
+                        Loc = new()// Додати автомапер,
                         {
                             location = ApiData._embedded.venues[0].name,
                             City = ApiData._embedded.venues[0].city.name,
@@ -98,7 +87,7 @@ namespace WWW.Jobs.Workers
                         ShortDescription = $"{ApiData.name} event show",
                         Description = "-",
                         Status = ApiData.dates.status.code,
-                        Autor = await _accountRepository.GetALL().FirstAsync(a => a.NickName == "ticketmaster"),
+                        Autor = await _accountRepository.GetALL().FirstAsync(a => a.NickName == "Ticketmaster"),
                         Category = _categoryRepository.GetALL().First(c => c.Name == "Ticketmaster Events"),
                         Location = Loc,
                         Tags = null,
@@ -108,7 +97,7 @@ namespace WWW.Jobs.Workers
                     newArticle.slug = ApiData.name.ToString().ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().Any() ? _articleRepository.GetALL().OrderBy(o => o.Id).Last().Id + 1 : 0);
                     await _articleRepository.Create(newArticle);
 
-                    var dat = new Date()
+                    var dat = new Date()// Додати автомапер,
                     {
                         Article = newArticle,
                         Date_of_Creation = DateTime.Now,
@@ -119,7 +108,7 @@ namespace WWW.Jobs.Workers
                     await _dateRepository.Create(dat);
 
 
-                    var Pic = await _downloadService.DownloadJpgAsync((string)ApiData.images[0].url);
+                    var Pic = await _downloadService.DownloadJpgPictAsync((string)ApiData.images[0].url);
                     Pic.Article = newArticle;
                     await _pictureRepository.Create(Pic);
                 }
@@ -129,7 +118,7 @@ namespace WWW.Jobs.Workers
             catch (Exception ex)
             {
                 _logger.LogError("!!!!!" + ex.Message);
-                throw new Exception(ex.Message);
+                throw new Exception(ex.Message );
             }
 
         }
