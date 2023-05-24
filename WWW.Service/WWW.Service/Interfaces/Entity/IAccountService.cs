@@ -15,12 +15,18 @@ namespace WWW.Service.Interfaces
     {
         public Task<BaseResponse<ClaimsIdentity>> Register(RegisterViewModel model);
         public Task<BaseResponse<ClaimsIdentity>> Login(LoginViewModel model);
+        public ClaimsIdentity Authenticate(User user);
+
+
+        public Task<BaseResponse<User>> GetByName(string name);
 
         public Task<bool> Create(User category);
 
         public Task<bool> Delete(int id);
 
         public Task<BaseResponse<IEnumerable<User>>> GetAll();
+
+
 
     }
 }

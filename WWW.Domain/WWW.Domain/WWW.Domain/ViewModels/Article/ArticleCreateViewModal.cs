@@ -27,7 +27,7 @@ namespace WWW.Domain.ViewModels.Article
 
         [Display(Name = "Picture")]
         [AllowNull]
-        public IFormFile Picture { get; set; }
+        public IFormFile? Picture { get; set; }
 
         public bool Published { get; set; }
 
@@ -36,12 +36,27 @@ namespace WWW.Domain.ViewModels.Article
         public int Category { get; set; }
 
         [Display(Name = "Location")]
-        [Required(ErrorMessage = "Enter Location")]
+        [Required(ErrorMessage = "Enter Location Name")]
         public string Location { get; set; }
+        [Display(Name = "City")]
+        [Required(ErrorMessage = "Enter City")]
+        public string City { get; set; }
+        [Display(Name = "Building")]
+        [Required(ErrorMessage = "Enter Building Number")]
+        public string Building { get; set; }
+        [Display(Name = "PostalCode")]
+        [Required(ErrorMessage = "Enter Building Number")]
+        public string PostalCode { get; set; }
+
+        public string CountryCode { get; set; }
+        public string Timezone { get; set; }
+
 
         [Display(Name = "Date Of Article")]
-        [Required(ErrorMessage = "Enter Date Of Article")]
-        public DateTime DateOfArticle { get; set; }
+        [Required(ErrorMessage = "Enter Date Of Event Start")]
+        public DateTime DateOfEvent { get; set; }
+
+        public int UserId { get; set; }
 
     }
 }

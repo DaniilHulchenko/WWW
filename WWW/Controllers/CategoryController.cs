@@ -11,7 +11,7 @@ using WWW.Service.Interfaces;
 
 namespace WWW.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         //private readonly IArticleRepository _articleRepository;

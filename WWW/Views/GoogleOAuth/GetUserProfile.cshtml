@@ -1,0 +1,13 @@
+﻿@model UserInfo
+
+@{
+    ViewData["Title"] = "GetUserProfile";
+}
+
+<h2>User Profile</h2>
+
+<div>
+    <img src="@Model.Picture" alt="User avatar">
+    <p>Name: @Model.Name</p>
+    <p>Email: @Model.Email</p>
+</div>

@@ -33,7 +33,9 @@ namespace WWW.Jobs.Jobs
             _dateRepository = dateRepository;
             _pictureRepository = pictureRepository;
         }
+
         public async Task ExecuteAsync()// Додати автомапер, винести кожен крок в окрему функцію, прибрати dynamic змінні  
+        public async Task ExecuteAsync()// автомапер 
         {
             try
             {             

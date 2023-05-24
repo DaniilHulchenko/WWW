@@ -7,7 +7,10 @@ using WWW.Domain.Entity;
 using Microsoft.Extensions.Logging;
 using WWW.Service.Interfaces;
 using static System.Net.Mime.MediaTypeNames;
-
+using NuGet.Protocol.Core.Types;
+using WWW.Domain.Api;
+using WWW.DAL.Repositories;
+using WWW.DAL.Interfaces;
 
 namespace WWW.Controllers
 {
@@ -16,18 +19,20 @@ namespace WWW.Controllers
         private readonly IArticleService _articleService;
         private readonly ILogger<HelpController> _logger;  
         private readonly DownloadService _downloadService;
-        public HelpController(IArticleService articleService, ILogger<HelpController> logger, DownloadService downloadService)
+        private readonly IAccountRepository _accountRepository;
+        public HelpController(IArticleService articleService, ILogger<HelpController> logger, DownloadService downloadService, IAccountRepository accountRepository)
         {
             _articleService = articleService;
             _logger = logger;
             _downloadService = downloadService;
+            _accountRepository = accountRepository;
         }
 
         public async Task<IActionResult> GetImageByUrl(string url)
         {
             try
             {
-                Picture data = (await _downloadService.DownloadJpgAsync(url));
+                Picture data = (await _downloadService.DownloadJpgPictAsync(url));
                 //byte[] image_arrow = data.picture;
                 //string contentType;
                 //using (var ms = new MemoryStream(image_arrow)) { 
@@ -45,8 +50,14 @@ namespace WWW.Controllers
 
         public async Task<IActionResult> GetImageById(int id)
         {
-            var db_image = (await _articleService.GetById(id)).Data.Picture.picture;
-
+            var db = (await _articleService.GetById(id)).Data.Picture;
+            if (db == null)
+            {
+                string fileWay = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "base-article-photo.jpg");
+                var noPhoto = System.IO.File.ReadAllBytes(fileWay);
+                return File(noPhoto, "image/jpeg");
+            }
+            var db_image = db.picture;
             string contentType = "";
             using (var ms = new MemoryStream(db_image))
             {
@@ -63,14 +74,30 @@ namespace WWW.Controllers
                 }
             }
 
-            if (db_image == null)
-            {
-                return NotFound();
-            }
+            
 
             return File(db_image, contentType);
 
         }
+
+
+
+        public async Task<IActionResult> GetAvatarById(int id)
+        {
+            var user = await _accountRepository.GetALL().FirstAsync(u => u.Id == id);
+            string contentType = "image/jpeg";
+            var pict = user.Avatar;
+            if(pict == null)
+            {
+                    string fileway = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "base-avatar.jpg");
+                    pict = System.IO.File.ReadAllBytes(fileway);
+            }
+            return File(pict, contentType);
+        }
+
+
+
+
 
         public static string GetContentType(string fileName)
         {

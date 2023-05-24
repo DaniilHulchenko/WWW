@@ -74,6 +74,11 @@ Than (if you have App Services) add line of your connection string to applicatio
 - 🔳 Controller
 
 ### 4. Authorization
+* ✅ Create Login and Register Pages
+* ✅ Create Controller
+* ✅ Create Service
+* ✅ Create Models
+* ✅ Google Authorization
 
 - ✅ Create Login and Register Pages
 - ✅ Create Controller
@@ -110,12 +115,17 @@ Than (if you have App Services) add line of your connection string to applicatio
 - ✅ Add README on GIT
 - ✅ CI/CD
 
+
 ### 10. Swagger
+
 
 - ✅ Servise
 - 🔳 Jobs
 
 LAb-3: Made more readeable code from \_Layout.cshtml. Removed trashed code and refactored it. Now it looks more pelasent. Code more functional and reuse. Added admin sidebar
+=======
+LAB-3. Denys Zaruba(FEP-21): Made more readeable code from \_Layout.cshtml. Removed trashed code and refactored it. Now it looks more pelasent. Code more functional and reuse. Added admin sidebar(https://github.com/DaniilHulchenko/WWW/pull/1 )
+
 
 LAB-4: Check file jobs, which connected to API(BE) which make requests. That`s code has a lot of trashes and unreadeable, to be perfect to add automapper there and repetitive logic into separate functions to improve code and maintainability. (ZARUBA DENYS)
 https://github.com/BiigBan/Calendar

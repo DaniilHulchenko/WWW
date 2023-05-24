@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 using WWW.DAL.Repositories;
 using WWW.Domain.ViewModels.Article;
+using WWW.Domain.Api;
+using System;
+using Location = WWW.Domain.Entity.Location;
 
 namespace WWW.Service.Implementations
 {
@@ -15,13 +18,20 @@ namespace WWW.Service.Implementations
         private readonly IArticleRepository _articleRepository;
         private readonly IAccountRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
-        public ArticleService(IArticleRepository articleRepository, IAccountRepository userRepository, ICategoryRepository categoryRepository )
+        private readonly IPictureRepository _pictureRepository;
+        private readonly ILocationRepository _locationRepository;
+        private readonly IDateRepository _dateRepository;
+
+
+        public ArticleService(IArticleRepository articleRepository, IAccountRepository userRepository, ICategoryRepository categoryRepository, IPictureRepository pictureRepository, ILocationRepository locationRepository, IDateRepository dateRepository)
         {
             _articleRepository = articleRepository;
             _userRepository = userRepository;
             _categoryRepository = categoryRepository;
+            _pictureRepository = pictureRepository;
+            _locationRepository = locationRepository;
+            _dateRepository = dateRepository;
         }
-
 
         public async Task<BaseResponse<IEnumerable<Article>>> GetAll()
         {
@@ -86,31 +96,67 @@ namespace WWW.Service.Implementations
 
         public async Task<bool> Create(ArticleCreateViewModal entity)
         {
-            Article data = new Article(entity)
+
+            //  Location
+            Location loc = await _locationRepository.GetALL().FirstOrDefaultAsync(l => l.location == entity.Location);
+            if (loc == null)
             {
-                Location = new Location() { location = entity.Location },
-                Date = new Date() { Date_of_Creation = entity.DateOfArticle },
+                loc = new Location()
+                {
+                    location = entity.Location,
+                    City = entity.City,
+                    Building = entity.Building,
+                    CountryCode = entity.CountryCode,
+                    PostalCode = entity.PostalCode,
+                    Timezone = entity.Timezone
+                };
+                await _locationRepository.Create(loc);
+            }
+
+            Article newArticle = new Article(entity)
+            {
                 Category = await _categoryRepository.GetValueByID(entity.Category),
+                IsFavorite = true,
+                Autor = await _userRepository.GetALL().FirstAsync(u => u.Id == entity.UserId),
+                Status = ArticleStatus.Onsale,
+                Location = loc,
+                Published = entity.Published,
+
             };
+            //  slug
+            if (!_articleRepository.GetALL().Any())
+                newArticle.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (0);
+            else
+                newArticle.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
+            
+            await _articleRepository.Create(newArticle);
+            // Picture
             if (entity.Picture != null)
             {
                 using (var memoryStream = new MemoryStream())
                 {
                     await entity.Picture.CopyToAsync(memoryStream);
-                    data.Picture = new Picture() { 
+                    await _pictureRepository.Create(newArticle.Picture = new Picture()
+                    {
+                        Article = newArticle,
                         picture = memoryStream.ToArray(),
-                    };
+                        Type = entity.Picture.GetType().ToString(),
+                        Name = entity.Picture.Name,
+                    });
                 }
+                
             }
+            // Data 
+            await _dateRepository.Create(new Date()
+            {
+                Article = newArticle,
+                Date_of_Creation = DateTime.Now,
+                Date_Of_Start = entity.DateOfEvent,
+                Date_Of_Updated = DateTime.Now,
+            });
+            
 
-            if (!_articleRepository.GetALL().Any())
-                data.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (0);
-            else
-                data.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
-            data.Autor = await _userRepository.GetALL().FirstAsync();
-            data.IsFavorite = true;
-
-            return await _articleRepository.Create(data);
+            return true;
         }
 
         public async Task<bool> Delete(int id)
@@ -124,9 +170,7 @@ namespace WWW.Service.Implementations
             return true;
         }
 
-
-
-                public Task<bool> Create(Article category)
+        public Task<bool> Create(Article category)
         {
             throw new NotImplementedException();
         }

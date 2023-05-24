@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -13,13 +14,13 @@ namespace WWW.Domain.ViewModels.Account
 {
     public class RegisterViewModel
     {
-        [Display(Name = "First Name")]
-        [Required(ErrorMessage = "Enter First Name")]
-        public string FirstName { get; set; }
+        //[Display(Name = "First Name")]
+        //[Required(ErrorMessage = "Enter First Name")]
+        //public string FirstName { get; set; }
 
-        [Display(Name = "Last Name")]
-        [Required(ErrorMessage = "Enter Last Name")]
-        public string LastName { get; set; }
+        //[Display(Name = "Last Name")]
+        //[Required(ErrorMessage = "Enter Last Name")]
+        //public string LastName { get; set; }
 
         [Display(Name = "Nick Name")]
         [Required(ErrorMessage = "Enter Nick Name")]
@@ -41,11 +42,11 @@ namespace WWW.Domain.ViewModels.Account
         public string PasswordConfirm { get; set; }
 
         [Display(Name = "Introdaction")]
-        public string Introdaction { get; set; }
+        public string? Introdaction { get; set; }
 
-
+        [Display(Name = "Avatar")]
         [AllowNull]
-        public byte[]? Avatar { get; set; }
+        public IFormFile? Avatar { get; set; }
 
     }
 }

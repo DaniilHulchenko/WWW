@@ -1,0 +1,22 @@
+﻿@model string
+@{
+    ViewData["Title"] = "Page For Tests";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<br />
+<br />
+<br />
+<br />
+<span>@Model</span>
+
+
+
+
+@*@inject ICategoryRepository _categoryRepository;*@
+@*@foreach (var i in await _categoryRepository.GetAll())
+{
+    <h1>@i.Name</h1>
+}*@
+@*<img src="@Url.Action("GetImageByUrl", "Help", new { url = "https://s1.ticketm.net/dam/a/210/c403ed95-3d6d-4de8-895a-25b9d8958210_TABLET_LANDSCAPE_LARGE_16_9.jpg" })" alt="Image" />*@

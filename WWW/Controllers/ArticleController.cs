@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
 using WWW.Domain.Entity;
@@ -19,7 +20,7 @@ namespace WWW.Controllers
         // GET: Article
         public async Task<IActionResult> Index(string category = "", int page = 0)
         {
-            int pageSize = 5;
+            int pageSize = 6;
             var data = await _articleService.GetByCategoryName(category);
             //_logger.LogInformation(data.StatusCode.ToString());
             PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);
@@ -37,6 +38,7 @@ namespace WWW.Controllers
         }
 
         // GET: Article/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -51,11 +53,7 @@ namespace WWW.Controllers
                 await _articleService.Create(collection);
                 return Redirect("/Article");
             }
-            else
-            {
-                //ModelState.AddModelError("");
-                return View("Create", collection);
-            }
+           return View("Create", collection);
         }
 
 

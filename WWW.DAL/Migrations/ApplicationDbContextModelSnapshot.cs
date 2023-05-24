@@ -119,9 +119,6 @@ namespace WWW.DAL.Migrations
                     b.Property<int>("ArticleID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date_Of_End")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("Date_Of_Start")
                         .HasColumnType("datetime2");
 
@@ -227,23 +224,7 @@ namespace WWW.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Introdaction")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("NickName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -253,6 +234,53 @@ namespace WWW.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "admin@gmail.com",
+                            NickName = "admin",
+                            Role = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "ticketmaster@gmail.com",
+                            NickName = "TicketMaster",
+                            Role = 1
+                        });
+                });
+
+            modelBuilder.Entity("WWW.Domain.Entity.User_Details", b =>
+                {
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Introdaction")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserID");
+
+                    b.ToTable("User_Details");
+
+                    b.HasData(
+                        new
+                        {
+                            UserID = 1,
+                            Introdaction = "Admin Account",
+                            Password = "03531ed23e58d474162aec45787f78c784ce246f8df573bf1f89b5d6f75b68f7"
+                        },
+                        new
+                        {
+                            UserID = 2,
+                            Introdaction = "TicketMaster Official Account",
+                            Password = "240c213c2ef6246c471147df64587a22d7198bf540f520e5ac04e99a45fdb6a4"
+                        });
                 });
 
             modelBuilder.Entity("ArticleTags", b =>
@@ -319,6 +347,17 @@ namespace WWW.DAL.Migrations
                     b.Navigation("Article");
                 });
 
+            modelBuilder.Entity("WWW.Domain.Entity.User_Details", b =>
+                {
+                    b.HasOne("WWW.Domain.Entity.User", "User")
+                        .WithOne("Details")
+                        .HasForeignKey("WWW.Domain.Entity.User_Details", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WWW.Domain.Entity.Article", b =>
                 {
                     b.Navigation("Date")
@@ -331,6 +370,12 @@ namespace WWW.DAL.Migrations
             modelBuilder.Entity("WWW.Domain.Entity.Category", b =>
                 {
                     b.Navigation("Articles");
+                });
+
+            modelBuilder.Entity("WWW.Domain.Entity.User", b =>
+                {
+                    b.Navigation("Details")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

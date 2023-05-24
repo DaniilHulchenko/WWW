@@ -15,10 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\GoogleOAuth\GetUserProfile.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Category\Index.cshtml" />
     <None Include="Views\Article\Index.cshtml" />
+    <None Include="Views\GoogleOAuth\GetUserProfile.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\Home\PageForTests.cshtml" />
     <None Include="Views\Shared\Components\NotEnptyCategory\Index.cshtml" />
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
@@ -63,9 +67,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.22.0-beta2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0-beta2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-preview.3.23174.2">
@@ -74,12 +81,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.1.23111.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0-preview.2.23128.3" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WWW.API\WWW.API.csproj" />
     <ProjectReference Include="..\WWW.DAL\WWW.DAL.csproj" />
     <ProjectReference Include="..\WWW.Jobs\WWW.Jobs.csproj" />
     <ProjectReference Include="..\WWW.Service\WWW.Service\WWW.Service.csproj" />

@@ -1,4 +1,6 @@
-﻿@using WWW.Service.Implementations;
+﻿@using System.Security.Claims;
+@using System.Globalization;
+@using WWW.Service.Implementations;
 @model WWW.Domain.ViewModels.Article.ArticleCreateViewModal
 @inject WWW.DAL.Interfaces.ICategoryRepository categoryRepository
 @{
@@ -46,7 +48,7 @@
 <center>
     <form metgod="Post" enctype="multipart/form-data" class="w-60 p-3" asp-controller="Article" asp-action="Check">
         <fieldset control-id="ControlID-7">
-
+            <div asp-validation-summary="All" style="font-size:23px; font-family:Impact" class="text-danger text-center"></div>
             <div class="form-group">
                 <label asp-for="Title" for="exampleInputEmail1" class="form-label mt-4"></label>
                 <input asp-for="Title" class="form-control"  control-id="ControlID-9">
@@ -72,13 +74,24 @@
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="DateOfArticle" for="exampleSelect1" class="form-label mt-4"></label>
-                <input asp-for="DateOfArticle" class="form-control" control-id="ControlID-10">
+                <label asp-for="DateOfEvent" for="exampleSelect1" class="form-label mt-4"></label>
+                <input asp-for="DateOfEvent" class="form-control" control-id="ControlID-10">
             </div>
             <div class="form-group">
                 <label asp-for="Location" for="exampleTextarea" class="form-label mt-4"></label>
                 <input asp-for="Location" class="form-control" id="exampleTextarea" rows="3" control-id="ControlID-13"></input>
+                
+                <label asp-for="City" for="exampleTextarea" class="form-label mt-4"></label>
+                <input asp-for="City" class="form-control" id="exampleTextarea" rows="3" control-id="ControlID-13"></input>
+                
+                <label asp-for="Building" for="exampleTextarea" class="form-label mt-4"></label>
+                <input asp-for="Building" class="form-control" id="exampleTextarea" rows="3" control-id="ControlID-13"></input>
+                
+                <label asp-for="PostalCode" for="exampleTextarea" class="form-label mt-4"></label>
+                <input asp-for="PostalCode" class="form-control" id="exampleTextarea" rows="3" control-id="ControlID-13"></input>
             </div>
+
+        
 
             <div class="form-group">
                 <label asp-for="Picture" class="form-label mt-4">Default file input example</label>
@@ -90,7 +103,9 @@
                         <input asp-for="Published" type="checkbox" checked="" control-id="ControlID-19" value="true">
                     </div>
             </fieldset>
-        
+            <input type="hidden" asp-for="UserId" value="@int.Parse(User.FindFirstValue("UserId"))">
+            <input type="hidden" asp-for="CountryCode" value="@RegionInfo.CurrentRegion.TwoLetterISORegionName">
+            <input type="hidden" asp-for="Timezone" value="@TimeZoneInfo.Local">
             <button type="submit" class="btn btn-primary" control-id="ControlID-28">Submit</button>
         </fieldset>
     </form>
