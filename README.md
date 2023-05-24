@@ -130,3 +130,5 @@ My project: https://github.com/BiigBan/Calendar
 
 LAB-4: Check file jobs, which connected to API(BE) which make requests. That`s code has a lot of trashes and unreadeable, to be perfect to add automapper there and repetitive logic into separate functions to improve code and maintainability. (ZARUBA DENYS)
 https://github.com/BiigBan/Calendar
+
+Lab-4 Bardakov Illa(FEP-22): зробити дженерики типу create ітд через базовий тип для репозиторіїв бази данних, повидаляти непотрібні репезиторії і замінити ії на базовий дженеріковий https://github.com/bardavkov/bardavkov https://github.com/DaniilHulchenko/WWW/pull/5
