@@ -1,7 +1,26 @@
-﻿@using WWW.Domain.Entity;
+﻿@using Microsoft.AspNetCore.Http
+@using System.Web;
+@using Newtonsoft.Json;
+@using WWW.Domain.Entity;
+@using WWW.Domain.Enum;
 @model PageIndexViewModel<Article>
 @{
     ViewData["Title"] = "List";
+
+    var allParams = HttpUtility.ParseQueryString(Context.Request.QueryString.Value);
+
+    var paramDict= new Dictionary<string, string>();
+    foreach (string key in allParams)
+    {
+        if (key == "page") continue;
+        string value = allParams[key];
+        paramDict.Add(key, value);
+    }
+
+
+    Dictionary<string, int> enumDict = Enum.GetValues(typeof(ArticleSortOption))
+    .Cast<ArticleSortOption>()
+    .ToDictionary(e => e.ToString(), e => (int)e);
 }
 
 @{
@@ -18,6 +37,22 @@
 
 <div class="row mt-5 mb-2">
     <h1 style="color:white" >Articles</h1>
+    <li class="nav-item dropdown" style="float:right;">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+        <div class="dropdown-menu" style="">
+            @{
+                //if (paramDict.TryAdd("SortOption", null)) paramDict.Add("SortOption", null);
+                var sortoptions = new Dictionary<string, string>(paramDict);
+                foreach (var i in enumDict)
+                {
+                    sortoptions["SortOption"] = @i.Value.ToString();
+
+                    <a class="dropdown-item" asp-all-route-data=(sortoptions)>@i.Key</a>
+                }
+                    
+            }
+        </div>
+    </li>
     @foreach (var i in Model.Data){
        @* <div class="col-lg-4">
             <div class="modal-body articleDescription">
@@ -44,16 +79,9 @@
             @*<svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">*@
                 @*<rect width="100%" height="100%" fill="#868e96"></rect>*@
                 <img src="@Url.Action("GetImageById", "Help", new { id = i.Id })" class="img-fluid" alt="Image" />
-                @*<text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>*@
-            @*</svg>*@
             <div class="card-body text-black">
                 <p class="card-text">@i.ShortDescription</p>
             </div>
-@*            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-            </ul>*@
             <div class="card-body d-flex justify-content-between">
                 <a href="#" class="card-link">Card link</a>
                 <a href="#" class="card-link" >Another link</a>
@@ -74,12 +102,26 @@
             </div>
         </div>*@
     }
+
+
+
+
+
+
+
+
     @section Pagination {
+        @{
+            paramDict.Add("page", null);
+        }
             <div class="container" style="display: flex;justify-content: center;flex-wrap: wrap;">
         <ul class="pagination pagination-lg ">
             @if (Model.PageViewModel.HasPreviousPage) {
                 <li class="page-item">
-                        <a class="page-link rounded-0 "   asp-route-page="@(Model.PageViewModel.СurrentlyPageNumber - 1)">&laquo;</a>
+                        @{
+                            paramDict["page"] = (Model.PageViewModel.СurrentlyPageNumber - 1).ToString();
+                        }
+                        <a class="page-link rounded-0 " asp-all-route-data=(paramDict)>&laquo;</a>
                 </li>
             }
             else
@@ -94,25 +136,27 @@
                 @if (i == Model.PageViewModel.СurrentlyPageNumber)
                     {
                     <li class="page-item active" >
-                            <a class="page-link"   asp-route-page="@i">@i</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item">
-                            <a class="page-link"   asp-route-page="@i">@i</a>
-                    </li>
+                            <a class="page-link" >@i</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            @{
+                                paramDict["page"] = @i.ToString();
+                            }
+                            <a class="page-link" asp-all-route-data=(paramDict)>@i</a>
+                     </li>
                 }
             }
             @*########################################################################*@
             @if (Model.PageViewModel.HasNextPage)
             {
                 <li class="page-item">
-                    <a class="page-link rounded-0 "
-                    
-                   asp-route-page="@(Model.PageViewModel.СurrentlyPageNumber + 1)">
-                        &raquo;
-                    </a>
+                        @{
+                            paramDict["page"] = (Model.PageViewModel.СurrentlyPageNumber + 1).ToString();
+                        }
+                        <a class="page-link rounded-0 " asp-all-route-data=(paramDict)>&raquo;</a>
                 </li>
             }
             else

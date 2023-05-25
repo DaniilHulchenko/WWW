@@ -12,7 +12,7 @@ namespace WWW.DAL.Interfaces
 {
     public interface IArticleRepository:IBaseRepository<Article>
     {
-        Task<IEnumerable<Article>> GetByCategoryName(string CatName);
+        Task<IQueryable<Article>> GetByCategoryName(string CatName);
         Task<bool> AddTags(Article article,Tags tags);
     }
 }

@@ -50,22 +50,22 @@ namespace WWW.DAL.Repositories
             return _db.Articles;
         }
 
-        public async Task< IEnumerable <Article >> GetByCategoryName(string CatName)
+        public async Task<IQueryable<Article >> GetByCategoryName(string CatName)
         {
             if (CatName != "")
             {
                 Category CatId = await _db.Categories.FirstOrDefaultAsync(c => c.Name == CatName);
 
                 if (CatId != null)
-                    return await _db.Articles.Where(a => a.Category.Id == CatId.Id).ToListAsync();
+                    return _db.Articles.Where(a => a.Category.Id == CatId.Id);
                 else
                 {
-                    return await _db.Articles.ToListAsync();
+                    return _db.Articles;
                 }
             }
             else
             {
-                return await _db.Articles.ToListAsync();
+                return _db.Articles;
             }
 
         }

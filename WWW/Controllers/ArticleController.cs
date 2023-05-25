@@ -6,6 +6,8 @@ using WWW.Domain.Entity;
 using WWW.Domain.ViewModels.Article;
 using WWW.Models;
 using WWW.Service.Interfaces;
+using WWW.Domain.Enum;
+
 
 namespace WWW.Controllers
 {
@@ -18,10 +20,12 @@ namespace WWW.Controllers
             _categoryService = categoryService;
         }
         // GET: Article
-        public async Task<IActionResult> Index(string category = "", int page = 0)
+        public async Task<IActionResult> Index(string category = "", int page = 0, ArticleSortOption SortOption = ArticleSortOption.None)
         {
             int pageSize = 6;
             var data = await _articleService.GetByCategoryName(category);
+            data = await _articleService.OrderBy(data.Data,SortOption);
+
             //_logger.LogInformation(data.StatusCode.ToString());
             PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);
             if (data.StatusCode != Domain.Enum.StatusCode.OK)

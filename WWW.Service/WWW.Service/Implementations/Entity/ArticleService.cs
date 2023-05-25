@@ -9,6 +9,7 @@ using WWW.DAL.Repositories;
 using WWW.Domain.ViewModels.Article;
 using WWW.Domain.Api;
 using System;
+using WWW.Domain.Response;
 using Location = WWW.Domain.Entity.Location;
 
 namespace WWW.Service.Implementations
@@ -58,9 +59,9 @@ namespace WWW.Service.Implementations
                 };
             }
         }
-        public async Task<BaseResponse<IEnumerable<Article>>> GetByCategoryName(string CatName)
+        public async Task<BaseResponse<IQueryable<Article>>> GetByCategoryName(string CatName)
         {
-            BaseResponse<IEnumerable<Article>> BaseResponse = new BaseResponse<IEnumerable<Article>>();
+            BaseResponse<IQueryable<Article>> BaseResponse = new BaseResponse<IQueryable<Article>>();
             try
             {
                 BaseResponse.Data = await _articleRepository.GetByCategoryName(CatName);
@@ -154,7 +155,7 @@ namespace WWW.Service.Implementations
                 Date_Of_Start = entity.DateOfEvent,
                 Date_Of_Updated = DateTime.Now,
             });
-            
+
 
             return true;
         }
@@ -174,5 +175,23 @@ namespace WWW.Service.Implementations
         {
             throw new NotImplementedException();
         }
+
+        public async Task<BaseResponse<IQueryable<Article>>> OrderBy(IQueryable<Article> articles, ArticleSortOption SortOption)
+        {
+            switch (SortOption)
+            {   
+                case ArticleSortOption.None:
+                    return new BaseResponse<IQueryable<Article>>(){ Data = articles, StatusCode=StatusCode.OK };
+                case ArticleSortOption.ByTitle:
+                    return new BaseResponse<IQueryable<Article>>() { Data = articles.OrderBy(a => a.Title), StatusCode = StatusCode.OK };
+                case ArticleSortOption.ByDateAscending:
+                    return new BaseResponse<IQueryable<Article>>() { Data = articles.OrderBy(a => a.Date), StatusCode = StatusCode.OK };
+                case ArticleSortOption.ByDateDescending:
+                    return new BaseResponse<IQueryable<Article>>() { Data = articles.OrderByDescending(a => a.Date), StatusCode = StatusCode.OK };
+                default:
+                    return new BaseResponse<IQueryable<Article>>() { Data = articles, StatusCode = StatusCode.OK };
+            }
+        }
+
     }
 }
