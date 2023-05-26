@@ -8,6 +8,7 @@ using WWW.DAL;
 namespace WWW.DAL.Interfaces
 {
     public interface IBaseRepository<T> where T:class
+    public interface IBaseRepository<T> where T:class//// зробити дженерики типу create ітд через базовий тип 
     {
         public Task<bool> Create(T entity);
         public Task<bool> Delete(T entity);
