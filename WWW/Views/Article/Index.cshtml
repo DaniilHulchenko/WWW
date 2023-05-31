@@ -22,12 +22,12 @@
     .Cast<ArticleSortOption>()
     .ToDictionary(e => e.ToString(), e => (int)e);
 }
-
+<h1 style="color:white">Articles</h1>
 @{
     if (@Model.Data.Any()){
         if (@Model.Data.First().Category != null)
         {
-            <strong><h1>List of @Model.Data.First().Category.Name</h1></strong>
+            <strong><h2>List of @Model.Data.First().Category.Name</h2></strong>
         }
         else{
             <h1>List of all</h1>
@@ -35,24 +35,22 @@
     }
 }
 
-<div class="row mt-5 mb-2">
-    <h1 style="color:white" >Articles</h1>
-    <li class="nav-item dropdown" style="float:right;">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-        <div class="dropdown-menu" style="">
-            @{
-                //if (paramDict.TryAdd("SortOption", null)) paramDict.Add("SortOption", null);
-                var sortoptions = new Dictionary<string, string>(paramDict);
-                foreach (var i in enumDict)
-                {
-                    sortoptions["SortOption"] = @i.Value.ToString();
+<div class="nav-item dropdown float-end">
+    <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Sort by</a>
+    <div class="dropdown-menu" style="">
+        @{
+            //if (paramDict.TryAdd("SortOption", null)) paramDict.Add("SortOption", null);
+            var sortoptions = new Dictionary<string, string>(paramDict);
+            foreach (var i in enumDict)
+            {
+                sortoptions["SortOption"] = @i.Value.ToString();
 
-                    <a class="dropdown-item" asp-all-route-data=(sortoptions)>@i.Key</a>
-                }
-                    
+                <a class="dropdown-item" asp-all-route-data=(sortoptions)>@i.Key</a>
             }
-        </div>
-    </li>
+        }
+    </div>
+</div>
+<div class="row mt-5 mb-2">
     @foreach (var i in Model.Data){
        @* <div class="col-lg-4">
             <div class="modal-body articleDescription">
@@ -88,8 +86,12 @@
                     <p><a class="btn btn-primary card-link">More</a></p>
             </div>
             <div class="card-footer text-muted">
-                @i.Date.Date_Of_Start
-            </div>
+                    @if (@i.Date !=null)
+                    {
+                        @i.Date.Date_Of_Start
+
+                    }
+                </div>
         </div>
         </div>
         @*<div class="card">

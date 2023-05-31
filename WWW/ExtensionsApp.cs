@@ -1,4 +1,6 @@
 ﻿using Hangfire;
+using WWW.Hubs;
+//using WWW.Hubs;
 
 public static class ExtensionsApp
 {
@@ -19,7 +21,8 @@ public static class ExtensionsApp
         {
             endpoints.MapControllers();
         });
-        /*##########################################################################*/
+
+        app.MapHub<ChatHub>("/СhatHub");
 
 
     }

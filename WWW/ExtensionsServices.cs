@@ -76,10 +76,14 @@ public static class ExtensionsServices
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
         });
+/*#####################################  Add SignalR ###############################################*/
+        builder.Services.AddSignalR();
 
 
         //Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
         //       Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+
+
 
 
     }

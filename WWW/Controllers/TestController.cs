@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Policy;
@@ -69,8 +70,13 @@ namespace WWW.Controllers
             //var data = await _googleApiService.GetUserInfoAsync(token);
             //string fileway = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "base-avatar.jpg");
             //byte[] pict = System.IO.File.ReadAllBytes(fileway);
-            await EventApiJob_ParseToDb.ExecuteAsync();
+            //await EventApiJob_ParseToDb.ExecuteAsync();
             return View("Index");
+        }
+        [Authorize]
+        public async Task<IActionResult> Chat()
+        {
+            return View();
         }
     }
 

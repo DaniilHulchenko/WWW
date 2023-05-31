@@ -103,9 +103,9 @@
                         <input asp-for="Published" type="checkbox" checked="" control-id="ControlID-19" value="true">
                     </div>
             </fieldset>
-            <input type="hidden" asp-for="UserId" value="@int.Parse(User.FindFirstValue("UserId"))">
-            <input type="hidden" asp-for="CountryCode" value="@RegionInfo.CurrentRegion.TwoLetterISORegionName">
-            <input type="hidden" asp-for="Timezone" value="@TimeZoneInfo.Local">
+            <input type="hidden" asp-for="UserId" value="@int.Parse(User.FindFirstValue("UserId"))" readonly>
+            <input type="hidden" asp-for="CountryCode" value="@RegionInfo.CurrentRegion.TwoLetterISORegionName" readonly>
+            <input type="hidden" asp-for="Timezone" value="@TimeZoneInfo.Local" readonly>
             <button type="submit" class="btn btn-primary" control-id="ControlID-28">Submit</button>
         </fieldset>
     </form>

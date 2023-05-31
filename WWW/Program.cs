@@ -1,7 +1,4 @@
-using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplicationInsightsTelemetry();
 
 builder.Services.AddControllersWithViews();
-
 
 /*####################################### Add Services ############################################*/
 
@@ -42,7 +38,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddSession();
-
+builder.Services.AddRazorPages();
 /*##################################################################################################*/
 
 var app = builder.Build();
@@ -56,6 +52,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+//app.MapRazorPages();
 
 app.UseSession();
 
