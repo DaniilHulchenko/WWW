@@ -6,6 +6,7 @@ using WWW.DAL;
 using WWW.DAL.Interfaces;
 using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
+using WWW.Hubs;
 using WWW.Jobs;
 using WWW.Jobs.Implementations;
 using WWW.Jobs.Jobs;
@@ -78,7 +79,7 @@ public static class ExtensionsServices
         });
 /*#####################################  Add SignalR ###############################################*/
         builder.Services.AddSignalR();
-
+        builder.Services.AddTransient<DataHub>();
 
         //Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
         //       Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));

@@ -78,6 +78,10 @@ namespace WWW.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> DataGetter()
+        {
+            return View();
+        }
     }
 
 

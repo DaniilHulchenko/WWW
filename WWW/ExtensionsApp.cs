@@ -21,8 +21,9 @@ public static class ExtensionsApp
         {
             endpoints.MapControllers();
         });
-
+        /*################################### SingalR ###############################*/
         app.MapHub<ChatHub>("/СhatHub");
+        app.MapHub<DataHub>("/DataHub");
 
 
     }
