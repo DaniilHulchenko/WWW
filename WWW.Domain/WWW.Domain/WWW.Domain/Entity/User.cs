@@ -5,7 +5,7 @@ using WWW.Domain.Enum;
 
 namespace WWW.Domain.Entity
 {
-    public class User
+    public class User:DbBase
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,5 +19,7 @@ namespace WWW.Domain.Entity
         public UserRole Role { get; set; }
 
         public virtual User_Details Details { get; set; }
+        public virtual List<Article>? Event { get; set; }
+
     }
 }

@@ -10,19 +10,24 @@ using WWW.Service.Helpers;
 using WWW.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace WWW.Service.Implementations
 {
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _userRepository;
+        private readonly IArticleRepository _articleRepository;
         private readonly EntityBaseRepository<User_Details> _userDetails;
 
-        public AccountService(IAccountRepository accountRepository, EntityBaseRepository<User_Details> userDetails)
+        //private readonly ILogger<IAccountService> _logger;
+
+        public AccountService(IAccountRepository accountRepository, EntityBaseRepository<User_Details> userDetails, IArticleRepository articleRepository)
         {
+            //_logger = logger;
             _userRepository = accountRepository;
             _userDetails = userDetails;
-
+            _articleRepository = articleRepository;
         }
         public Task<bool> Create(User category)
         {
@@ -166,6 +171,25 @@ namespace WWW.Service.Implementations
                 ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
         }
 
+        public async Task<bool> AddOrDeleteFavoriteEvent(int userId, int articleid)
+        {
+            var user= await _userRepository.GetValueByID(userId);
+            var article = await _articleRepository.GetValueByID(articleid);
+            BaseResponse<bool> b;
+            if (user.Event.Contains(article))
+            {
+                b = _userRepository.DeleteEventFromFavorite(user, article);
+            }
+            else
+            {
+                b = _userRepository.AddEventToFavorite(user, article);
+            }
 
+            if (b.Data == false)
+            {
+                //_logger.LogError("!!!!! "+b.ErrorDescription);
+            }
+            return b.Data;
+        }
     }
 }

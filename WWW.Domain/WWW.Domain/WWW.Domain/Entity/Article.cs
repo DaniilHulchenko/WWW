@@ -21,6 +21,7 @@ namespace WWW.Domain.Entity
         public ArticleStatus Status { get; set; }
 
         public virtual Location Location { get; set; }
+        [NotMapped]
         public virtual User Autor { get; set; }
         public virtual Category Category { get; set; }
         public virtual Picture Picture { get; set; }
@@ -34,6 +35,8 @@ namespace WWW.Domain.Entity
 
         public string slug { get; set; }
 
+
+        public virtual List<User>? User{ get; set;}
 
         public Article() { }
         public Article(ArticleCreateViewModal entity) {

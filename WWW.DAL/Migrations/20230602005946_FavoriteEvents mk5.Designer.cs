@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WWW.DAL;
 
@@ -11,9 +12,11 @@ using WWW.DAL;
 namespace WWW.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230602005946_FavoriteEvents mk5")]
+    partial class FavoriteEventsmk5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,15 +45,15 @@ namespace WWW.DAL.Migrations
 
             modelBuilder.Entity("ArticleUser", b =>
                 {
-                    b.Property<int>("EventId")
+                    b.Property<int>("UserFavoriteEventsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserFavoriteId")
                         .HasColumnType("int");
 
-                    b.HasKey("EventId", "UserId");
+                    b.HasKey("UserFavoriteEventsId", "UserFavoriteId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserFavoriteId");
 
                     b.ToTable("ArticleUser");
                 });
@@ -312,13 +315,13 @@ namespace WWW.DAL.Migrations
                 {
                     b.HasOne("WWW.Domain.Entity.Article", null)
                         .WithMany()
-                        .HasForeignKey("EventId")
+                        .HasForeignKey("UserFavoriteEventsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WWW.Domain.Entity.User", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserFavoriteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WWW.Domain.ViewModels.Account;
@@ -66,7 +67,13 @@ namespace WWW.Controllers.Account
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
+        [Authorize]
+        public async Task<IActionResult> Profile()
+        {
+            return View();
+        }
 
+        
         //[HttpPost]
         //public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         //{
@@ -79,7 +86,7 @@ namespace WWW.Controllers.Account
         //        }
         //    }
         //    var modelError = ModelState.Values.SelectMany(v => v.Errors);
-            
+
         //    return StatusCode(StatusCodes.Status500InternalServerError, new { modelError.FirstOrDefault().ErrorMessage });
         //}
     }

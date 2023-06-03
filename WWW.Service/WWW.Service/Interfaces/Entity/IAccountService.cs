@@ -26,6 +26,8 @@ namespace WWW.Service.Interfaces
 
         public Task<BaseResponse<IEnumerable<User>>> GetAll();
 
+        public Task<bool> AddOrDeleteFavoriteEvent(int userId, int articleid);
+
 
 
     }

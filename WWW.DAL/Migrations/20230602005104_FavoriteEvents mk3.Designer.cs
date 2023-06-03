@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WWW.DAL;
 
@@ -11,9 +12,11 @@ using WWW.DAL;
 namespace WWW.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230602005104_FavoriteEvents mk3")]
+    partial class FavoriteEventsmk3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,21 +43,6 @@ namespace WWW.DAL.Migrations
                     b.ToTable("ArticleTags");
                 });
 
-            modelBuilder.Entity("ArticleUser", b =>
-                {
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EventId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ArticleUser");
-                });
-
             modelBuilder.Entity("WWW.Domain.Entity.Article", b =>
                 {
                     b.Property<int>("Id")
@@ -62,6 +50,9 @@ namespace WWW.DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AutorId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -95,6 +86,8 @@ namespace WWW.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AutorId");
 
                     b.HasIndex("CategoryId");
 
@@ -308,23 +301,14 @@ namespace WWW.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ArticleUser", b =>
-                {
-                    b.HasOne("WWW.Domain.Entity.Article", null)
-                        .WithMany()
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WWW.Domain.Entity.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("WWW.Domain.Entity.Article", b =>
                 {
+                    b.HasOne("WWW.Domain.Entity.User", "Autor")
+                        .WithMany("UserFavoriteEvents")
+                        .HasForeignKey("AutorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WWW.Domain.Entity.Category", "Category")
                         .WithMany("Articles")
                         .HasForeignKey("CategoryId")
@@ -336,6 +320,8 @@ namespace WWW.DAL.Migrations
                         .HasForeignKey("LocationID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Autor");
 
                     b.Navigation("Category");
 
@@ -393,6 +379,8 @@ namespace WWW.DAL.Migrations
                 {
                     b.Navigation("Details")
                         .IsRequired();
+
+                    b.Navigation("UserFavoriteEvents");
                 });
 #pragma warning restore 612, 618
         }

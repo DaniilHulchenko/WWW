@@ -7,6 +7,7 @@ using WWW.Domain.ViewModels.Article;
 using WWW.Models;
 using WWW.Service.Interfaces;
 using WWW.Domain.Enum;
+using WWW.Service.Implementations;
 
 
 namespace WWW.Controllers
@@ -15,10 +16,14 @@ namespace WWW.Controllers
     {
         IArticleService _articleService;
         ICategoryService _categoryService;
-        public ArticleController(IArticleService articleService, ICategoryService categoryService) {
+        IAccountService _accountService;
+        public ArticleController(IArticleService articleService, ICategoryService categoryService, IAccountService accountService)
+        {
             _articleService = articleService;
             _categoryService = categoryService;
+            _accountService = accountService;
         }
+
         // GET: Article
         public async Task<IActionResult> Index(string category = "", int page = 0, ArticleSortOption SortOption = ArticleSortOption.None)
         {
@@ -102,6 +107,12 @@ namespace WWW.Controllers
             }
         }
 
-
+        [Authorize]
+        public async Task<IActionResult> AddOrDeleteFavoriteEvent(int ArticleId)
+        {
+            var UserId = int.Parse(User.FindFirst("UserId").Value);
+            await _accountService.AddOrDeleteFavoriteEvent(UserId, ArticleId);
+            return Ok();
+        }
     }
 }

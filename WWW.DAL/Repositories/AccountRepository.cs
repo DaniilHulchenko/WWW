@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WWW.DAL.Interfaces;
 using WWW.Domain.Entity;
+using WWW.Domain.Response;
 
 namespace WWW.DAL.Repositories
 {
@@ -60,5 +61,34 @@ namespace WWW.DAL.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public BaseResponse<bool> AddEventToFavorite(User user, Article article)
+        {
+            try
+            {
+                user.Event.Add(article);
+                _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<bool> { Data = false , StatusCode= Domain.Enum.StatusCode.InternalServerError, ErrorDescription= ex.Message };
+            }
+            return new BaseResponse<bool> { Data = true, StatusCode = Domain.Enum.StatusCode.OK };
+        }
+        public BaseResponse<bool> DeleteEventFromFavorite(User user, Article article)
+        {
+            try
+            {
+                user.Event.Remove(article);
+                _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<bool> { Data = false, StatusCode = Domain.Enum.StatusCode.InternalServerError, ErrorDescription = ex.Message };
+            }
+            return new BaseResponse<bool> { Data = true, StatusCode = Domain.Enum.StatusCode.OK };
+
+        }
+
     }
 }
