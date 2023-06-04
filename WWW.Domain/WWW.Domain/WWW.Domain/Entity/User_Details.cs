@@ -16,8 +16,8 @@ namespace WWW.Domain.Entity
         public int UserID { get; set; }
         public virtual User User { get; set; }
 
-        [Required]
-        public string Password { get; set; }
+        [AllowNull]
+        public string? Password { get; set; }
 
         [AllowNull]
         public string? Introdaction { get; set; }

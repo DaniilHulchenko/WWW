@@ -1,8 +1,69 @@
-﻿@model WWW.Domain.ViewModels.Account.LoginViewModel
+﻿@using Microsoft.AspNetCore.Http
+@using System.Web;
+@using Newtonsoft.Json;
+@using System.Security.Claims;
+@model WWW.Domain.ViewModels.Account.RegisterViewModel
 
 @{
     Layout = "_Layout";
+    ViewData["Title"]= "Edit profile";
+}
+<div class="container py-5">
+<form asp-controller="Account" asp-action="Profile" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="cover">
+                <img src="@Url.Action("GetAvatarById", "Help", new { id = int.Parse(@User.FindFirstValue("UserId")) })" class="img-fluid" alt="Image" style="width: 50px; height: 50px;" />
+            </div>
+            <input asp-for="Avatar" class="form-control" type="file" id="formFile" control-id="ControlID-14" name="Avatar">
+            <button type="button" class="btn btn-danger" onclick="deleteAvatar()" style="border-radius:0;">Delete</button>
+        </div>
+
+    <div class="form-group">
+        <input asp-for="NickName" class="form-control textbox-dg font-weight-bold text-center" placeholder="NickName" type="text" value=@Model.NickName>
+    </div>
+    <div class="form-group">
+        <input asp-for="Email" class="form-control textbox-dg font-weight-bold text-center" placeholder="Email" type="email">
+    </div>
+    <div class="form-group">
+        <textarea asp-for="Introdaction" class="form-control textbox-dg font-weight-bold text-center" placeholder="Introdaction" type="text"></textarea>
+    </div>
+    <br>
+
+
+@*    <div class="form-group">
+        <input autocomplete="new-password" asp-for="Password" placeholder="Password" class="form-control textbox-dg font-weight-bold text-center" type="password">
+    </div>
+    <div class="form-group">
+        <input autocomplete="new-password" asp-for="PasswordConfirm" placeholder="Password Confirm" class="form-control textbox-dg font-weight-bold text-center" type="password">
+    </div>*@
+
+    <center><button class="btn btn-success btn-lg float-right" style="margin-top: 10px;padding:5px;" type="submit">Submit</button></center>
+</form>
+</div>
+
+
+<style>
+    .cover {
+  display: inline-block;
+  vertical-align: middle;
 }
 
+.form-group {
+  display: flex;
+  align-items: center;
+}
 
+</style>
 
+@section Scripts{
+    <script>
+        function deleteAvatar() {
+            // delete file from file selection 
+            document.getElementById('formFile').value = '';
+
+            // delete picture
+            var imageElement = document.querySelector('.cover img');
+            imageElement.parentNode.removeChild(imageElement);
+        }
+    </script>
+}

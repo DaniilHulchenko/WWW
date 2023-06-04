@@ -76,7 +76,7 @@ namespace WWW.Controllers
         //            return RedirectToAction("Index", "Home");
         //        }
 
-        //        var result = await GoogleAuthenticationHelper.ValidateGoogleTokenAsync(Configuration, code, Url.Action("GoogleLoginCallback", "Account", new { returnUrl = returnUrl }));
+        //        var result = await GoogleAuthenticationHelper.ValidateGoogleTokenAsync(Configuration, code, Url.Action("GoogleLoginCallback", "AccountService", new { returnUrl = returnUrl }));
         //        if (result != null)
         //        {
         //            // Получаем информацию о пользователе из токена
@@ -99,11 +99,11 @@ namespace WWW.Controllers
         //    catch (Exception ex)
         //    {
         //        // Обрабатываем ошибку аутентификации
-        //        return RedirectToAction("Login", "Account", new { returnUrl = returnUrl, error = ex.Message });
+        //        return RedirectToAction("Login", "AccountService", new { returnUrl = returnUrl, error = ex.Message });
         //    }
 
         //    // Обрабатываем ошибку аутентификации
-        //    return RedirectToAction("Login", "Account", new { returnUrl = returnUrl });
+        //    return RedirectToAction("Login", "AccountService", new { returnUrl = returnUrl });
         //}
 
 

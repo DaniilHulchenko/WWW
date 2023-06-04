@@ -6,6 +6,7 @@ using WWW.DAL;
 using WWW.DAL.Interfaces;
 using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
+using WWW.Domain.ViewModels.Account;
 using WWW.Hubs;
 using WWW.Jobs;
 using WWW.Jobs.Implementations;
@@ -13,6 +14,7 @@ using WWW.Jobs.Jobs;
 using WWW.Service.Helpers;
 using WWW.Service.Implementations;
 using WWW.Service.Interfaces;
+using WWW.Service.Implementations;
 
 public static class ExtensionsServices
 {
@@ -38,9 +40,12 @@ public static class ExtensionsServices
 
         Services.AddTransient<IArticleService, ArticleService>();
         Services.AddTransient<ICategoryService, CategoryService>();
-        Services.AddTransient<IAccountService, AccountService>();
-/*#####################################  Add Other Services ###############################################*/
-        //                          Picture 
+        Services.AddTransient<IUserService, UserService>();
+        /*#####################################  Add Other Services ###############################################*/
+//              account 
+        Services.AddTransient<WWW.Service.Implementations.AccountService>();
+
+//                          Picture 
         Services.AddScoped<DownloadService>();
 
 //                          API
@@ -71,7 +76,8 @@ public static class ExtensionsServices
 /*#####################################  Add AutoMapper ###############################################*/
         Services.AddAutoMapper(typeof(Program));
 
-/*#####################################  Add Swager ###############################################*/
+
+        /*#####################################  Add Swager ###############################################*/
 
         builder.Services.AddSwaggerGen(c =>
         {

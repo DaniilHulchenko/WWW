@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
-using OAuthTutorial.Helpers;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using WWW.Domain.GoogleOAuth;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
-
+using WWW.Service.Helpers;
 
 namespace WWW.Service.Implementations
 {

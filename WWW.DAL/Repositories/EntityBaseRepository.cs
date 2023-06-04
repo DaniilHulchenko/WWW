@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,17 @@ namespace WWW.DAL.Repositories
             return _db.Set<T>();
         }
 
-        public Task<T> GetValueByID(int id) => _db.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
-        //public Task<T> GetValueByID(int id) { throw new Exception(); }
+        public async Task<T> GetValueByID(int id)
+        {
+            return await _db.Set<T>().FindAsync(id);
+        }
+
+
+        public async Task<bool> Update(T entity)
+        {
+            _db.Set<T>().Update(entity);
+            await _db.SaveChangesAsync();
+            return true;
+        }
     }
 }

@@ -14,52 +14,19 @@ using Microsoft.Extensions.Logging;
 
 namespace WWW.Service.Implementations
 {
-    public class AccountService : IAccountService
+    public class AccountService
     {
         private readonly IAccountRepository _userRepository;
         private readonly IArticleRepository _articleRepository;
         private readonly EntityBaseRepository<User_Details> _userDetails;
 
-        //private readonly ILogger<IAccountService> _logger;
 
         public AccountService(IAccountRepository accountRepository, EntityBaseRepository<User_Details> userDetails, IArticleRepository articleRepository)
         {
-            //_logger = logger;
             _userRepository = accountRepository;
             _userDetails = userDetails;
             _articleRepository = articleRepository;
         }
-        public Task<bool> Create(User category)
-        {
-            throw new Exception();
-        }
-
-        public Task<bool> Delete(int i)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<BaseResponse<IEnumerable<User>>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<BaseResponse<User>> GetByName(string name)
-        {
-            var user = await _userRepository.GetALL().FirstOrDefaultAsync(u=>u.NickName==name);
-            if (user != null)
-            {
-                return new BaseResponse<User>() { 
-                    Data = user,
-                    StatusCode=StatusCode.OK
-                };
-            }
-            return new BaseResponse<User>()
-            {
-                StatusCode = StatusCode.NotFound
-            };
-        }
-
         public async Task<BaseResponse<ClaimsIdentity>> Login(LoginViewModel model)
         {
             try
@@ -113,13 +80,9 @@ namespace WWW.Service.Implementations
 
                 user = new User()
                 {
-                    //FirstName = model.FirstName,
-                    //LastName = model.LastName,
                     NickName = model.NickName,
                     Email = model.Email,
-                    //Introdaction = model.Introdaction,
                     Role = WWW.Domain.Enum.UserRole.User,
-                    //Avatar = model.Avatar,
                 };
                 if (model.Avatar != null)
                 {
@@ -171,25 +134,16 @@ namespace WWW.Service.Implementations
                 ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
         }
 
-        public async Task<bool> AddOrDeleteFavoriteEvent(int userId, int articleid)
-        {
-            var user= await _userRepository.GetValueByID(userId);
-            var article = await _articleRepository.GetValueByID(articleid);
-            BaseResponse<bool> b;
-            if (user.Event.Contains(article))
-            {
-                b = _userRepository.DeleteEventFromFavorite(user, article);
-            }
-            else
-            {
-                b = _userRepository.AddEventToFavorite(user, article);
-            }
 
-            if (b.Data == false)
-            {
-                //_logger.LogError("!!!!! "+b.ErrorDescription);
-            }
-            return b.Data;
-        }
+       
+
+
+
+
+
+
+
+
+
     }
 }

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace OAuthTutorial.Helpers
+namespace WWW.Service.Helpers
 {
     public static class HttpClientHelper
     {

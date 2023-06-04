@@ -11,11 +11,11 @@ using WWW.Domain.ViewModels.Account;
 
 namespace WWW.Service.Interfaces
 {
-    public interface IAccountService : IBaseService<User>
+    public interface IUserService : IBaseService<User>
     {
-        public Task<BaseResponse<ClaimsIdentity>> Register(RegisterViewModel model);
-        public Task<BaseResponse<ClaimsIdentity>> Login(LoginViewModel model);
-        public ClaimsIdentity Authenticate(User user);
+        //public Task<BaseResponse<ClaimsIdentity>> Register(RegisterViewModel model);
+        //public Task<BaseResponse<ClaimsIdentity>> Login(LoginViewModel model);
+        //public ClaimsIdentity Authenticate(User user);
 
 
         public Task<BaseResponse<User>> GetByName(string name);

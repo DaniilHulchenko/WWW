@@ -16,8 +16,8 @@ namespace WWW.Controllers
     {
         IArticleService _articleService;
         ICategoryService _categoryService;
-        IAccountService _accountService;
-        public ArticleController(IArticleService articleService, ICategoryService categoryService, IAccountService accountService)
+        IUserService _accountService;
+        public ArticleController(IArticleService articleService, ICategoryService categoryService, Service.Interfaces.IUserService accountService)
         {
             _articleService = articleService;
             _categoryService = categoryService;
