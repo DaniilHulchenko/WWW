@@ -16,8 +16,8 @@ namespace WWW.Service.Implementations
     {
         private readonly AccountService _accountService;
         private readonly DownloadService _downloadService;
-        private readonly IAccountRepository _accountRepository;
-        public GoogleSingInService(AccountService accountService, DownloadService downloadService, IAccountRepository accountRepository)
+        private readonly IUserRepository _accountRepository;
+        public GoogleSingInService(AccountService accountService, DownloadService downloadService, IUserRepository accountRepository)
         {
             _accountRepository = accountRepository;
             _accountService = accountService;

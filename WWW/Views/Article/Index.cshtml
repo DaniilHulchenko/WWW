@@ -4,7 +4,7 @@
 @using System.Security.Claims;
 @using WWW.Domain.Entity;
 @using WWW.Domain.Enum;
-@inject WWW.DAL.Interfaces.IAccountRepository accountrep;
+@inject WWW.DAL.Interfaces.IUserRepository accountrep;
 @model PageIndexViewModel<Article>
 @{
     ViewData["Title"] = "List";
@@ -37,24 +37,76 @@
     }
 }
 
-<div class="nav-item dropdown float-end">
-    <a class="nav-link dropdown-toggle navbar navbar-dark" style="position: absolute; right:5%; margin-bottom:1%; background-color:gray; border-radius:20px; padding:5px;   " data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by</a>
-    <div class="dropdown-menu" style="">
-        @{
-            //if (paramDict.TryAdd("SortOption", null)) paramDict.Add("SortOption", null);
-            var sortoptions = new Dictionary<string, string>(paramDict);
-            foreach (var i in enumDict)
-            {
-                sortoptions["SortOption"] = @i.Value.ToString();
 
-                <a class="dropdown-item" asp-all-route-data=(sortoptions)>@i.Key</a>
-            }
-        }
+<div class="row">
+    <div class="col">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filters
+            </button>
+            <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                <h6 class="dropdown-header">Category</h6>
+                <a class="dropdown-item" href="#" data-filter="category-all">All</a>
+                <a class="dropdown-item" href="#" data-filter="category-1">Category 1</a>
+                <a class="dropdown-item" href="#" data-filter="category-2">Category 2</a>
+                <div class="dropdown-divider"></div>
+                <h6 class="dropdown-header">Date</h6>
+                <a class="dropdown-item" href="#" data-filter="upcoming">
+                    <input type="radio" name="filterType" id="filterUpcoming" value="upcoming">
+                    <label for="filterUpcoming">Upcoming</label>
+                </a>
+                <a class="dropdown-item" href="#" data-filter="past">
+                    <input type="radio" name="filterType" id="filterPast" value="past">
+                    <label for="filterPast">Past</label>
+                </a>
+                <a class="dropdown-item" href="#" data-filter="today">
+                    <input type="checkbox" id="filterToday" value="today">
+                    <label for="filterToday">Today</label>
+                </a>
+                <a class="dropdown-item" href="#" data-filter="thisweek">
+                    <input type="checkbox" id="filterThisWeek" value="thisweek">
+                    <label for="filterThisWeek">This Week</label>
+                </a>
+                <a class="dropdown-item" href="#" data-filter="thismonth">
+                    <input type="checkbox" id="filterThisMonth" value="thismonth">
+                    <label for="filterThisMonth">This Month</label>
+                </a>
+            </div>
+        </div>
+
+        <!-- Add the necessary Bootstrap and jQuery dependencies --> 
+
+
+    </div>
+
+
+    <div class="col">
+        <div class="nav-item dropdown float-end">
+            <a class="nav-link dropdown-toggle" style="position: absolute; right:5%; margin-bottom:1%; background-color:gray; border-radius:20px; padding:10px 20px;" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by</a>
+            <div class="dropdown-menu" style="">
+                @{
+                    //if (paramDict.TryAdd("SortOption", null)) paramDict.Add("SortOption", null);
+                    var sortoptions = new Dictionary<string, string>(paramDict);
+                    foreach (var i in enumDict)
+                    {
+                        if (i.Key == "UserFavorites") continue;
+                        sortoptions["SortOption"] = @i.Value.ToString();
+
+                        <a class="dropdown-item" asp-all-route-data=(sortoptions)>@i.Key</a>
+                    }
+                }
+            </div>
+        </div>
     </div>
 </div>
+
 <div class="row mt-5 mb-2">
     @{
-        var listOfFavorite = (await accountrep.GetValueByID(int.Parse(User.FindFirstValue("UserId")))).Event;
+        List<Article> listOfFavorite=null;
+        if (User.Identity.IsAuthenticated)
+        {
+             listOfFavorite = (await accountrep.GetValueByID(int.Parse(User.FindFirstValue("UserId")))).Event;
+        }
     }
     @foreach (var i in Model.Data){
         @* <div class="col-lg-4">
@@ -74,13 +126,15 @@
 
         <div class="col-lg-4 d-flex">
             <div class="card mb-3">
-                @if (!listOfFavorite.Contains(i))
-                {
-                    <a id="@i.Id" href="javascript:void(0);" onclick="AddOrDeleteFavoriteEvent(@i.Id)" class="text-warning display-5 text-decoration-none">&#9734;</a>
-                }
-                else
-                {
-                    <a id="@i.Id" href="javascript:void(0);" onclick="AddOrDeleteFavoriteEvent(@i.Id)" class="text-warning display-5 text-decoration-none">&#9733;</a>
+            @if(User.Identity.IsAuthenticated){
+                    @if (!listOfFavorite.Contains(i))
+                    {
+                        <a id="@i.Id" href="javascript:void(0);" onclick="AddOrDeleteFavoriteEvent(@i.Id)" class="text-warning display-5 text-decoration-none">&#9734;</a>
+                    }
+                    else
+                    {
+                        <a id="@i.Id" href="javascript:void(0);" onclick="AddOrDeleteFavoriteEvent(@i.Id)" class="text-warning display-5 text-decoration-none">&#9733;</a>
+                    }
                 }
             <h3 class="card-header text-black">@i.Title</h3>
             @*<div class="card-body">
@@ -178,4 +232,5 @@
 
 @section Scripts{
         <script type="text/javascript" src="~/js/AddOrDeleteFavoriteEvent.js"></script>
+
 }

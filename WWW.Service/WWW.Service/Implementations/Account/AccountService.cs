@@ -16,12 +16,12 @@ namespace WWW.Service.Implementations
 {
     public class AccountService
     {
-        private readonly IAccountRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IArticleRepository _articleRepository;
         private readonly EntityBaseRepository<User_Details> _userDetails;
 
 
-        public AccountService(IAccountRepository accountRepository, EntityBaseRepository<User_Details> userDetails, IArticleRepository articleRepository)
+        public AccountService(IUserRepository accountRepository, EntityBaseRepository<User_Details> userDetails, IArticleRepository articleRepository)
         {
             _userRepository = accountRepository;
             _userDetails = userDetails;
@@ -133,7 +133,6 @@ namespace WWW.Service.Implementations
             return new ClaimsIdentity(claims, "ApplicationCookie",
                 ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
         }
-
 
        
 

@@ -8,7 +8,7 @@ using WWW.Domain.Response;
 
 namespace WWW.DAL.Interfaces
 {
-    public interface IAccountRepository : IBaseRepository<User>
+    public interface IUserRepository : IBaseRepository<User>
     {
         public BaseResponse<bool> AddEventToFavorite(User user, Article article);
         public BaseResponse<bool> DeleteEventFromFavorite(User user, Article article);

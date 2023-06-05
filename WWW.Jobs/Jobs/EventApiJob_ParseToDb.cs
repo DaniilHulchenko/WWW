@@ -13,7 +13,7 @@ namespace WWW.Jobs.Jobs
         ILogger<EventApiJob_ParseToDb> _logger;
         private readonly RestApiRequest _restapiRepository;
         private readonly IArticleRepository _articleRepository;
-        private readonly IAccountRepository _accountRepository;
+        private readonly IUserRepository _accountRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly DownloadService _downloadService;
 
@@ -21,7 +21,7 @@ namespace WWW.Jobs.Jobs
         private readonly EntityBaseRepository<Date> _dateRepository;
         private readonly EntityBaseRepository<Picture> _pictureRepository;
 
-        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IAccountRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<Date> dateRepository, EntityBaseRepository<Picture> pictureRepository)
+        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IUserRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<Date> dateRepository, EntityBaseRepository<Picture> pictureRepository)
         {
             _restapiRepository = restapiRepository;
             _logger = logger;

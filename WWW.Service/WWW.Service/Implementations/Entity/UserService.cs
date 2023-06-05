@@ -16,13 +16,13 @@ namespace WWW.Service.Implementations
 {
     public class UserService : Interfaces.IUserService
     {
-        private readonly IAccountRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IArticleRepository _articleRepository;
         private readonly EntityBaseRepository<User_Details> _userDetails;
 
         //private readonly ILogger<IAccountService> _logger;
 
-        public UserService(IAccountRepository accountRepository, EntityBaseRepository<User_Details> userDetails, IArticleRepository articleRepository)
+        public UserService(IUserRepository accountRepository, EntityBaseRepository<User_Details> userDetails, IArticleRepository articleRepository)
         {
             //_logger = logger;
             _userRepository = accountRepository;
@@ -60,116 +60,6 @@ namespace WWW.Service.Implementations
             };
         }
 
-        //public async Task<BaseResponse<ClaimsIdentity>> Login(LoginViewModel model)
-        //{
-        //    try
-        //    {
-        //        var user = await _userRepository.GetALL().FirstOrDefaultAsync(x => x.NickName == model.NickName);
-        //        if (user == null)
-        //        {
-        //            return new BaseResponse<ClaimsIdentity>()
-        //            {
-        //                ErrorDescription = "User not found"
-        //            };
-        //        }
-        //        if (user.Details.Password != HashPasswordHelper.HashPassowrd(model.Password))
-        //        {
-        //            return new BaseResponse<ClaimsIdentity>()
-        //            {
-        //                ErrorDescription = "Invalid password or user name "
-        //            };
-        //        }
-        //        var result = Authenticate(user);
-
-        //        return new BaseResponse<ClaimsIdentity>()
-        //        {
-        //            Data = result,
-        //            StatusCode = StatusCode.OK
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("!!!"+ex+ $"[Login]: {ex.Message}");
-        //        return new BaseResponse<ClaimsIdentity>()
-        //        {
-        //            ErrorDescription = ex.Message,
-        //            StatusCode = StatusCode.InternalServerError
-        //        };
-        //    }
-        //}
-
-        //public async Task<BaseResponse<ClaimsIdentity>> Register(RegisterViewModel model)
-        //{
-        //    try
-        //    {
-        //        var user = await _userRepository.GetALL().FirstOrDefaultAsync(x => x.NickName == model.NickName);
-        //        if (user != null)
-        //        {
-        //            return new BaseResponse<ClaimsIdentity>()
-        //            {
-        //                ErrorDescription = "Користувач с таким логином вже є",
-        //            };
-        //        }
-
-        //        user = new User()
-        //        {
-        //            //FirstName = model.FirstName,
-        //            //LastName = model.LastName,
-        //            NickName = model.NickName,
-        //            Email = model.Email,
-        //            //Introdaction = model.Introdaction,
-        //            Role = WWW.Domain.Enum.UserRole.User,
-        //            //Avatar = model.Avatar,
-        //        };
-        //        if (model.Avatar != null)
-        //        {
-        //            using (var memoryStream = new MemoryStream())
-        //            {
-        //                await model.Avatar.CopyToAsync(memoryStream);
-        //                user.Avatar = memoryStream.ToArray();
-        //            }
-        //        }
-        //        await _userRepository.Create(user);
-
-
-        //        await _userDetails.Create(new User_Details()
-        //        {
-        //            User = user,
-        //            Password = HashPasswordHelper.HashPassowrd(model.Password),
-        //            Introdaction = model.Introdaction,
-        //        });
-
-
-        //        var result = Authenticate(user);
-
-        //        return new BaseResponse<ClaimsIdentity>()
-        //        {
-        //            Data = result,
-        //            StatusCode = StatusCode.OK
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("!!!"+ex+ $"[Register]: {ex.Message}");
-        //        return new BaseResponse<ClaimsIdentity>()
-        //        {
-        //            ErrorDescription = ex.Message,
-        //            StatusCode = StatusCode.InternalServerError
-        //        };
-        //    }
-        //}
-
-        //public ClaimsIdentity Authenticate(User user)
-        //{
-        //    var claims = new List<Claim>
-        //    {
-        //        new Claim(ClaimsIdentity.DefaultNameClaimType, user.NickName),
-        //        new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString()),
-        //        new Claim("UserId", user.Id.ToString()),
-        //    };
-        //    return new ClaimsIdentity(claims, "ApplicationCookie",
-        //        ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-        //}
 
         public async Task<bool> AddOrDeleteFavoriteEvent(int userId, int articleid)
         {

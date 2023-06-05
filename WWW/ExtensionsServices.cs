@@ -30,7 +30,7 @@ public static class ExtensionsServices
 
         Services.AddTransient<ICategoryRepository, CategoryRepository>();
         Services.AddTransient<IArticleRepository, ArticleRepository>();
-        Services.AddTransient<IAccountRepository, AccountRepository>();
+        Services.AddTransient<IUserRepository, UserRepository>();
         //Services.AddTransient<IBaseRepository<Tags>, TagRepository>();
         //Services.AddTransient<IDateRepository, DateRepository>();
         //Services.AddTransient<IPictureRepository, PictureRepository>();

@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Article\Shared\_SortBar.cshtml" />
     <Content Remove="Views\GoogleOAuth\GetUserProfile.cshtml" />
   </ItemGroup>
 
@@ -90,6 +91,10 @@
     <ProjectReference Include="..\WWW.DAL\WWW.DAL.csproj" />
     <ProjectReference Include="..\WWW.Jobs\WWW.Jobs.csproj" />
     <ProjectReference Include="..\WWW.Service\WWW.Service\WWW.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Article\Shared\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

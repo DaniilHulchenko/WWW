@@ -56,10 +56,10 @@ Than (if you have App Services) add line of your connection string to applicatio
 - ✅ Display Database
 - ✅ Display API
 - ✅ Display User register and login
-- 🔳 Display User profile
+- ✅ Display User profile
 - ✅ List of Events
 - 🔳 Order Form
-- 🍥 Creation Forms
+- ✅ Creation Forms
 
 ### 2. Database
 
@@ -84,7 +84,7 @@ Than (if you have App Services) add line of your connection string to applicatio
 - ✅ Create Controller
 - ✅ Create Service
 - ✅ Create Models
-- 🔳 Google Authorization
+- ✅ Google Authorization
 
 ### 10. HangFire
 

@@ -8,30 +8,37 @@ namespace WWW.Domain.ViewModels.Account
     public class EditViewModal
     {
         [Display(Name = "Nick Name")]
-        [Required(ErrorMessage = "Enter Nick Name")]
-        public string NickName { get; set; }
+        [AllowNull]
+        public string? NickName { get; set; }
 
         [Display(Name = "Email")]
-        [Required(ErrorMessage = "Enter Email")]
         [EmailAddress]
-        public string Email { get; set; }
+        [AllowNull]
+        public string? Email { get; set; }
 
-        [Display(Name = "Password")]
-        [Required(ErrorMessage = "Enter Password")]
-        [PasswordPropertyText]
-        public string Password { get; set; }
-
-        [Display(Name = "Password Confirmation")]
-        [PasswordPropertyText]
-        [Compare("Password", ErrorMessage = "Password mismatch")]
-        public string PasswordConfirm { get; set; }
 
         [Display(Name = "Introdaction")]
+        [AllowNull]
         public string? Introdaction { get; set; }
 
         [Display(Name = "Avatar")]
         [AllowNull]
         public IFormFile? Avatar { get; set; }
+
+        [Display(Name = "Old Password")]
+        [Required(ErrorMessage = "Enter Old Password")]
+        [PasswordPropertyText]
+        public string OldPassword { get; set; }
+
+        [Display(Name = "Password")]
+        [Required(ErrorMessage = "Enter Password")]
+        [PasswordPropertyText]
+        public string NewPassword { get; set; }
+
+        [Display(Name = "Password Confirmation")]
+        [PasswordPropertyText]
+        [Compare("NewPassword", ErrorMessage = "Password mismatch")]
+        public string PasswordConfirm { get; set; }
 
 
     }

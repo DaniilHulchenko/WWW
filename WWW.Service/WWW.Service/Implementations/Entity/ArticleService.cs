@@ -11,21 +11,23 @@ using WWW.Domain.Api;
 using System;
 using WWW.Domain.Response;
 using Location = WWW.Domain.Entity.Location;
+using System.Linq;
 
 namespace WWW.Service.Implementations
 {
     public class ArticleService : IArticleService
     {
         private readonly IArticleRepository _articleRepository;
-        private readonly IAccountRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly EntityBaseRepository<Picture> _pictureRepository;
         private readonly EntityBaseRepository<Location> _locationRepository;
         private readonly EntityBaseRepository<Date> _dateRepository;
 
 
-        public ArticleService(IArticleRepository articleRepository, IAccountRepository userRepository, ICategoryRepository categoryRepository, EntityBaseRepository<Picture> pictureRepository, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<Date> dateRepository)
+        public ArticleService(IArticleRepository articleRepository, IUserRepository userRepository, ICategoryRepository categoryRepository, EntityBaseRepository<Picture> pictureRepository, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<Date> dateRepository)
         {
+
             _articleRepository = articleRepository;
             _userRepository = userRepository;
             _categoryRepository = categoryRepository;
@@ -188,6 +190,10 @@ namespace WWW.Service.Implementations
                     return new BaseResponse<IQueryable<Article>>() { Data = articles.OrderBy(a => a.Date), StatusCode = StatusCode.OK };
                 case ArticleSortOption.ByDateDescending:
                     return new BaseResponse<IQueryable<Article>>() { Data = articles.OrderByDescending(a => a.Date), StatusCode = StatusCode.OK };
+                //case ArticleSortOption.UserFavorites:
+                //    return new BaseResponse<IQueryable<Article>>() { Data = (await _userRepository.GetValueByID(UserId)).Event.AsQueryable(), StatusCode = StatusCode.OK };
+                case ArticleSortOption.Popular:
+                    throw new NotImplementedException("Popular sort uninvadable");
                 default:
                     return new BaseResponse<IQueryable<Article>>() { Data = articles, StatusCode = StatusCode.OK };
             }

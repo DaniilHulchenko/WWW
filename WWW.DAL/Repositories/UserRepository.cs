@@ -13,10 +13,10 @@ using WWW.Domain.Response;
 
 namespace WWW.DAL.Repositories
 {
-    public class AccountRepository : IAccountRepository
+    public class UserRepository : IUserRepository
     {
         private ApplicationDbContext _db;
-        public AccountRepository(ApplicationDbContext db)
+        public UserRepository(ApplicationDbContext db)
         {
             _db = db;
         }

@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
 using WWW.Domain.Entity;
+using WWW.Domain.Enum;
 using WWW.Domain.ViewModels.Article;
 using WWW.Models;
 using WWW.Service.Interfaces;
-using WWW.Domain.Enum;
-using WWW.Service.Implementations;
 
 
 namespace WWW.Controllers

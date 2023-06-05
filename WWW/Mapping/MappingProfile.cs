@@ -11,11 +11,11 @@ namespace WWW.Mapping
             //CreateMap<User, RegisterViewModel>()
             //    .ForMember(dest => dest.Avatar , opt => opt.Ignore());
 
-            CreateMap<User, RegisterViewModel>()
+            CreateMap<User, EditViewModal>()
                 .ForPath(dest => dest.Introdaction, opt => opt.MapFrom(src => src.Details.Introdaction))
                 .ForMember(dest => dest.Avatar, opt => opt.Ignore());
 
-            CreateMap<RegisterViewModel, User>()
+            CreateMap<EditViewModal, User>()
                 .ForPath(dest => dest.Details.Introdaction, opt => opt.MapFrom(src => src.Introdaction))
                 .ForMember(dest => dest.Avatar, opt => opt.Ignore());
 

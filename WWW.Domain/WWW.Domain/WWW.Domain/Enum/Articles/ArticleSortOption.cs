@@ -11,6 +11,7 @@ namespace WWW.Domain.Enum
 		None=1,              
 		ByTitle=2,          
 		ByDateAscending=3,  
-		ByDateDescending=4 
+		ByDateDescending=4,
+		Popular =5,
 	}
 }

@@ -19,8 +19,8 @@ namespace WWW.Controllers
         private readonly IArticleService _articleService;
         private readonly ILogger<HelpController> _logger;  
         private readonly DownloadService _downloadService;
-        private readonly IAccountRepository _accountRepository;
-        public HelpController(IArticleService articleService, ILogger<HelpController> logger, DownloadService downloadService, IAccountRepository accountRepository)
+        private readonly IUserRepository _accountRepository;
+        public HelpController(IArticleService articleService, ILogger<HelpController> logger, DownloadService downloadService, IUserRepository accountRepository)
         {
             _articleService = articleService;
             _logger = logger;

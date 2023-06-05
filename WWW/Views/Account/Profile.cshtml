@@ -2,14 +2,15 @@
 @using System.Web;
 @using Newtonsoft.Json;
 @using System.Security.Claims;
-@model WWW.Domain.ViewModels.Account.RegisterViewModel
+@model WWW.Domain.ViewModels.Account.EditViewModal
 
 @{
     Layout = "_Layout";
     ViewData["Title"]= "Edit profile";
 }
-<div class="container py-5">
-<form asp-controller="Account" asp-action="Profile" enctype="multipart/form-data">
+<div class="container py-5 ">
+    <h1>Edit profile info</h1>
+<form method="post" asp-controller="Account" asp-action="Profile" enctype="multipart/form-data">
         <div class="form-group">
             <div class="cover">
                 <img src="@Url.Action("GetAvatarById", "Help", new { id = int.Parse(@User.FindFirstValue("UserId")) })" class="img-fluid" alt="Image" style="width: 50px; height: 50px;" />
@@ -28,18 +29,34 @@
         <textarea asp-for="Introdaction" class="form-control textbox-dg font-weight-bold text-center" placeholder="Introdaction" type="text"></textarea>
     </div>
     <br>
+    <center><button class="btn btn-success btn-lg float-right" style="margin-top: 10px;padding:5px;" type="submit">Submit</button></center>
+</form>
+<hr/>
+<h1>Change password</h1>
+<form method="post" asp-controller="Account" asp-action="ChangePassword">
+    <div asp-validation-summary="All" style="font-size:23px; font-family:Impact" class="text-danger text-center"></div>
 
-
-@*    <div class="form-group">
-        <input autocomplete="new-password" asp-for="Password" placeholder="Password" class="form-control textbox-dg font-weight-bold text-center" type="password">
+    <div class="form-group">
+        <input autocomplete="new-password" asp-for="OldPassword" placeholder="Password" class="form-control textbox-dg font-weight-bold text-center" type="password">
+    </div>
+    <div class="form-group">
+        <input autocomplete="new-password" asp-for="NewPassword" placeholder="Password" class="form-control textbox-dg font-weight-bold text-center" type="password">
     </div>
     <div class="form-group">
         <input autocomplete="new-password" asp-for="PasswordConfirm" placeholder="Password Confirm" class="form-control textbox-dg font-weight-bold text-center" type="password">
-    </div>*@
-
+    </div>
     <center><button class="btn btn-success btn-lg float-right" style="margin-top: 10px;padding:5px;" type="submit">Submit</button></center>
+
 </form>
 </div>
+
+
+
+
+
+
+
+
 
 
 <style>
@@ -51,6 +68,7 @@
 .form-group {
   display: flex;
   align-items: center;
+  border-bottom:1px solid #333;
 }
 
 </style>
