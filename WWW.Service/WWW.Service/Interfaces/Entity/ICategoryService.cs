@@ -6,6 +6,6 @@ namespace WWW.Service.Interfaces
 {
     public interface ICategoryService: IBaseService<Category>
     {
-        
+
     }
 }

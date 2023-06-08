@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using WWW.Domain.Enum;
 using WWW.Domain.ViewModels.Article;
@@ -21,11 +22,11 @@ namespace WWW.Domain.Entity
         public ArticleStatus Status { get; set; }
 
         public virtual Location Location { get; set; }
-        [NotMapped]
-        public virtual User Autor { get; set; }
+        [DefaultValue(null)]
+        public virtual User? Autor { get; set; }
         public virtual Category Category { get; set; }
         public virtual Picture Picture { get; set; }
-        public virtual Date Date { get; set; }
+        public virtual EventDates Date { get; set; }
         public virtual List<Tags>? Tags { get; set; }
 
         [DefaultValue(1)]

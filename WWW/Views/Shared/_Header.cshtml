@@ -1,7 +1,9 @@
 ﻿@using System.Security.Claims;
+
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
-        <div class="container-fluid">
+    @Html.Partial("_UserSidebar")
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black" >
+        <div class="container-fluid" style="margin-left:3%">
             <strong><a class="navbar-brand" style="font-size:2em;" asp-controller="Home" asp-action="Index">SilverSide</a></strong>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -12,8 +14,8 @@
                         <a class="nav-link" asp-controller="Category" asp-action="Index">Category</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" asp-controller="Home" asp-action="Index">
-                            Home
+                        <a class="nav-link active" asp-controller="Article" asp-action="FavoriteEvents">
+                            Favorite Events
                             <span class="visually-hidden">(current)</span>
                         </a>
                     </li>
@@ -28,10 +30,6 @@
                     </li>
 
                 </ul>
-@*                <form class="d-flex">
-                    <input class="form-control me-sm-2" type="search" placeholder="Search" control-id="ControlID-1">
-                    <button class="btn btn-secondary my-2 my-sm-0" style="border-radius:0;" type="submit" control-id="ControlID-2">Search</button>
-                </form>*@
                 @if (!User.Identity.IsAuthenticated)
                 {
                     <ul class="navbar-nav ms-md-auto">

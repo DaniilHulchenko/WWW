@@ -2,9 +2,13 @@
 @using System.Web;
 @using Newtonsoft.Json;
 @using System.Security.Claims;
+@using Microsoft.AspNetCore.Mvc;
 @using WWW.Domain.Entity;
 @using WWW.Domain.Enum;
+@using WWW.Domain.Enum.Articles;
+@using System.Text.Json;
 @inject WWW.DAL.Interfaces.IUserRepository accountrep;
+@inject WWW.DAL.Interfaces.ICategoryRepository categoryrepository ;
 @model PageIndexViewModel<Article>
 @{
     ViewData["Title"] = "List";
@@ -19,17 +23,24 @@
         paramDict.Add(key, value);
     }
 
-
-    Dictionary<string, int> enumDict = Enum.GetValues(typeof(ArticleSortOption))
+    Dictionary<string, int> SortEnumDict = Enum.GetValues(typeof(ArticleSortOption))
     .Cast<ArticleSortOption>()
     .ToDictionary(e => e.ToString(), e => (int)e);
+    Dictionary<string, int> StatusRadioFilterEnumDict = Enum.GetValues(typeof(ArticleFilters.status))
+    .Cast<ArticleFilters.status>()
+    .ToDictionary(e => e.ToString(), e => (int)e);
+    Dictionary<string, int> DateFilterEnumDict = Enum.GetValues(typeof(ArticleFilters.date))
+    .Cast<ArticleFilters.date>()
+    .ToDictionary(e => e.ToString(), e => (int)e);
 }
+
+
 <h1 style="color:white">Articles</h1>
 @{
     if (@Model.Data.Any()){
-        if (@Model.Data.First().Category != null)
+        if (paramDict.ContainsKey("Category"))
         {
-            <strong><h2>List of @Model.Data.First().Category.Name</h2></strong>
+            <strong><h2>List of @paramDict["Category"].Replace("-", " ")</h2></strong>
         }
         else{
             <h1>List of all</h1>
@@ -37,75 +48,102 @@
     }
 }
 
+<div class="navigation">
+        <div class="row">
+            <div class="col">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Filters
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                        @{
+                            var cat = new Dictionary<string, string>(paramDict);
+                            //filterParams["Category"] = null;
 
-<div class="row">
-    <div class="col">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Filters
-            </button>
-            <div class="dropdown-menu" aria-labelledby="filterDropdown">
-                <h6 class="dropdown-header">Category</h6>
-                <a class="dropdown-item" href="#" data-filter="category-all">All</a>
-                <a class="dropdown-item" href="#" data-filter="category-1">Category 1</a>
-                <a class="dropdown-item" href="#" data-filter="category-2">Category 2</a>
-                <div class="dropdown-divider"></div>
-                <h6 class="dropdown-header">Date</h6>
-                <a class="dropdown-item" href="#" data-filter="upcoming">
-                    <input type="radio" name="filterType" id="filterUpcoming" value="upcoming">
-                    <label for="filterUpcoming">Upcoming</label>
-                </a>
-                <a class="dropdown-item" href="#" data-filter="past">
-                    <input type="radio" name="filterType" id="filterPast" value="past">
-                    <label for="filterPast">Past</label>
-                </a>
-                <a class="dropdown-item" href="#" data-filter="today">
-                    <input type="checkbox" id="filterToday" value="today">
-                    <label for="filterToday">Today</label>
-                </a>
-                <a class="dropdown-item" href="#" data-filter="thisweek">
-                    <input type="checkbox" id="filterThisWeek" value="thisweek">
-                    <label for="filterThisWeek">This Week</label>
-                </a>
-                <a class="dropdown-item" href="#" data-filter="thismonth">
-                    <input type="checkbox" id="filterThisMonth" value="thismonth">
-                    <label for="filterThisMonth">This Month</label>
-                </a>
-            </div>
-        </div>
+                        <h6 class="dropdown-header">Category</h6>
 
-        <!-- Add the necessary Bootstrap and jQuery dependencies --> 
+                            <a class="dropdown-item" asp-asp-all-route-data=@paramDict>All</a>
+                            foreach (Category item in await categoryrepository.GetNotEmptyCategory())
+                            {
+                                cat["Category"]=item.slug;
 
+                                <a class="dropdown-item" asp-all-route-data=cat >@item.Name</a>
+                            }
+                        }
+                        <hr />
 
-    </div>
-
-
-    <div class="col">
-        <div class="nav-item dropdown float-end">
-            <a class="nav-link dropdown-toggle" style="position: absolute; right:5%; margin-bottom:1%; background-color:gray; border-radius:20px; padding:10px 20px;" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by</a>
-            <div class="dropdown-menu" style="">
-                @{
-                    //if (paramDict.TryAdd("SortOption", null)) paramDict.Add("SortOption", null);
-                    var sortoptions = new Dictionary<string, string>(paramDict);
-                    foreach (var i in enumDict)
+                    @if (Context.Request.Method == "POST")
                     {
-                        if (i.Key == "UserFavorites") continue;
-                        sortoptions["SortOption"] = @i.Value.ToString();
+                        Dictionary<string, string> filters = new() {
+                        {"Status", Context.Request.Form["StatusType"]},
+                        {"Date" , Context.Request.Form["DateType"]}
+                        };
+                        paramDict["Filters"] = string.Join(",", filters
+                                                                    .Where(kv => !string.IsNullOrEmpty(kv.Value))
+                                                                    .Select(kv => $"{kv.Key}-{kv.Value}"));
+                        <script>
+                            window.location.href = '@Url.Action("Index", paramDict)';
+                        </script>
 
-                        <a class="dropdown-item" asp-all-route-data=(sortoptions)>@i.Key</a>
                     }
-                }
+                    <form method="post" enctype="multipart/form-data" asp-all-route-data="paramDict">
+                        <h6 class="dropdown-header">Status</h6>
+
+                            @foreach (var i in StatusRadioFilterEnumDict)
+                                {
+                                    @if (i.Key == "0") continue;
+                                    <a class="dropdown-item" href="#" data-filter="@i.Key">
+                                        <input type="radio" name="StatusType" id="@i.Key" value="@i.Key">
+                                        <label for="@i.Key" >@i.Key</label>
+                                    </a>
+
+                                }
+                            <hr />
+                            <h6 class="dropdown-header">Date</h6>
+                            @foreach (var i in DateFilterEnumDict)
+                            {
+                                <a class="dropdown-item" href="#" data-filter="@i.Key">
+                                <input type="radio" name="DateType"  id="@i.Key" value="@i.Key">
+                                    <label for="@i.Key">@i.Key.ToString().Replace("_", " ")</label>
+                                </a>
+                            }
+                        <input class="btn btn-success btn-lg float-right " style="width:100%; padding:5px; background-color:red;" type="reset" value="Delete">
+                            <button class="btn btn-success btn-lg float-right" style="width:100%; padding:5px;" >Apply</button>
+                    </form>
+                    
+
+                    </div>
+                </div>
+            </div
+            >
+            <div class="col">
+                <div class="nav-item dropdown float-end">
+                    <a class="nav-link dropdown-toggle" style="position: absolute; right:5%; margin-bottom:1%; background-color:gray; border-radius:20px; padding:10px 20px;" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by</a>
+                    <div class="dropdown-menu" style="">
+                        @{
+                            //if (paramDict.TryAdd("SortOption", null)) paramDict.Add("SortOption", null);
+                            var sortoptions = new Dictionary<string, string>(paramDict);
+                            foreach (var i in SortEnumDict)
+                            {
+                                if (i.Key == "UserFavorites") continue;
+                                sortoptions["SortOption"] = @i.Key.ToString();
+
+                                <a class="dropdown-item" asp-all-route-data=(sortoptions)>@i.Key</a>
+                            }
+                        }
+                    </div>
+                </div>
             </div>
-        </div>
     </div>
 </div>
+
 
 <div class="row mt-5 mb-2">
     @{
         List<Article> listOfFavorite=null;
         if (User.Identity.IsAuthenticated)
         {
-             listOfFavorite = (await accountrep.GetValueByID(int.Parse(User.FindFirstValue("UserId")))).Event;
+             listOfFavorite = (await accountrep.GetValueByID(int.Parse(User.FindFirstValue("UserId")))).FavEvent;
         }
     }
     @foreach (var i in Model.Data){
@@ -147,7 +185,9 @@
                 <p class="card-text">@i.ShortDescription</p>
             </div>
             <div class="card-body d-flex justify-content-between">
-                    <p><a class="btn btn-primary card-link">More</a></p>
+                    <p>
+                        <a class="btn btn-primary card-link" asp-action="Details" asp-route-slug=@i.slug >More</a>
+                    </p>
             </div>
             <div class="card-footer text-muted">
                     @if (@i.Date !=null)
@@ -191,11 +231,49 @@
                 </li>
             }
             @*########################################################################*@
-            @for (int i = 1; i <= Model.PageViewModel.TotalPages;i++)
+                @{
+                    int firtspage = 1;
+                    int lastpage = Model.PageViewModel.TotalPages;
+
+                    if (Model.PageViewModel.СurrentlyPageNumber > 5)
+                    {
+                        firtspage = Model.PageViewModel.СurrentlyPageNumber-3;
+                    }
+                    if (Model.PageViewModel.СurrentlyPageNumber+3 > Model.PageViewModel.TotalPages && Model.PageViewModel.TotalPages > 7)
+                    {
+                        firtspage = Model.PageViewModel.TotalPages-6;
+                    }
+
+
+
+
+
+                    if (Model.PageViewModel.СurrentlyPageNumber+3 < Model.PageViewModel.TotalPages)
+                    {
+
+                        lastpage = Model.PageViewModel.СurrentlyPageNumber + 3;
+                    }
+                    if (Model.PageViewModel.СurrentlyPageNumber < 3 && Model.PageViewModel.TotalPages > 7)
+                    {
+                        lastpage = 6;
+                    }
+                }
+
+            @if (firtspage != 1)
+            {
+                    <li class="page-item">
+                        @{
+                            paramDict["page"] = "1";
+                        }
+                        <a class="page-link" asp-all-route-data=(paramDict)>1</a>
+                    </li>
+                    <li class="page-item"><a class="page-link">...</a></li>
+            }
+            @for (int i = firtspage; i <= lastpage; i++)
             {
                 @if (i == Model.PageViewModel.СurrentlyPageNumber)
                     {
-                    <li class="page-item active" >
+                        <li class="page-item active" >
                             <a class="page-link" >@i</a>
                         </li>
                     }
@@ -206,9 +284,19 @@
                                 paramDict["page"] = @i.ToString();
                             }
                             <a class="page-link" asp-all-route-data=(paramDict)>@i</a>
-                     </li>
+                        </li>
                 }
             }
+                @if (Model.PageViewModel.СurrentlyPageNumber + 3 < Model.PageViewModel.TotalPages)
+                {
+                    <li class="page-item"><a class="page-link">...</a></li>
+                    <li class="page-item">
+                        @{
+                            paramDict["page"] = @Model.PageViewModel.TotalPages.ToString();
+                        }
+                        <a class="page-link" asp-all-route-data=(paramDict)>@Model.PageViewModel.TotalPages</a>
+                    </li>
+                }
             @*########################################################################*@
             @if (Model.PageViewModel.HasNextPage)
             {
@@ -232,5 +320,4 @@
 
 @section Scripts{
         <script type="text/javascript" src="~/js/AddOrDeleteFavoriteEvent.js"></script>
-
 }

@@ -19,7 +19,8 @@ namespace WWW.Domain.Entity
         public UserRole Role { get; set; }
 
         public virtual User_Details Details { get; set; }
-        public virtual List<Article>? Event { get; set; }
+        public virtual List<Article>? AutorEvent { get; set; }
+        public virtual List<Article>? FavEvent { get; set; }
 
     }
 }

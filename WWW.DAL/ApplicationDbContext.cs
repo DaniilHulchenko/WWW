@@ -4,7 +4,7 @@ using WWW.DAL;
 using System.Data;
 using System.Text;
 using System.Security.Cryptography;
-
+using Castle.Core.Configuration;
 
 namespace WWW.DAL {
     public class ApplicationDbContext : DbContext
@@ -19,24 +19,24 @@ namespace WWW.DAL {
         public DbSet<Tags> Tags { get; set; }
         public DbSet<Location> Location { get; set; }
         public DbSet<Picture> Picture { get; set; }
-        public DbSet<Date> Date { get; set; }
+        public DbSet<EventDates> Date { get; set; }
         public DbSet<User_Details> User_Details { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder )
         {
             optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseLazyLoadingProxies();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Article>().HasOne(a => a.Autor).WithMany(u=>u.AutorEvent);
+            modelBuilder.Entity<Article>().HasMany(a => a.User).WithMany(u=>u.FavEvent);
             //modelBuilder.Entity<User_Details>()
             //    .Ignore(x => x.Id);
             //modelBuilder.Entity<Article>()
             //    .HasMany(a => a.UserFavorite)
             //    .WithMany(u => u.UserFavoriteEvents)
             //    .UsingEntity(j => j.ToTable("UserFavoriteArticles"));
-
-
             User[] users=new [] { 
                 new User { Id=1, NickName="admin",Email="admin@gmail.com",Role=Domain.Enum.UserRole.Admin },
                 new User { Id=2, NickName="TicketMaster",Email="ticketmaster@gmail.com",Role=Domain.Enum.UserRole.Moderator },

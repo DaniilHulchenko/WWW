@@ -1,0 +1,49 @@
+﻿@using System.Security.Claims;
+@using WWW.Domain.Entity;
+@using WWW.Models;
+@model PageIndexViewModel<Article>
+@{
+    ViewData["Title"] = "FavoritesEvents";
+}
+
+
+<h1 style="color:white"> Your Favorites Events</h1>
+<br></br>
+
+@foreach (var i in Model.Data)
+{
+    <div class="row ">
+        <div class="col-md-12 ">
+            <div class="card">
+                <div class="position-relative">
+                    <a id="@i.Id" href="javascript:void(0);" onclick="AddOrDeleteFavoriteEvent(@i.Id)" class="text-warning display-5 text-decoration-none position-absolute top-0 end-0">&#9733;</a>
+                    <img src="@Url.Action("GetImageById", "Help", new { id = i.Id })" class="card-img-top img-fluid" alt="Image" style="max-height: 200px; object-fit: cover;" />
+                </div>
+                <div class="card-body text-black">
+                    <h3 class="card-header text-black">@i.Title</h3>
+                    <p class="card-text">@i.ShortDescription</p>
+                </div>
+                <div class="card-footer text-muted d-flex justify-content-between">
+                    @if (i.Date.Date_Of_Start > DateTime.Now)
+                    {
+                        <div>@i.Date.Date_Of_Start</div>
+                    }
+                    else
+                    {
+                        <div style="color:red;">@i.Date.Date_Of_Start</div>
+
+                    }
+                    <a class="btn btn-primary card-link" asp-action="Details" asp-route-slug=@i.slug >More</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br>
+}
+
+
+
+    @section Scripts{
+        <script type="text/javascript" src="~/js/AddOrDeleteFavoriteEvent.js"></script>
+    }

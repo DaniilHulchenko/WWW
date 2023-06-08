@@ -12,6 +12,11 @@ using System;
 using WWW.Domain.Response;
 using Location = WWW.Domain.Entity.Location;
 using System.Linq;
+using WWW.Domain.Enum.Articles;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Castle.Components.DictionaryAdapter.Xml;
+using System.Text.RegularExpressions;
 
 namespace WWW.Service.Implementations
 {
@@ -22,10 +27,10 @@ namespace WWW.Service.Implementations
         private readonly ICategoryRepository _categoryRepository;
         private readonly EntityBaseRepository<Picture> _pictureRepository;
         private readonly EntityBaseRepository<Location> _locationRepository;
-        private readonly EntityBaseRepository<Date> _dateRepository;
+        private readonly EntityBaseRepository<EventDates> _dateRepository;
 
 
-        public ArticleService(IArticleRepository articleRepository, IUserRepository userRepository, ICategoryRepository categoryRepository, EntityBaseRepository<Picture> pictureRepository, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<Date> dateRepository)
+        public ArticleService(IArticleRepository articleRepository, IUserRepository userRepository, ICategoryRepository categoryRepository, EntityBaseRepository<Picture> pictureRepository, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<EventDates> dateRepository)
         {
 
             _articleRepository = articleRepository;
@@ -61,8 +66,9 @@ namespace WWW.Service.Implementations
                 };
             }
         }
-        public async Task<BaseResponse<IQueryable<Article>>> GetByCategoryName(string CatName)
+        public async Task<BaseResponse<IQueryable<Article>>> GetByCategoryName(string CatName=null)
         {
+            if (CatName == null) return new BaseResponse<IQueryable<Article>>() { Data = _articleRepository.GetALL(), StatusCode= StatusCode.OK};
             BaseResponse<IQueryable<Article>> BaseResponse = new BaseResponse<IQueryable<Article>>();
             try
             {
@@ -127,11 +133,17 @@ namespace WWW.Service.Implementations
 
             };
             //  slug
+            string slug = Regex.Replace(entity.Title, @"[^a-zA-Zа-яА-Я\s]", "");
+            slug = Regex.Replace(slug, "-+", "-");
             if (!_articleRepository.GetALL().Any())
-                newArticle.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (0);
+            {
+
+                newArticle.slug = slug.ToLower().Replace(' ', '-') + "-" + (0);
+            }
             else
-                newArticle.slug = entity.Title.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
-            
+            {
+                newArticle.slug = slug.ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().OrderBy(a => a.Id).Last().Id + 1);
+            }
             await _articleRepository.Create(newArticle);
             // Picture
             if (entity.Picture != null)
@@ -150,7 +162,7 @@ namespace WWW.Service.Implementations
                 
             }
             // Data 
-            await _dateRepository.Create(new Date()
+            await _dateRepository.Create(new EventDates()
             {
                 Article = newArticle,
                 Date_of_Creation = DateTime.Now,
@@ -191,7 +203,7 @@ namespace WWW.Service.Implementations
                 case ArticleSortOption.ByDateDescending:
                     return new BaseResponse<IQueryable<Article>>() { Data = articles.OrderByDescending(a => a.Date), StatusCode = StatusCode.OK };
                 //case ArticleSortOption.UserFavorites:
-                //    return new BaseResponse<IQueryable<Article>>() { Data = (await _userRepository.GetValueByID(UserId)).Event.AsQueryable(), StatusCode = StatusCode.OK };
+                //    return new BaseResponse<IQueryable<Article>>() { Data = (await _userRepository.GetValueByID(UserId)).FavEvent.AsQueryable(), StatusCode = StatusCode.OK };
                 case ArticleSortOption.Popular:
                     throw new NotImplementedException("Popular sort uninvadable");
                 default:
@@ -199,5 +211,64 @@ namespace WWW.Service.Implementations
             }
         }
 
+        public async Task<BaseResponse<IQueryable<Article>>> Filter(IQueryable<Article> articles, Dictionary<string,string> filters )
+        {
+            if (filters.ContainsKey("Status") && filters["Status"]!=null)
+            {
+                articles = articles.Where(a => a.Status == Enum.Parse<ArticleStatus>(filters["Status"]));
+            }
+            if (filters.ContainsKey("Date") && filters["Date"] != null)
+            {
+                DateTime now = DateTime.Now;
+                DayOfWeek currentDayOfWeek = now.DayOfWeek;
+                int daysUntilNextWeekend = ((int)DayOfWeek.Saturday - (int)currentDayOfWeek + 7) % 7;
+
+
+                DateTime[] nextWeekend = { now.AddDays(daysUntilNextWeekend), now.AddDays(daysUntilNextWeekend+1) };
+                DateTime[] thisWeek = { now, now.AddDays(daysUntilNextWeekend + 1) };
+
+                switch (filters["Date"])
+                {
+                    case "Today":
+                        articles = articles.Where(a => a.Date.Date_Of_Start.Date == now.Date);
+                        break;
+                    case "This_Week":
+                        articles = articles.Where(a => a.Date.Date_Of_Start.Date >= thisWeek[0].Date && a.Date.Date_Of_Start < thisWeek[1].Date);
+                        break;
+
+                    case "This_Weekends":
+                        articles = articles.Where(a => a.Date.Date_Of_Start.Date >= nextWeekend[0].Date && a.Date.Date_Of_Start < nextWeekend[1].Date);
+                        break;
+
+                }
+                //articles = articles.Where(a => a.Date == Enum.Parse<ArticleFilters.date>(filters["Status"]));
+            }
+
+            return new BaseResponse<IQueryable<Article>>() { Data = articles, StatusCode = StatusCode.OK };
+
+        }
+
+        public BaseResponse<Article> GetBySlug(string slug)
+        {
+            try
+            {
+                var data = _articleRepository.GetALL().FirstOrDefault(a => a.slug == slug);
+
+                if (data == null)
+                {
+                    return new BaseResponse<Article>() { StatusCode = StatusCode.NotFound };
+                }
+
+                return new BaseResponse<Article>() {
+                    Data = data,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Article>() { StatusCode= StatusCode.InternalServerError, ErrorDescription = ex.Message };
+                
+            }
+        }
     }
 }

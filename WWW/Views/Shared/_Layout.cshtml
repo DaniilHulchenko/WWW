@@ -14,10 +14,11 @@
 <body>
     @Html.Partial("_Header")
 
-    @Html.Partial("_UserSidebar")
+    @RenderSection("DetailsIMG", false)
+
     @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
     {
-        <br></br>
+        <br>
         @Html.Partial("_AdminSidebar")
     }
 

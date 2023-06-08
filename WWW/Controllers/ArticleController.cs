@@ -2,10 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using WWW.Domain.Entity;
 using WWW.Domain.Enum;
+using WWW.Domain.Enum.Articles;
 using WWW.Domain.ViewModels.Article;
 using WWW.Models;
 using WWW.Service.Interfaces;
-
+using WWW.Domain.Enum.Articles;
+using WWW.DAL.Repositories;
+using Hangfire.MemoryStorage.Database;
+using System.Drawing.Printing;
+using WWW.Domain.Api;
 
 namespace WWW.Controllers
 {
@@ -13,20 +18,33 @@ namespace WWW.Controllers
     {
         IArticleService _articleService;
         ICategoryService _categoryService;
-        IUserService _accountService;
-        public ArticleController(IArticleService articleService, ICategoryService categoryService, Service.Interfaces.IUserService accountService)
+        IUserService _userService;
+        EntityBaseRepository<User> _userRepository;   
+        public ArticleController(IArticleService articleService, ICategoryService categoryService, Service.Interfaces.IUserService accountService, EntityBaseRepository<User> userRepository)
         {
+            _userRepository=userRepository; 
             _articleService = articleService;
             _categoryService = categoryService;
-            _accountService = accountService;
+            _userService = accountService;
         }
 
         // GET: Article
-        public async Task<IActionResult> Index(string category = "", int page = 0, ArticleSortOption SortOption = ArticleSortOption.None)
+        public async Task<IActionResult> Index(string category = "", int page = 0, ArticleSortOption SortOption=ArticleSortOption.None, string Filters=null)
         {
             int pageSize = 6;
             var data = await _articleService.GetByCategoryName(category);
             data = await _articleService.OrderBy(data.Data,SortOption);
+
+            if (Filters != null)
+            {
+                Dictionary<string, string> filtersDict = Filters
+                                    .Split(',')
+                                    .Select(kv => kv.Split('-'))
+                                    .ToDictionary(kv => kv[0], kv => kv[1]);
+                data = await _articleService.Filter(data.Data, filtersDict);
+            }
+            
+
 
             //_logger.LogInformation(data.StatusCode.ToString());
             PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(data.Data, pageSize, page);
@@ -37,16 +55,35 @@ namespace WWW.Controllers
             return View(paginator);
         }
 
+        [Authorize]
+        public async Task<IActionResult> FavoriteEvents() {
+            var UserId = int.Parse(User.FindFirst("UserId").Value);
+            var user = await _userRepository.GetValueByID(UserId);
+
+            PageIndexViewModel<Article> paginator = new PageIndexViewModel<Article>(user.FavEvent.OrderByDescending(e=>e.Date.Date_Of_Start), 6, 0);
+
+
+            return View(paginator);
+        }
+
         // GET: Article/Details/5
-        public ActionResult Details(string stug)
+        public ActionResult Details(string slug)
         {
-            return View();
+            var data = _articleService.GetBySlug(slug);
+            if (data.StatusCode== WWW.Domain.Enum.StatusCode.OK)
+                return View(data.Data);
+            else
+            {
+                //_logger.LogError(data.ErrorDescription);
+                return BadRequest();
+            }
         }
 
         // GET: Article/Create
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
+
             return View();
         }
         // POST: Article/Create
@@ -108,7 +145,7 @@ namespace WWW.Controllers
         public async Task<IActionResult> AddOrDeleteFavoriteEvent(int ArticleId)
         {
             var UserId = int.Parse(User.FindFirst("UserId").Value);
-            await _accountService.AddOrDeleteFavoriteEvent(UserId, ArticleId);
+            await _userService.AddOrDeleteFavoriteEvent(UserId, ArticleId);
             return Ok();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
 using WWW.DAL.Interfaces;
 using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
@@ -18,10 +19,10 @@ namespace WWW.Jobs.Jobs
         private readonly DownloadService _downloadService;
 
         private readonly EntityBaseRepository<Location> _locationRepository;
-        private readonly EntityBaseRepository<Date> _dateRepository;
+        private readonly EntityBaseRepository<EventDates> _dateRepository;
         private readonly EntityBaseRepository<Picture> _pictureRepository;
 
-        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IUserRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<Date> dateRepository, EntityBaseRepository<Picture> pictureRepository)
+        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IUserRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<EventDates> dateRepository, EntityBaseRepository<Picture> pictureRepository)
         {
             _restapiRepository = restapiRepository;
             _logger = logger;
@@ -144,7 +145,7 @@ namespace WWW.Jobs.Jobs
         }
 
         private async Task CreateDate(dynamic ApiData, Article newArticle) {
-            var dat = new Date()
+            var dat = new EventDates()
             {
                 Article = newArticle,
                 Date_of_Creation = DateTime.Now,
@@ -158,9 +159,13 @@ namespace WWW.Jobs.Jobs
 
         private string GenerateArticleSlug(Article article)
         {
-            string name =  article.Title.ToString().ToLower().Replace(' ', '-');
-            int newArticleId = _articleRepository.GetALL().OrderByDescending(a => a.Id).Select(a => a.Id).FirstOrDefault() + 1;
+            string slug = Regex.Replace(article.Title, @"[^a-zA-Zа-яА-Я\s]", "");
 
+            string name = slug.ToString().ToLower().Replace(' ', '-');
+            name = Regex.Replace(name, "-+", "-");
+
+            int newArticleId = _articleRepository.GetALL().OrderByDescending(a => a.Id).Select(a => a.Id).FirstOrDefault() + 1;
+            
             return $"{name}-{newArticleId}";
         }
     }

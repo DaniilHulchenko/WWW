@@ -66,7 +66,7 @@ namespace WWW.Service.Implementations
             var user= await _userRepository.GetValueByID(userId);
             var article = await _articleRepository.GetValueByID(articleid);
             BaseResponse<bool> b;
-            if (user.Event.Contains(article))
+            if (user.FavEvent.Contains(article))
             {
                 b = _userRepository.DeleteEventFromFavorite(user, article);
             }

@@ -1,0 +1,162 @@
+﻿@using System.Security.Claims;
+@using WWW.Domain.Entity;
+@inject WWW.DAL.Interfaces.IUserRepository accountrep;
+@model WWW.Domain.Entity.Article
+
+@{
+    Model.Tags.AddRange(new List<Tags>() {
+        new Tags() { Name="Music" } ,
+        new Tags() { Name="Consert" } ,
+        new Tags() { Name="Life" } ,
+            });
+}
+
+@section DetailsIMG{
+    <div style="width: 100%; max-width: 100vw; overflow: hidden; max-height: 400px;">
+        <div class="position-relative">
+            <img src="@Url.Action("GetImageById", "Help", new { id = Model.Id })" style="width: 100%;" />
+            <div id="tags" style="position:absolute; top:50%; left:1%; color:white;">
+                @if (Model.Tags != null)
+                {
+                    foreach (var i in Model.Tags)
+                    {
+                        <a class="display-6 text-decoration-none tag" >@i.Name</a>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+
+    <div class="details-container col-7">
+        <div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                var listOfFavorite = (await accountrep.GetValueByID(int.Parse(User.FindFirstValue("UserId")))).FavEvent;
+                @if (!listOfFavorite.Contains(Model))
+                {
+                    <a id="@Model.Id" href="javascript:void(0);" onclick="AddOrDeleteFavoriteEvent(@Model.Id)" class="text-warning display-5 text-decoration-none">&#9734;</a>
+                }
+                else
+                {
+                    <a id="@Model.Id" href="javascript:void(0);" onclick="AddOrDeleteFavoriteEvent(@Model.Id)" class="text-warning display-5 text-decoration-none">&#9733;</a>
+                }
+            }
+            <strong><h2 style="color:black">@Model.Title</h2></strong>
+        </div>
+
+        <div>
+            <h4>Short Description</h4>
+            <p>@Model.ShortDescription</p>
+        </div>
+
+        <div>
+            <h4>Description</h4>
+            <p>@Model.Description</p>
+        </div>
+        
+
+        <div>
+            <h4>Category</h4>
+            <p>@Model.Category.Name</p>
+        </div>
+        
+
+    </div>
+   <div class="col-4">
+        <div >
+            <h4 style="color:white;">Date</h4>
+            <p style="padding-left:10%;" >@Model.Date.Date_Of_Start</p>
+        </div>
+
+        <div >
+            <h4 style="color:white;">Location</h4>
+            <p style="padding-left:10%;">@Model.Location.location,<br> @Model.Location.City,<br> @Model.Location.Building</p>
+        </div>
+
+        <div >
+            <h4 style ="color:white;">Status</h4>
+            <p style="padding-left:10%;">@Model.Status</p>
+        </div>
+        <div>
+            <h4 style="color:white;">Author</h4>
+            <p style="padding-left:10%;">@Model.Autor.NickName</p>
+        </div>
+   </div>
+</div>
+
+
+
+<style>
+    .details-container {
+        max-width: 98%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-family: Arial, sans-serif;
+    }
+
+        .details-container h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .details-container h4 {
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .details-container p {
+            color: black;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .details-container ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .details-container li {
+            margin-bottom: 5px;
+        }
+
+    .container {
+        margin-top: 0;
+    }
+
+    body {
+        margin-top: 0;
+    }
+
+    header {
+        margin-bottom: 0;
+    }
+
+    img {
+        margin: 0;
+    }
+
+
+    .tag {
+        color:white;
+        text-decoration: none; /* Удаление подчеркивания */
+        background-color: rgba(200, 200, 200, 0.5); /* Серый полупрозрачный фон */
+        padding:0 5px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+</style>
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/AddOrDeleteFavoriteEvent.js"></script>
+}

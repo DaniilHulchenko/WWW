@@ -66,7 +66,7 @@ namespace WWW.DAL.Repositories
         {
             try
             {
-                user.Event.Add(article);
+                user.FavEvent.Add(article);
                 _db.SaveChanges();
             }
             catch (Exception ex)
@@ -79,7 +79,7 @@ namespace WWW.DAL.Repositories
         {
             try
             {
-                user.Event.Remove(article);
+                user.FavEvent.Remove(article);
                 _db.SaveChanges();
             }
             catch (Exception ex)
