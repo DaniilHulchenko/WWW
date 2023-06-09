@@ -10,7 +10,10 @@ namespace WWW.Service.Interfaces
 {
     public interface IArticleService:  IBaseService<Article>
     {
+        Task<BaseResponse<IQueryable<Article>>> GetByCity( string City);
         Task<BaseResponse<IQueryable<Article>>> GetByCategoryName(string CatName);
+        Task<BaseResponse<IQueryable<Article>>> GetByCategoryNameFilter(IQueryable<Article>? articles, string CatName);
+
         BaseResponse<Article> GetBySlug(string slug);
         Task<BaseResponse<Article>> GetById(int id);
         Task<bool> AddTag(Article article,Tags tags);

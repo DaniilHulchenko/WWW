@@ -11,6 +11,8 @@ using WWW.DAL.Repositories;
 using Hangfire.MemoryStorage.Database;
 using System.Drawing.Printing;
 using WWW.Domain.Api;
+using Newtonsoft.Json.Linq;
+using WWW.Domain.Response;
 
 namespace WWW.Controllers
 {
@@ -29,10 +31,15 @@ namespace WWW.Controllers
         }
 
         // GET: Article
-        public async Task<IActionResult> Index(string category = "", int page = 0, ArticleSortOption SortOption=ArticleSortOption.None, string Filters=null)
+        public async Task<IActionResult> Index(string ?category = null, int page = 0, ArticleSortOption SortOption=ArticleSortOption.None, string Filters=null)
         {
             int pageSize = 6;
-            var data = await _articleService.GetByCategoryName(category);
+
+            var data = (await _articleService.GetByCity(HttpContext.Session.GetString("City")));
+            //var data = await _articleService.GetByCategoryName(category);
+
+
+            data = await _articleService.GetByCategoryNameFilter(data.Data, category);
             data = await _articleService.OrderBy(data.Data,SortOption);
 
             if (Filters != null)

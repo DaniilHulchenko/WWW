@@ -4,6 +4,8 @@
 @model WWW.Domain.Entity.Article
 
 @{
+    ViewData["Title"] = "Details";
+
     Model.Tags.AddRange(new List<Tags>() {
         new Tags() { Name="Music" } ,
         new Tags() { Name="Consert" } ,
@@ -29,10 +31,12 @@
     </div>
 }
 
-<div class="row">
+<div class="row" style="padding-top:0;"> 
 
-    <div class="details-container col-7">
+    <div class="details-container col-8">
         <div>
+            <h2 style="color:black">
+                @Model.Title
             @if (User.Identity.IsAuthenticated)
             {
                 var listOfFavorite = (await accountrep.GetValueByID(int.Parse(User.FindFirstValue("UserId")))).FavEvent;
@@ -45,7 +49,7 @@
                     <a id="@Model.Id" href="javascript:void(0);" onclick="AddOrDeleteFavoriteEvent(@Model.Id)" class="text-warning display-5 text-decoration-none">&#9733;</a>
                 }
             }
-            <strong><h2 style="color:black">@Model.Title</h2></strong>
+            </h2>
         </div>
 
         <div>
@@ -66,41 +70,126 @@
         
 
     </div>
-   <div class="col-4">
-        <div >
-            <h4 style="color:white;">Date</h4>
-            <p style="padding-left:10%;" >@Model.Date.Date_Of_Start</p>
-        </div>
-
-        <div >
-            <h4 style="color:white;">Location</h4>
-            <p style="padding-left:10%;">@Model.Location.location,<br> @Model.Location.City,<br> @Model.Location.Building</p>
-        </div>
-
-        <div >
-            <h4 style ="color:white;">Status</h4>
-            <p style="padding-left:10%;">@Model.Status</p>
-        </div>
-        <div>
-            <h4 style="color:white;">Author</h4>
-            <p style="padding-left:10%;">@Model.Autor.NickName</p>
+    <div class="col-4">
+        <div id="MainInfoEvent">
+            <div class="details-container" style=" padding-left: 3%; background-color:dodgerblue; border-bottom-left-radius:0;border-bottom-right-radius:0;">
+                <h4 style="color:white;">📆Date</h4>
+                <p>@Model.Date.Date_Of_Start</p>
+            </div>
+            <div class="details-container bg-light" style="padding-left: 3%; border-top-left-radius:0;border-top-right-radius:0;">
+                <div>
+                    <h4>📌Location</h4>
+                    <p>@Model.Location.location,<br> @Model.Location.City,<br> @Model.Location.Building</p>
+                </div>
+                <div>
+                    <h4>💲Status</h4>
+                    <p>@Model.Status</p>
+                </div>
+                <div>
+                    <h4>😁Author</h4>
+                    <p>@Model.Autor.NickName</p>
+                </div>
+            </div>
         </div>
    </div>
 </div>
 
 
 
+<div class="row">
+
+    <div class="col details-container" style="margin-top:3%">
+        <center><h1 style="color:black;">Chat</h1></center>
+
+        <div class="container">
+            @if (User.Identity.IsAuthenticated)
+            {
+                    <input type="hidden" id="EventIdInput" value="@Model.Id" />
+                    @*User name*@
+                    <input type="hidden" id="userAvatarInput" value=@Url.Action("GetAvatarById", "Help", new {id= int.Parse(User.FindFirst("UserId").Value)} ) />
+                    <input type="hidden" id="userInput" value="@User.FindFirst("UserID").Value" readonly />
+                    @*Message*@
+                    <div class="row p-1">
+                        @*                <div class="col-1 text-color-black">Message</div>*@
+                        <textarea id="messageInput" class="form-control border-1" rows="3" control-id="ControlID-13"></textarea>
+                    </div>
+                    @*Button*@
+                    <div class="row p-1 float-end">
+                        <div class="col-6 text-end ">
+                        <input type="button" class="btn btn-success btn-lg" id="sendButton" style="padding:5px;" value="Send Message" />
+                    </div>
+                </div>
+            }
+
+            <hr />
+
+            <div class="row p-1">
+                <div class="col-6">
+                    <ul id="messagesList">
+                        @if (Model.Chat.Any())
+                        {
+                            foreach (var i in Model.Chat.OrderByDescending(d=>d.DateTime))
+                            {
+                                <div class="container">
+                                    <div class="position-relative">
+                                        <img src="@Url.Action("GetAvatarById","Help", new{Id= i.User.Id})" class="ChatAvatar" />
+                                        <span class="text-color-black">@i.User.NickName: </span>
+                                        <span class="text-color-black">@i.DateTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                                    </div>
+                                    <p>@i.Message</p>
+                                </div>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <style>
-    .details-container {
-        max-width: 98%;
-        margin: 0 auto;
+    .ChatAvatar{
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        margin-right: 1.5%;
+    }
+    #messagesList li{
+        color:black;
+    }
+
+    #MainInfoEvent{
+
+        position: relative;
+        bottom: 33%;
+    }
+
+    #Chat {
+        color:black;
+        width: 100%;
+        margin-top: 3%;
         padding: 20px;
         background-color: #f9f9f9;
         border: 1px solid #ddd;
         border-radius: 5px;
         font-family: Arial, sans-serif;
+        height: auto;
+    }
+    
+
+    .details-container {
+        
+        max-width: 98%;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-family: Arial, sans-serif;
+        height: auto;
     }
 
+    
         .details-container h1 {
             font-size: 24px;
             margin-bottom: 10px;
@@ -155,8 +244,17 @@
         cursor: pointer;
     }
 
+    p{
+        padding-left:10%;
+    }
+
 </style>
 
 @section Scripts{
     <script type="text/javascript" src="~/js/AddOrDeleteFavoriteEvent.js"></script>
+
+
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/SingalR/chat.js"></script>
+
 }

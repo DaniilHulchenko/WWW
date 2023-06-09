@@ -21,6 +21,7 @@ namespace WWW.Domain.Entity
         public virtual User_Details Details { get; set; }
         public virtual List<Article>? AutorEvent { get; set; }
         public virtual List<Article>? FavEvent { get; set; }
+        public virtual List<Chat>? Chat { get; set; }
 
     }
 }

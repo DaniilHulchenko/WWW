@@ -81,6 +81,37 @@ namespace WWW.Service.Implementations
             }
             return BaseResponse;
         }
+        public async Task<BaseResponse<IQueryable<Article>>> GetByCity(string? City)
+        {
+            IQueryable<Article> data = null;
+            if (City != null)
+                data = _articleRepository.GetALL().Where(a => a.Location.City == City);
+
+
+            if (data != null && data.Any())
+                return new BaseResponse<IQueryable<Article>>() { Data = data, StatusCode = StatusCode.OK };
+            else
+                return new BaseResponse<IQueryable<Article>>() { Data = _articleRepository.GetALL(), StatusCode = StatusCode.OK };
+
+        }
+        public async Task<BaseResponse<IQueryable<Article>>> GetByCategoryNameFilter(IQueryable<Article> articles, string? CatName)
+        {
+
+            if (CatName == null) return new BaseResponse<IQueryable<Article>>() { Data = articles, StatusCode = StatusCode.OK };
+
+            BaseResponse<IQueryable<Article>> BaseResponse = new();
+            try
+            {
+                BaseResponse.Data = articles.Where(a=>a.Category.slug==CatName);
+                BaseResponse.StatusCode = StatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                BaseResponse.ErrorDescription += ex.Message;
+                BaseResponse.StatusCode = StatusCode.InternalServerError;
+            }
+            return BaseResponse;
+        }
         public async Task<BaseResponse<Article>> GetById(int id)
         {
             try
@@ -270,5 +301,7 @@ namespace WWW.Service.Implementations
                 
             }
         }
+
+        
     }
 }

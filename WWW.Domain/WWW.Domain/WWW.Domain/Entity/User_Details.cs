@@ -22,6 +22,9 @@ namespace WWW.Domain.Entity
         [AllowNull]
         public string? Introdaction { get; set; }
 
+        [AllowNull]
+        public string? City { get; set; }
+
         //[AllowNull]
         //public string? RealName { get; set; }
         //[AllowNull, Phone]

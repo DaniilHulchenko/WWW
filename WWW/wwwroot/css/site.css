@@ -55,7 +55,9 @@ a {
 .text-color-white {
     color: white;
 }
-
+.text-color-black {
+    color: black;
+}
 .dropdown-item {
     color: black;
 }
@@ -78,5 +80,5 @@ a {
 }
 
 main {
-    margin-top: -5%;
+    margin-top: 3%;
 }

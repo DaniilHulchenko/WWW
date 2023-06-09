@@ -39,6 +39,8 @@ namespace WWW.Domain.Entity
 
         public virtual List<User>? User{ get; set;}
 
+        public virtual List<Chat>? Chat { get; set; }
+
         public Article() { }
         public Article(ArticleCreateViewModal entity) {
             Title = entity.Title;

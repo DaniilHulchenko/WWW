@@ -9,18 +9,18 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap1.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/img/icon.png" rel="shortcut icon" type="image/x-icon" />
 
 </head>
 <body>
     @Html.Partial("_Header")
 
-    @RenderSection("DetailsIMG", false)
-
     @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
     {
-        <br>
         @Html.Partial("_AdminSidebar")
     }
+    @RenderSection("DetailsIMG", false)
+
 
     <div class="container">
         <main role="main" class="pb-3 ">

@@ -141,6 +141,15 @@ namespace WWW.Controllers.Account
             //return RedirectToAction("Profile",model);
         }
 
+        public async Task<IActionResult> SessionMemory(string name, string? value) 
+        {
+            if (value == null)  
+                HttpContext.Session.Remove(name);
+            else 
+                HttpContext.Session.SetString(name, value);
+            return Redirect("/");
+        }
+
 
 
     }
