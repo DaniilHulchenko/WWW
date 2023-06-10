@@ -1,4 +1,4 @@
-﻿@inject  WWW.Jobs.Jobs.EventApiJob_ParseToDb eventparse;
+﻿@*@inject  WWW.Jobs.Jobs.EventApiJob_ParseToDb eventparse;*@
 <a id="ASideBar" data-bs-target="#AdminSideBar" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" class="btn btn-primary bg-black shadow-none" >
     ⨠
 </a>
@@ -20,7 +20,7 @@
                 <li><a class="dropdown-item" asp-controller="Article" asp-action="Create">Create Article</a></li>
             </ul>
 
-            <a class="dropdown-item" id="Parce_Events" href="" > Parse Data</a>
+            @*<a class="dropdown-item" id="Parce_Events" href="" > Parse Data</a>*@
             
             <a class="dropdown-item" href="/hangfire">Hangfire Dashboard</a>
             <a class="dropdown-item" href="/swagger">Swagger</a>
@@ -28,7 +28,7 @@
     </div>
 </div>
 
-@section Scripts{
+@*@section Scripts{
     <script>
         document.querySelector("#Parce_Events").onclick=> (){
         @{
@@ -38,7 +38,7 @@
         }
     </script>
     
-}
+}*@
 <style>
     #ASideBar{
         z-index: 10;

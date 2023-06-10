@@ -28,6 +28,8 @@ namespace WWW.Controllers
             _articleService = articleService;
             _categoryService = categoryService;
             _userService = accountService;
+
+
         }
 
         // GET: Article

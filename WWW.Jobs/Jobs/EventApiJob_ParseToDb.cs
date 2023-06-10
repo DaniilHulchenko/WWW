@@ -1,11 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
 using WWW.DAL.Interfaces;
+using WWW.DAL.Migrations;
 using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
+using WWW.Domain.Enum;
+using WWW.Domain.Models.Api;
 using WWW.Service.Helpers;
 using WWW.Service.Interfaces;
+using static WWW.Domain.Models.Api.TicketApi;
+using Location = WWW.Domain.Entity.Location;
 
 namespace WWW.Jobs.Jobs
 {
@@ -21,9 +27,13 @@ namespace WWW.Jobs.Jobs
         private readonly EntityBaseRepository<Location> _locationRepository;
         private readonly EntityBaseRepository<EventDates> _dateRepository;
         private readonly EntityBaseRepository<Picture> _pictureRepository;
+        Dictionary<string, string> keyValuePairs=new Dictionary<string, string>();
+          
 
-        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IUserRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<EventDates> dateRepository, EntityBaseRepository<Picture> pictureRepository)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IUserRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<EventDates> dateRepository, EntityBaseRepository<Picture> pictureRepository, IHttpContextAccessor httpContextAccessor)
         {
+            _httpContextAccessor = httpContextAccessor;
             _restapiRepository = restapiRepository;
             _logger = logger;
             _articleRepository = articleRepository;
@@ -34,81 +44,88 @@ namespace WWW.Jobs.Jobs
             _locationRepository = locationRepository;
             _dateRepository = dateRepository;
             _pictureRepository = pictureRepository;
+
+            
         }
 
-        Dictionary<string, string> keyValuePairs = new(){
+        public void SetCity()
+        {
+            keyValuePairs.Add("city", _httpContextAccessor.HttpContext.Session.GetString("City"));
+        }
 
-                    { "city", "Toronto" }
-            };
 
 
         public async Task ExecuteAsync()// автомапер 
         {
-            try
-            {             
+            //try
+            //{
+                SetCity();
+
             _restapiRepository.ApiSelector("Events:ticketmaster");
 
             keyValuePairs.Add("page", "0");
-            dynamic apiData = (await _restapiRepository.GetDataAsync(keyValuePairs));
+            Rootobject apiData = (await _restapiRepository.GetDataAsync<Rootobject>(keyValuePairs));
             int totalPages = (int)apiData.page.totalPages;
 
 
-                for (int p = 0; p < Math.Min(totalPages, 10); p++)
+                for (int p = 0; p < Math.Min(totalPages, 20); p++)
                 {
 
                     keyValuePairs["page"] = $"{p}";
                     for (int i = 0; i < (int)apiData.page.size; i++)
                     {
-                        try
-                        {
+                        //try
+                        //{
 
-                            dynamic ApiData = apiData._embedded.events[i];
+                            var ApiData = apiData._embedded.events[i];
 
                             string name = (string)ApiData.name;
                             string location = ApiData._embedded.venues[0].name;
-                            if (_articleRepository.GetALL().FirstOrDefault(a => a.Title == name & a.Location.location == location) != null) continue;
+                            if (_articleRepository.GetALL().FirstOrDefault(a => a.Title == name && a.Location.location == location) != null) continue;
 
                             Location Loc = await GetOrCreateLocation(ApiData);
 
-                            Article newArticle = await CreateArticle(ApiData, Loc);
+                            Category category = await CreateOrTakeCategory(ApiData.classifications[0].segment.name);
+
+                            Article newArticle = await CreateArticle(ApiData, Loc, category);
 
                             await CreateDate(ApiData, newArticle);
 
                             await DownloadAndCreatePicture(ApiData, newArticle);
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError("!!! " + ex.Message);
-                            continue;
-                        }
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    //_logger.LogError("!!! " + ex.Message);
+                        //    //continue;
+                        //    throw new Exception(ex.Message);
+                        //}
 
                     }
                 }
             _logger.LogInformation($"!!! : ArticleApiJob done");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("!!!!!" + ex.Message);
-                throw new Exception(ex.Message );
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    //_logger.LogError("!!!!!" + ex.Message);
+            //    throw new Exception(ex.Message );
+            //}
 
         }
 
-        private async Task<Article> CreateArticle(dynamic ApiData, Location Loc) {
+        private async Task<Article> CreateArticle(dynamic ApiData, Location Loc, Category category) {
             Article newArticle = new()
             {
                 Title = ApiData.name,
                 ShortDescription = $"{ApiData.name} event show",
                 Description = "-",
-                Status = ApiData.dates.status.code,
+                Status = (ArticleStatus)Enum.Parse(typeof(ArticleStatus), ApiData.dates.status.code, ignoreCase: true),
                 Autor = await _accountRepository.GetALL().FirstAsync(a => a.NickName == "Ticketmaster"),
-                Category = _categoryRepository.GetALL().First(c => c.Name == "Ticketmaster Events"),
+                Category = category,
                 Location = Loc,
                 Tags = null,
                 Published = true,
                 IsFavorite = false,
             };
-            //newArticle.slug = ApiData.name.ToString().ToLower().Replace(' ', '-') + "-" + (_articleRepository.GetALL().Any() ? _articleRepository.GetALL().OrderBy(o => o.Id).Last().Id + 1 : 0);
             newArticle.slug = GenerateArticleSlug(newArticle);
             await _articleRepository.Create(newArticle);
             return newArticle;
@@ -137,6 +154,22 @@ namespace WWW.Jobs.Jobs
             return Loc;
         }
 
+        private async Task<Category> CreateOrTakeCategory(string CatName)
+        {
+            var Cat = await _categoryRepository.GetALL().FirstOrDefaultAsync(c => c.Name == CatName);
+            if (Cat == null) {
+                Cat = new Category()
+                {
+                    Name = CatName,
+                    slug = CatName.ToLower(),
+                };
+                await _categoryRepository.Create(Cat);
+
+            }
+            return Cat;
+        }
+
+
         private async Task DownloadAndCreatePicture(dynamic ApiData, Article newArticle)
         {
             var Pic = await _downloadService.DownloadJpgPictAsync((string)ApiData.images[0].url);
@@ -149,7 +182,7 @@ namespace WWW.Jobs.Jobs
             {
                 Article = newArticle,
                 Date_of_Creation = DateTime.Now,
-                Date_Of_Start = ApiData.dates.start.localTime,
+                Date_Of_Start = DateTime.Parse(ApiData.dates.start.localTime),
                 Date_Of_Updated = DateTime.Now,
             };
             await _dateRepository.Create(dat);

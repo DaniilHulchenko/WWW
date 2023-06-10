@@ -11,8 +11,7 @@ using WWW.Domain.ViewModels.Account;
 using WWW.Service.Helpers;
 using WWW.Service.Interfaces;
 using WWW.Service.Implementations;
-
-
+using WWW.Jobs;
 
 namespace WWW.Controllers.Account
 {
@@ -23,9 +22,10 @@ namespace WWW.Controllers.Account
         private readonly EntityBaseRepository<User> _accountrepository;
         private readonly EntityBaseRepository<User_Details> _account_det_repository;
         private readonly IMapper _mapper;
-
-        public AccountController(AccountService accountService, EntityBaseRepository<User> accountrepository, IMapper mapper, EntityBaseRepository<User_Details> account_det_repository)
+        private readonly IBackgroundJob _backgroundJob;
+        public AccountController(AccountService accountService, EntityBaseRepository<User> accountrepository, IMapper mapper, EntityBaseRepository<User_Details> account_det_repository, IBackgroundJob backgroundJob)
         {
+            _backgroundJob = backgroundJob;
             _account_det_repository = account_det_repository;
             _accountrepository = accountrepository;
             _accountService = accountService;
@@ -143,10 +143,14 @@ namespace WWW.Controllers.Account
 
         public async Task<IActionResult> SessionMemory(string name, string? value) 
         {
-            if (value == null)  
+            if (value == null)
                 HttpContext.Session.Remove(name);
-            else 
+            else {
                 HttpContext.Session.SetString(name, value);
+                if(name== "City")
+                    await _backgroundJob.ExecuteAsync();
+            }
+
             return Redirect("/");
         }
 

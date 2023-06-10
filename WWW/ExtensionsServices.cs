@@ -55,7 +55,7 @@ public static class ExtensionsServices
         Services.AddTransient<GoogleOAuthService>();
 
 //                          Jobs
-        Services.AddTransient<EventApiJob_ParseToDb>();
+        Services.AddTransient<IBackgroundJob, EventApiJob_ParseToDb>();
 
 //                          google
         //Services.AddTransient<GoogleApiService>();

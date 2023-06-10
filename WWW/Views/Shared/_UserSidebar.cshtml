@@ -6,12 +6,12 @@
 </a>*@
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header bg-black ">
-        <h5 class="offcanvas-title text-color-white" id="offcanvasExampleLabel">SibeNavBar</h5>
+        <h5 class="offcanvas-title text-color-white" id="offcanvasExampleLabel">SiteNavBar</h5>
         <button type="button" class="btn-close text-reset bg-white" style="border-radius:0" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body ">
         <div class="bg-gray-800 ">
-            Temporary
+            Navigation Side Bar
         </div>
         <div class="dropdown mt-3">
             @*<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -21,8 +21,17 @@
                 <li><a class="dropdown-item" asp-controller="Category" asp-action="Create">Create Category</a></li>
                 <li><a class="dropdown-item" asp-controller="Article" asp-action="Create">Create Article</a></li>
             </ul>*@
-            <a class="dropdown-item" asp-controller="Test" asp-action="Chat">Chat</a>
-            <a class="dropdown-item" asp-controller="Test" asp-action="DataGetter">Data</a>
+            @*<a class="dropdown-item" asp-controller="Test" asp-action="Chat">Chat</a>
+            <a class="dropdown-item" asp-controller="Test" asp-action="DataGetter">Data</a>*@
+
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Creation Forms
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                <li><a class="dropdown-item" asp-controller="Category" asp-action="Create">Create Category</a></li>
+                <li><a class="dropdown-item" asp-controller="Article" asp-action="Create">Create Article</a></li>
+            </ul>
+
         </div>
     </div>
 </div>
