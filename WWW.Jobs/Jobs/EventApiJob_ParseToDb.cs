@@ -9,6 +9,7 @@ using WWW.Domain.Entity;
 using WWW.Domain.Enum;
 using WWW.Domain.Models.Api;
 using WWW.Service.Helpers;
+using WWW.Service.Helpers.Api;
 using WWW.Service.Interfaces;
 using static WWW.Domain.Models.Api.TicketApi;
 using Location = WWW.Domain.Entity.Location;
@@ -18,7 +19,7 @@ namespace WWW.Jobs.Jobs
     public class EventApiJob_ParseToDb : IBackgroundJob
     {
         ILogger<EventApiJob_ParseToDb> _logger;
-        private readonly RestApiRequest _restapiRepository;
+        private readonly IRestApiRequest _restapiRepository;
         private readonly IArticleRepository _articleRepository;
         private readonly IUserRepository _accountRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -31,7 +32,7 @@ namespace WWW.Jobs.Jobs
           
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public EventApiJob_ParseToDb(RestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IUserRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<EventDates> dateRepository, EntityBaseRepository<Picture> pictureRepository, IHttpContextAccessor httpContextAccessor)
+        public EventApiJob_ParseToDb(IRestApiRequest restapiRepository, ILogger<EventApiJob_ParseToDb> logger, IArticleRepository articleRepository, IUserRepository accountRepository, ICategoryRepository categoryRepository, DownloadService downloadService, EntityBaseRepository<Location> locationRepository, EntityBaseRepository<EventDates> dateRepository, EntityBaseRepository<Picture> pictureRepository, IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
             _restapiRepository = restapiRepository;
@@ -50,7 +51,14 @@ namespace WWW.Jobs.Jobs
 
         public void SetCity()
         {
-            keyValuePairs.Add("city", _httpContextAccessor.HttpContext.Session.GetString("City"));
+            try
+            {
+                keyValuePairs.Add("city", _httpContextAccessor.HttpContext.Session.GetString("City"));
+
+            }
+            catch (Exception)
+            {
+            }
         }
 
 
@@ -74,10 +82,10 @@ namespace WWW.Jobs.Jobs
                     keyValuePairs["page"] = $"{p}";
                     for (int i = 0; i < (int)apiData.page.size; i++)
                     {
-                        //try
-                        //{
+                    try
+                    {
 
-                            var ApiData = apiData._embedded.events[i];
+                        var ApiData = apiData._embedded.events[i];
 
                             string name = (string)ApiData.name;
                             string location = ApiData._embedded.venues[0].name;
@@ -92,15 +100,15 @@ namespace WWW.Jobs.Jobs
                             await CreateDate(ApiData, newArticle);
 
                             await DownloadAndCreatePicture(ApiData, newArticle);
-                        //}
-                        //catch (Exception ex)
-                        //{
-                        //    //_logger.LogError("!!! " + ex.Message);
-                        //    //continue;
-                        //    throw new Exception(ex.Message);
-                        //}
-
                     }
+                    catch (Exception ex)
+                    {
+                        //_logger.LogError("!!! " + ex.Message);
+                        //continue;
+                        //throw new Exception(ex.Message);
+                    }
+
+                }
                 }
             _logger.LogInformation($"!!! : ArticleApiJob done");
             //}

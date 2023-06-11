@@ -90,6 +90,7 @@
   <ItemGroup>
     <ProjectReference Include="..\WWW.DAL\WWW.DAL.csproj" />
     <ProjectReference Include="..\WWW.Jobs\WWW.Jobs.csproj" />
+    <ProjectReference Include="..\WWW.NUnitTests\WWW.NUnitTests.csproj" />
     <ProjectReference Include="..\WWW.Service\WWW.Service\WWW.Service.csproj" />
   </ItemGroup>
 

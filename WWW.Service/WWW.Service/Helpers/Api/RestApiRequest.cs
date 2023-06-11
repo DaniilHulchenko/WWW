@@ -2,11 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
+using WWW.Service.Helpers.Api;
+using WWW.Domain.Api;
 //using WWW.Domain.Api;
 
 namespace WWW.Service.Helpers
 {
-    public class RestApiRequest
+    public class RestApiRequest: IRestApiRequest
     {
         private readonly IConfiguration _configuration;
 
@@ -15,6 +17,9 @@ namespace WWW.Service.Helpers
         private string _endpoint;
         //private readonly Logger<RestApiRequest> _logger;
 
+        public RestApiRequest()
+        {
+        }
 
         public RestApiRequest(IConfiguration configuration)
         {

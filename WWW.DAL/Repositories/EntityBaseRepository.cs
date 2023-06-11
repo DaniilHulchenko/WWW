@@ -13,12 +13,13 @@ namespace WWW.DAL.Repositories
     public class EntityBaseRepository<T> : IBaseRepository<T> where T : DbBase
     {
         private readonly ApplicationDbContext _db;
-        public EntityBaseRepository(ApplicationDbContext db)
+        public EntityBaseRepository() { }
+            public EntityBaseRepository(ApplicationDbContext db)
         {
             _db = db;
         }
 
-        public async Task<bool> Create(T entity)
+        public virtual async Task<bool> Create(T entity)
         {
             await _db.Set<T>().AddAsync(entity);
             await _db.SaveChangesAsync();
@@ -39,7 +40,7 @@ namespace WWW.DAL.Repositories
             
         }
 
-        public IQueryable<T> GetALL()
+        public virtual IQueryable<T> GetALL()
         {
             return _db.Set<T>();
         }

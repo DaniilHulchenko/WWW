@@ -13,7 +13,10 @@ namespace WWW.Service.Interfaces
 {
     public class DownloadService
     {
-        ILogger<DownloadService> _logger;   
+        ILogger<DownloadService> _logger;
+        public DownloadService()
+        {
+        }
         public DownloadService(ILogger<DownloadService> logger) { 
             _logger = logger;
         }
@@ -32,7 +35,7 @@ namespace WWW.Service.Interfaces
             _logger.LogInformation($"Pictre was saved in : {fileName}");
 
         }
-        public async Task<Picture> DownloadJpgPictAsync(string url)
+        public virtual async Task<Picture> DownloadJpgPictAsync(string url)
         {
             using (WebClient client = new WebClient())
             {

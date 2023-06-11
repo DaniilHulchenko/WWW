@@ -15,6 +15,8 @@ using WWW.Service.Helpers;
 using WWW.Service.Implementations;
 using WWW.Service.Interfaces;
 using WWW.Service.Implementations;
+using WWW.Service.Helpers.Api;
+using WWW.NUnitTests.Servises;
 
 public static class ExtensionsServices
 {
@@ -50,7 +52,7 @@ public static class ExtensionsServices
 
 //                          API
         //Services.AddTransient<IApiRepository<HttpApiRequest>, HttpApiRequest>();
-        Services.AddTransient<RestApiRequest>();
+        Services.AddTransient<IRestApiRequest, RestApiRequest>();
 //                    GoogleOAuth
         Services.AddTransient<GoogleOAuthService>();
 
@@ -60,6 +62,9 @@ public static class ExtensionsServices
 //                          google
         //Services.AddTransient<GoogleApiService>();
         Services.AddTransient<GoogleSingInService>();
+
+        // Tests
+        Services.AddTransient<ArticleServiceTests>();
         /*#####################################   HangFire (Job Schedule) ###############################################*/
         builder.Services.AddHostedService<JobWorker>();
 
