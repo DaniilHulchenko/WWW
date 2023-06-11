@@ -63,8 +63,8 @@ public static class ExtensionsServices
         //Services.AddTransient<GoogleApiService>();
         Services.AddTransient<GoogleSingInService>();
 
-        // Tests
-        Services.AddTransient<ArticleServiceTests>();
+        //Tests
+        //Services.AddTransient<ArticleServiceTests>();
         /*#####################################   HangFire (Job Schedule) ###############################################*/
         builder.Services.AddHostedService<JobWorker>();
 
