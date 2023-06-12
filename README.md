@@ -1,5 +1,5 @@
 ﻿# [EventTracker](https://silver-side.azurewebsites.net/)
-
+EventTracker is a website that helps users find and schedule events in their area. The website has a searchable database of events such as concerts, festivals and art exhibitions that users can browse and filter by date, location and category. Once users find an event of interest, they can add it to their personal event calendar or track it on the website. EventTracker also has a social component where users can connect with other event attendees, share their experiences and get recommendations for future events.
 ### Project for `'Web Technology'` course in Lviv National University of Ivan Franko
 
 Contacts:
