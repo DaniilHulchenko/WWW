@@ -58,7 +58,6 @@ Than (if you have App Services) add line of your connection string to applicatio
 - ✅ Display User register and login
 - ✅ Display User profile
 - ✅ List of Events
-- 🔳 Order Form
 - ✅ Creation Forms
 
 ### 2. Database
@@ -67,11 +66,12 @@ Than (if you have App Services) add line of your connection string to applicatio
 - ✅ Connect Database
 - ✅ Connect ORM Entity
 - ✅ Create Schemas for objects
-- 🔳 Order busket
 
 ### 3. API
 
-- 🔳 Controller
+- ✅ Controller
+- ✅ Parser
+- ✅ Api getter
 
 ### 4. Authorization
 * ✅ Create Login and Register Pages
@@ -94,16 +94,14 @@ Than (if you have App Services) add line of your connection string to applicatio
 
 ### 6. Loggs
 
-- 🔳 Add logs for Authorization
-- 🔳 Add logs for User Profile
+- ✅ Add logs for Authorization
+- ✅ Add logs for User Profile
 
 ### 7. Test
 
-- 🔳 Test Authorization
-- 🔳 Test Orders
-- 🔳 Test User Profile
+- ✅ Some UnitTests
 
-### 8. Azure
+### 8. Azure ( Subscription problems )
 
 - ✅ Deploy the project
 - ✅ Connect Application Insights
@@ -117,18 +115,20 @@ Than (if you have App Services) add line of your connection string to applicatio
 
 
 ### 10. Swagger
-
-
 - ✅ Servise
 - 🔳 Jobs
 
-LAb-3: Made more readeable code from \_Layout.cshtml. Removed trashed code and refactored it. Now it looks more pelasent. Code more functional and reuse. Added admin sidebar
+Lab 3:
 =======
 LAB-3. Denys Zaruba(FEP-21): Made more readeable code from \_Layout.cshtml. Removed trashed code and refactored it. Now it looks more pelasent. Code more functional and reuse. Added admin sidebar(https://github.com/DaniilHulchenko/WWW/pull/1 )
 My project: https://github.com/BiigBan/Calendar
 
-
+Lab 4:
+=======
 LAB-4: Check file jobs, which connected to API(BE) which make requests. That`s code has a lot of trashes and unreadeable, to be perfect to add automapper there and repetitive logic into separate functions to improve code and maintainability. (ZARUBA DENYS)
-https://github.com/BiigBan/Calendar
+Git: https://github.com/BiigBan/Calendar
+Pull: https://github.com/BiigBan/Calendar
 
-Lab-4 Bardakov Illa(FEP-22): зробити дженерики типу create ітд через базовий тип для репозиторіїв бази данних, повидаляти непотрібні репезиторії і замінити ії на базовий дженеріковий https://github.com/bardavkov/bardavkov https://github.com/DaniilHulchenko/WWW/pull/5
+Lab-4 Bardakov Illa(FEP-22): зробити дженерики типу create ітд через базовий тип для репозиторіїв бази данних, повидаляти непотрібні репезиторії і замінити ії на базовий дженеріковий 
+Git: https://github.com/bardavkov/bardavkov 
+Pull: https://github.com/DaniilHulchenko/WWW/pull/5
