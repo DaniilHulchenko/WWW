@@ -65,8 +65,8 @@ namespace WWW.Jobs.Jobs
 
         public async Task ExecuteAsync()// автомапер 
         {
-            //try
-            //{
+            try
+            {
                 SetCity();
 
             _restapiRepository.ApiSelector("Events:ticketmaster");
@@ -111,12 +111,12 @@ namespace WWW.Jobs.Jobs
                 }
                 }
             _logger.LogInformation($"!!! : ArticleApiJob done");
-            //}
-            //catch (Exception ex)
-            //{
-            //    //_logger.LogError("!!!!!" + ex.Message);
-            //    throw new Exception(ex.Message );
-            //}
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError("!!!!!" + ex.Message);
+                //throw new Exception(ex.Message);
+            }
 
         }
 
