@@ -87,7 +87,7 @@
                 </div>
                 <div>
                     <h4>😁Author</h4>
-                    <p>@Model.Autor.NickName</p>
+                    <p><a asp-action="Autor" asp-route-id="@Model.Autor.Id">@Model.Autor.NickName</a></p>
                 </div>
             </div>
         </div>
@@ -254,7 +254,6 @@
     <script type="text/javascript" src="~/js/AddOrDeleteFavoriteEvent.js"></script>
 
 
-    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/SingalR/chat.js"></script>
 
 }

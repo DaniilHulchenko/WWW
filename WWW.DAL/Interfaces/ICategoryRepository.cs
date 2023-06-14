@@ -5,7 +5,7 @@ namespace WWW.DAL.Interfaces
     public interface ICategoryRepository:IBaseRepository<Category>
     {
         //Category GetCategoryByName(string name);
-        Task<IEnumerable<Category>> GetNotEmptyCategory();
+        Task<IQueryable<Category>> GetNotEmptyCategory();
     }
     
 }

@@ -15,7 +15,7 @@ namespace WWW.Jobs
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             // Jobs Here
-            //_jobService.Schedule<EventApiJob_ParseToDb>("* * * * *");
+            _jobService.Schedule<EventApiJob_ParseToDb>("0 * * * *");
             //_jobService.Schedule<EventApiJob_ParseToDb>("");
             return Task.CompletedTask;
         }

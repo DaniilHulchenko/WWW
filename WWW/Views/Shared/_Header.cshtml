@@ -23,13 +23,19 @@
                             <span class="visually-hidden">(current)</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-controller="Article" asp-action="Index">
+                            All
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-color-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categorys</a>
                         <div class="dropdown-menu">
 
                             <a class=" dropdown-item text-color-black" asp-controller="Article" asp-action="Index">Categoryes</a>
                             <div class="dropdown-divider"></div>
-                            @await Component.InvokeAsync("NotEnptyCategory")
+                            @await Component.InvokeAsync("NotEnptyCategory", Context.Session.GetString("City"))
                         </div>
                     </li>
                     </ul>
@@ -48,13 +54,17 @@
                             <a class="nav-link dropdown-toggle text-color-white  " data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">City</a>
                         }
                         <div  class="dropdown-menu " style="width: 420px;" data-bs-popper="static">
-                                <a class="dropdown-item" asp-controller="Account" asp-action="SessionMemory" asp-route-name="City" >Default</a>
-                            <div class="row row-cols-3">
-
+                            <form id="CityForm" class="d-flex" >
+                                <input id="CitySearchInput" class="form-control me-sm-2" type="search" placeholder="Search" name="searchTerm" control-id="ControlID-1">
+                            </form>
+                            <center><a class="dropdown-item" asp-controller="Account" asp-action="SessionMemory" asp-route-name="City">Default</a></center>
+                            <div id="Citylist" class="row row-cols-3">
                                 @foreach (var city in Enum.GetValues(typeof(PopularCity)).Cast<PopularCity>().ToList())
                                 {
+                                    string City = city.ToString().Replace("_", " "); 
                                     <div class="col">
-                                        <a class="dropdown-item" asp-controller="Account" asp-action="SessionMemory" asp-route-name="City" asp-route-value=@city>@city</a>
+
+                                        <a class="dropdown-item" asp-controller="Account" asp-action="SessionMemory" asp-route-name="City" asp-route-value=@City>@City</a>
                                     </div>
                                 }
                             </div>

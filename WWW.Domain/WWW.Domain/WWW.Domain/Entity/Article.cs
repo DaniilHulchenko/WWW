@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using WWW.Domain.Enum;
 using WWW.Domain.ViewModels.Article;
-using static Grpc.Core.Metadata;
-
 namespace WWW.Domain.Entity
 {
     [Table("Articles")]
@@ -16,6 +11,7 @@ namespace WWW.Domain.Entity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        //[FullTextIndex]
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }

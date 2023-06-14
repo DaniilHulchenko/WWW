@@ -14,12 +14,13 @@ namespace WWW.DAL.Repositories
             _db = db;
         }
 
-        public async Task<IEnumerable<Category>> GetNotEmptyCategory() {         
+        public async Task<IQueryable<Category>> GetNotEmptyCategory() {         
             string query = "select * from Categories " +
                     "where exists (" +
-                    "select * from Articles where Articles.CategoryID = Categories.Id " +
-                    "); ";
-            return await _db.Categories.FromSqlRaw(query).ToListAsync();
+                    "select * from Articles where Articles.CategoryID = Categories.Id" +
+                    ");";
+
+            return _db.Categories.FromSqlRaw(query).AsQueryable();
         }
 
 

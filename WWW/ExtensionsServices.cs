@@ -16,6 +16,7 @@ using WWW.Service.Implementations;
 using WWW.Service.Interfaces;
 using WWW.Service.Implementations;
 using WWW.Service.Helpers.Api;
+using Nest;
 
 public static class ExtensionsServices
 {
@@ -64,7 +65,7 @@ public static class ExtensionsServices
 
         //Tests
         //Services.AddTransient<ArticleServiceTests>();
-        /*#####################################   HangFire (Job Schedule) ###############################################*/
+/*#####################################   HangFire (Job Schedule) ###############################################*/
         builder.Services.AddHostedService<JobWorker>();
 
         Services.AddSingleton<IJobService, JobService>();
@@ -81,7 +82,7 @@ public static class ExtensionsServices
         Services.AddAutoMapper(typeof(Program));
 
 
-        /*#####################################  Add Swager ###############################################*/
+/*#####################################  Add Swager ###############################################*/
 
         builder.Services.AddSwaggerGen(c =>
         {
@@ -89,7 +90,31 @@ public static class ExtensionsServices
         });
 /*#####################################  Add SignalR ###############################################*/
         builder.Services.AddSignalR();
-        builder.Services.AddTransient<DataHub>();
+        builder.Services.AddTransient<CityHub>();
+
+
+        ///*#####################################  Add ElasticSearch  ###############################################*/
+
+        ////var elasticsearchUrl = builder.Configuration.GetSection("Elasticsearch:Url").Value ?? "http://localhost:9200";
+
+        ////Services.AddSingleton<IElasticClient>(x => new ElasticClient(new ConnectionSettings(new Uri(elasticsearchUrl))));
+
+
+        //Services.AddSingleton<ConnectionSettings>(sp =>
+        //{
+        //    var configuration = sp.GetRequiredService<IConfiguration>();
+        //    var elasticsearchUrl = configuration.GetSection("Elasticsearch:Url").Value;
+        //    var connectionSettings = new ConnectionSettings(new Uri(elasticsearchUrl)); // Замените "my_index" на имя вашего индекса .DefaultIndex("my_index")
+        //    return connectionSettings;
+        //});
+
+        //Services.AddSingleton<IElasticClient>(sp =>
+        //{
+        //    var connectionSettings = sp.GetRequiredService<ConnectionSettings>();
+        //    var elasticClient = new ElasticClient(connectionSettings);
+        //    return elasticClient;
+        //});
+
 
         //Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(
         //       Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));

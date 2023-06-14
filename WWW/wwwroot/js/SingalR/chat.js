@@ -1,7 +1,6 @@
 ﻿"use strict";
 
 
-
 var connection = new signalR.HubConnectionBuilder().withUrl("/СhatHub").build();
 
 //Disable the send button until connection is established.
@@ -65,8 +64,8 @@ connection.on("ReceiveMessage", function (user, message, useravatar, datetime) {
 
 
     var messagesList = document.getElementById("messagesList");
-    var firstChild = messagesList.firstChild; // Получаем ссылку на первый элемент в списке
-    messagesList.insertBefore(container, firstChild); // Добавляем новый элемент перед первым элементом
+    var firstChild = messagesList.firstChild; 
+    messagesList.insertBefore(container, firstChild); 
 
 
     //document.getElementById("messagesList").appendChild(container);

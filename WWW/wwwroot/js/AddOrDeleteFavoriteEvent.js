@@ -18,4 +18,5 @@ function AddOrDeleteFavoriteEvent(eventid) {
         });
 
 
+
 }

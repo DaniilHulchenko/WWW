@@ -11,6 +11,7 @@ namespace WWW.Service.Interfaces
     public interface IArticleService:  IBaseService<Article>
     {
         Task<BaseResponse<IQueryable<Article>>> GetByCity( string City);
+        Task<IQueryable<Article>> SearchByTitle(IQueryable<Article> articles, string searchTerm);
         Task<BaseResponse<IQueryable<Article>>> GetByCategoryName(string CatName);
         Task<BaseResponse<IQueryable<Article>>> GetByCategoryNameFilter(IQueryable<Article>? articles, string CatName);
 

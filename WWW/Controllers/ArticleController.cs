@@ -33,11 +33,14 @@ namespace WWW.Controllers
         }
 
         // GET: Article
-        public async Task<IActionResult> Index(string ?category = null, int page = 0, ArticleSortOption SortOption=ArticleSortOption.None, string Filters=null)
+        public async Task<IActionResult> Index(string? searchTerm = null,string ? category = null, int page = 0, ArticleSortOption SortOption=ArticleSortOption.None, string Filters=null)
         {
             int pageSize = 6;
 
             var data = (await _articleService.GetByCity(HttpContext.Session.GetString("City")));
+            if(searchTerm !=null )
+                 data.Data = (await _articleService.SearchByTitle(data.Data, searchTerm));
+
             //var data = await _articleService.GetByCategoryName(category);
 
 
@@ -156,6 +159,12 @@ namespace WWW.Controllers
             var UserId = int.Parse(User.FindFirst("UserId").Value);
             await _userService.AddOrDeleteFavoriteEvent(UserId, ArticleId);
             return Ok();
+        }
+
+        public async Task<IActionResult> Autor (int id)
+        {
+            var data = await _userRepository.GetValueByID(id);
+            return View(data ) ;
         }
     }
 }

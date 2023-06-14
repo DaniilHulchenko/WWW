@@ -97,11 +97,11 @@ namespace WWW.NUnitTests.Services
             string catName = "cat1";
             var articles = new List<Article>
                     {
-                        new Article { Category = new Category { slug = "cat1" } },
-                        new Article { Category = new Category { slug = "cat1" } },
-                        new Article { Category = new Category { slug = "cat2" } }
+                        new Article { Category = new Category { Name = "cat1" } },
+                        new Article { Category = new Category { Name = "cat1" } },
+                        new Article { Category = new Category { Name = "cat2" } }
                     };
-            //_articleRepositoryMock.Setup(x => x.GetByCategoryName(catName)).ReturnsAsync(articles.AsQueryable());
+            _articleRepositoryMock.Setup(x => x.GetByCategoryName(catName)).ReturnsAsync(articles.AsQueryable().Where(a=>a.Category.Name == catName));
 
 
             // Act
@@ -110,7 +110,7 @@ namespace WWW.NUnitTests.Services
             // Assert
             Assert.AreEqual(StatusCode.OK, response.StatusCode);
             Assert.IsNotNull(response.Data);
-            Assert.IsTrue(response.Data.All(a => a.Category.slug == catName));
+            Assert.IsTrue(response.Data.All(a => a.Category.Name == catName));
         }
 
         [Test]

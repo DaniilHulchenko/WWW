@@ -23,7 +23,7 @@ public static class ExtensionsApp
         });
         /*################################### SingalR ###############################*/
         app.MapHub<ChatHub>("/СhatHub");
-        app.MapHub<DataHub>("/DataHub");
+        app.MapHub<CityHub>("/CityHub");
 
 
     }

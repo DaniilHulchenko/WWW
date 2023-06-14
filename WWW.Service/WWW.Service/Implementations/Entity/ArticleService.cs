@@ -94,6 +94,15 @@ namespace WWW.Service.Implementations
                 return new BaseResponse<IQueryable<Article>>() { Data = _articleRepository.GetALL(), StatusCode = StatusCode.OK };
 
         }
+
+        public async Task<IQueryable<Article>> SearchByTitle(IQueryable<Article> articles, string searchTerm)
+        {
+            //return _articleRepository.SearchByTitle(articles, searchTerm);
+            return articles.Where(a => a.Title.ToLower().Replace(" ", "").Contains(searchTerm.ToLower().Replace(" ", "")));
+
+        }
+
+
         public async Task<BaseResponse<IQueryable<Article>>> GetByCategoryNameFilter(IQueryable<Article> articles, string? CatName)
         {
 
@@ -236,7 +245,7 @@ namespace WWW.Service.Implementations
                 //case ArticleSortOption.UserFavorites:
                 //    return new BaseResponse<IQueryable<Article>>() { Data = (await _userRepository.GetValueByID(UserId)).FavEvent.AsQueryable(), StatusCode = StatusCode.OK };
                 case ArticleSortOption.Popular:
-                    throw new NotImplementedException("Popular sort uninvadable");
+                    return new BaseResponse<IQueryable<Article>>(){ Data = articles.OrderByDescending(a => a.User.Count()),  StatusCode = StatusCode.OK};
                 default:
                     return new BaseResponse<IQueryable<Article>>() { Data = articles, StatusCode = StatusCode.OK };
             }

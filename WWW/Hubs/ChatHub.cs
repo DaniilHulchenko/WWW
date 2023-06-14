@@ -8,10 +8,10 @@ namespace WWW.Hubs
     public class ChatHub : Hub
     {
         private readonly IArticleService _articleService;
-        ILogger<DataHub> _logger;
+        ILogger<CityHub> _logger;
         private readonly EntityBaseRepository<User> _userrepository;
         private readonly EntityBaseRepository<Chat> _chatrepository;
-        public ChatHub(IArticleService articleService, ILogger<DataHub> logger, EntityBaseRepository<Chat> chatrepository, EntityBaseRepository<User> userrepository)
+        public ChatHub(IArticleService articleService, ILogger<CityHub> logger, EntityBaseRepository<Chat> chatrepository, EntityBaseRepository<User> userrepository)
         {
             _userrepository = userrepository;
             _chatrepository = chatrepository;

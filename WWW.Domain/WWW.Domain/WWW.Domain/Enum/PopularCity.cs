@@ -8,17 +8,17 @@ namespace WWW.Domain.Enum
 {
     public enum PopularCity
     {
-        NewYork,
-        LosAngeles,
+        New_York,
+        Los_Angeles,
         Chicago,
         Miami,
         Houston,
         Philadelphia,
         London,
-        SanAntonio,
-        SanDiego,
+        San_Antonio,
+        San_Diego,
         Dallas,
-        SanFrancisco,
+        San_Francisco,
         Boston,
         Toronto,
         Montreal,
@@ -30,7 +30,7 @@ namespace WWW.Domain.Enum
         Winnipeg,
         Hamilton,
         Oakland,
-        SanJose,
+        San_Jose,
         Atlanta
     }
 

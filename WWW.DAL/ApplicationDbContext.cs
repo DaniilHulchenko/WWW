@@ -29,6 +29,10 @@ namespace WWW.DAL {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<Article>()
+            //.HasIndex(a => a.Title)
+            //.HasDatabaseName("IX_Articles_Title");
+
             modelBuilder.Entity<Article>().HasOne(a => a.Autor).WithMany(u=>u.AutorEvent);
             modelBuilder.Entity<Article>().HasMany(a => a.User).WithMany(u=>u.FavEvent);
             //modelBuilder.Entity<User_Details>()

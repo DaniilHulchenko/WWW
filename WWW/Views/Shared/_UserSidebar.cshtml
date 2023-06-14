@@ -23,7 +23,13 @@
             </ul>*@
             @*<a class="dropdown-item" asp-controller="Test" asp-action="Chat">Chat</a>
             <a class="dropdown-item" asp-controller="Test" asp-action="DataGetter">Data</a>*@
+            <form id="searchForm" class="d-flex" method="post">
+                <input class="form-control me-sm-2" type="search" placeholder="Search" name="searchTerm" control-id="ControlID-1">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit" control-id="ControlID-2">Search</button>
+            </form>
 
+            
+            <br />
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 Creation Forms
             </button>
@@ -47,3 +53,6 @@
         left:5px;
     }
 </style>
+@section Scripts{
+    <script type="text/javascript" src="~/js/SearchForm.js"></script>
+}

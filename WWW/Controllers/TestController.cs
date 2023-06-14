@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nest;
 using System.Net;
 using System.Security.Policy;
+using WWW.DAL.Interfaces;
 using WWW.DAL.Repositories;
 using WWW.Domain.Entity;
 using WWW.Domain.GoogleOAuth;
@@ -14,6 +16,7 @@ namespace WWW.Controllers
 {
     public class TestController : Controller
     {
+
         //private readonly IArticleService _articleService;
         //private readonly ICategoryService _categoryService;
         //private readonly IBaseRepository<Tags> _tagsRepository;
@@ -22,25 +25,35 @@ namespace WWW.Controllers
 
         //DownloadService _downloadService;
 
-        EventApiJob_ParseToDb EventApiJob_ParseToDb;
+        //EventApiJob_ParseToDb EventApiJob_ParseToDb;
 
         //EntityBaseRepository<Article> baseRepository
         //public HomeController(EntityBaseRepository<Article> baseRepository, ArticleApiJob_ParseToDb articleApiJob_ParseToDb,DownloadService downloadService,RestApiRequest restApiRequest, IArticleService articleService, ICategoryService categoryService, IBaseRepository<Tags>  tagsRepository)
 
-        private readonly EntityBaseRepository<Article> _baseArticleRepository;
-        private readonly RestApiRequest _restApiRequest;
-        private readonly IMapper _mapper;
-        public TestController(EventApiJob_ParseToDb eventApiJob_ParseToDb ,RestApiRequest restApiRequest, EntityBaseRepository<Article> baseRepository, IMapper mapper)
+        //private readonly EntityBaseRepository<Article> _baseArticleRepository;
+        //private readonly RestApiRequest _restApiRequest;
+        //private readonly IMapper _mapper;
+        //public TestController(RestApiRequest restApiRequest, EntityBaseRepository<Article> baseRepository, IMapper mapper)
+        //{
+        //    _mapper = mapper;
+        //    _restApiRequest = restApiRequest;
+        //    _baseArticleRepository = baseRepository;
+        //    //EventApiJob_ParseToDb = eventApiJob_ParseToDb;
+
+        //}
+
+        //private readonly IElasticClient _elasticClient;
+
+        IArticleRepository _articleRepository;
+        public TestController(IArticleRepository articleRepository)
         {
-            _mapper = mapper;
-            _restApiRequest = restApiRequest;
-            _baseArticleRepository = baseRepository;
-            EventApiJob_ParseToDb = eventApiJob_ParseToDb;
-            
+            //_elasticClient = elasticClient;
+            _articleRepository = articleRepository;
         }
 
-       
-        public async Task<IActionResult> Index()
+
+
+        public async Task<IActionResult> Index(string searchTerm)
         {
             //_apiRequest.SetApiName("Articles_predicthq");
             //dynamic data = await _apiRequest.GetData(new Dictionary<string, string>{
@@ -71,7 +84,19 @@ namespace WWW.Controllers
             //string fileway = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "base-avatar.jpg");
             //byte[] pict = System.IO.File.ReadAllBytes(fileway);
             //await EventApiJob_ParseToDb.ExecuteAsync();
-            return View("Index");
+            //var searchResponse = _elasticClient.Search<Article>(s => s
+            //      .Query(q => q
+            //          .Match(m => m
+            //              .Field(f => f.Title)
+            //              .Query("WAILERS WITH")
+            //          )
+            //      )
+            //  );
+
+            var a = _articleRepository.SearchByTitle("NK: TRUSTF");
+
+
+            return View("Index", a);
         }
         [Authorize]
         public async Task<IActionResult> Chat()

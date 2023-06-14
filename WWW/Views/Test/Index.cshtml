@@ -1,42 +1,32 @@
-﻿@*@model string*@
+﻿@using WWW.Domain.Entity;
+@model IQueryable<Article>
 @{
     ViewData["Title"] = "Page For Tests";
 }
-@*<h1>@ViewData["Title"]</h1>
-<span>@Model</span>*@
 
 
-@*<div class="container">
-    <div class="row p-1">
-        <div class="col-1">User</div>
-        <div class="col-5"><input type="text" id="userInput" /></div>
-    </div>
-    <div class="row p-1">
-        <div class="col-1">Message</div>
-        <div class="col-5"><input type="text" class="w-100" id="messageInput" /></div>
-    </div>
-    <div class="row p-1">
-        <div class="col-6 text-end">
-            <input type="button" id="sendButton" value="Send Message" />
+
+<div class="row mt-5 mb-2">
+
+    @foreach (var i in Model)
+    {
+        <div class="col-lg-4 d-flex">
+            <div class="card mb-3">
+                <h3 class="card-header text-black">@i.Title</h3>
+                <img src="@Url.Action("GetImageById", "Help", new { id = i.Id })" class="img-fluid" alt="Image" />
+                <div class="card-body text-black">
+                    <p class="card-text">@i.ShortDescription</p>
+                </div>
+                <div class="card-body d-flex justify-content-between">
+                    <p>
+                        <a class="btn btn-primary card-link" asp-controller="Article" asp-action="Details" asp-route-slug=@i.slug>More</a>
+                    </p>
+                </div>
+                <div class="card-footer text-muted">
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row p-1">
-        <div class="col-6">
-            <hr />
-        </div>
-    </div>
-    <div class="row p-1">
-        <div class="col-6">
-            <ul id="messagesList"></ul>
-        </div>
-    </div>
-</div>
-<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>*@
-
-
-
-
+    }
 
 
 

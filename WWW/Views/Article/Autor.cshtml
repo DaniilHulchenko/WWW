@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Http
+@using System.Web;
+@using Newtonsoft.Json;
+@using System.Security.Claims;
+@using WWW.Domain.Entity;
+@inject WWW.DAL.Interfaces.IUserRepository accountrep;
+
+@model WWW.Domain.Entity.User;
+
+@{
+    ViewData["Title"] = "Autor";
+}
+
+
+    <div class="container">
+        <center>
+        <h1>Autor profile info</h1>
+            <div class="cover">
+                <h3>@Model.NickName</h3>
+                <img src="@Url.Action("GetAvatarById", "Help", new { id = Model.Id })" class="img-fluid" alt="Image" style="width: 200px; height: 200px;" />
+                @if (Model.Details != null && Model.Details.Introdaction.Any())
+                {
+                <h2>@Model.Details.Introdaction</h2>
+                }
+                <h2>@Model.Email</h2>
+            </div>
+    </center>
+    </div>
+    <div class="row mt-5 mb-2">
+        @{
+            List<Article> listOfFavorite = null;
+            if (User.Identity.IsAuthenticated)
+            {
+                listOfFavorite = (await accountrep.GetValueByID(int.Parse(User.FindFirstValue("UserId")))).FavEvent;
+            }
+        }
+        @foreach (var i in Model.AutorEvent)
+        {
+            <div class="col-lg-4 d-flex">
+                <div class="card mb-3">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (!listOfFavorite.Contains(i))
+                        {
+                            <a id="@i.Id" href="javascript:void(0);" onclick="AddOrDeleteFavoriteEvent(@i.Id)" class="text-warning display-5 text-decoration-none">&#9734;</a>
+                        }
+                        else
+                        {
+                            <a id="@i.Id" href="javascript:void(0);" onclick="AddOrDeleteFavoriteEvent(@i.Id)" class="text-warning display-5 text-decoration-none">&#9733;</a>
+                        }
+                    }
+                    <h3 class="card-header text-black">@i.Title</h3>
+                    <img src="@Url.Action("GetImageById", "Help", new { id = i.Id })" class="img-fluid" alt="Image" />
+                    <div class="card-body text-black">
+                        <p class="card-text">@i.ShortDescription</p>
+                    </div>
+                    <div class="card-body d-flex justify-content-between">
+                        <p>
+                            <a class="btn btn-primary card-link" asp-action="Details" asp-route-slug=@i.slug>More</a>
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        @if (@i.Date != null)
+                        {
+                            @i.Date.Date_Of_Start
+
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    .cover {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #333;
+    }
+
+</style>
+
+@section Scripts{
+    <script>
+        function deleteAvatar() {
+            // delete file from file selection
+            document.getElementById('formFile').value = '';
+
+            // delete picture
+            var imageElement = document.querySelector('.cover img');
+            imageElement.parentNode.removeChild(imageElement);
+        }
+    </script>
+}

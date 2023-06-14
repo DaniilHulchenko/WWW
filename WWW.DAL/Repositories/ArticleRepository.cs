@@ -75,5 +75,17 @@ namespace WWW.DAL.Repositories
             return await _db.Articles.FirstOrDefaultAsync(a => a.Id == id);
         }
 
+        public IQueryable<Article> SearchByTitle(string searchTerm)
+        {
+            return _db.Articles
+                .Where(e => EF.Functions.Contains(e.Title, searchTerm))
+                .AsQueryable();
+        }
+        public IQueryable<Article> SearchByTitle(IQueryable<Article> article, string searchTerm)
+        {
+            return article
+                .Where(a => EF.Functions.Contains(a.Title, searchTerm))
+                .AsQueryable();
+        }
     }
 }
