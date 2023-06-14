@@ -18,7 +18,6 @@ CitySearchInput.addEventListener("input", function (event) {
 });
 
 
-
 // recive message from hub and Add Content to page
 connection.on("ReceiveCitys", function (citys) {
     document.getElementById("Citylist").innerHTML = null;
@@ -29,6 +28,7 @@ connection.on("ReceiveCitys", function (citys) {
         var a = document.createElement("a");
         a.className = "dropdown-item";
         a.textContent = citys[i];
+        a.href = "/Account/SessionMemory?name=City&value=" + citys[i];
 
         div.appendChild(a);
         document.getElementById("Citylist").appendChild(div);

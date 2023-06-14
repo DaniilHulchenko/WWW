@@ -24,6 +24,7 @@ namespace WWW.Hubs
             //List<string> cityList = new List<string>(Enum.GetValues(typeof(PopularCity)).Cast<string>().ToList());
             List<PopularCity> cityList = new List<PopularCity>(Enum.GetValues(typeof(PopularCity)) as PopularCity[]);
             List<string> cityNames = cityList.Select(city => city.ToString()).ToList();
+            cityNames = cityNames.Select(x => x.Replace("_"," ")).ToList();
 
             var searchResults = cityNames.Where(с => с.StartsWith(city, StringComparison.OrdinalIgnoreCase)).ToList();
 

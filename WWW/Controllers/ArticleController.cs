@@ -92,10 +92,10 @@ namespace WWW.Controllers
         }
 
         // GET: Article/Create
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")
+        [Authorize]
         public ActionResult Create()
         {
-
             return View();
         }
         // POST: Article/Create
