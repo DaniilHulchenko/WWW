@@ -148,6 +148,7 @@
         }
     }
     @foreach (var i in Model.Data){
+        @if (!i.Published) { continue; }
         <div class="col-lg-4 d-flex" >
             <div class="card mb-3">
             @if(User.Identity.IsAuthenticated){
