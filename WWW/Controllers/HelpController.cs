@@ -1,16 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
-using System.Drawing;
-using System.Drawing.Imaging;
-using WWW.Domain.Entity;
-using Microsoft.Extensions.Logging;
-using WWW.Service.Interfaces;
-using static System.Net.Mime.MediaTypeNames;
-using NuGet.Protocol.Core.Types;
-using WWW.Domain.Api;
-using WWW.DAL.Repositories;
 using WWW.DAL.Interfaces;
+using WWW.Domain.Entity;
+using WWW.Service.Interfaces;
 
 namespace WWW.Controllers
 {

@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using NuGet.Versioning;
-using System.Linq;
-using System.Text.RegularExpressions;
-using WWW.Domain.Entity;
 using WWW.Domain.Enum;
 using WWW.Service.Interfaces;
 

@@ -5,18 +5,14 @@ using Microsoft.OpenApi.Models;
 using WWW.DAL;
 using WWW.DAL.Interfaces;
 using WWW.DAL.Repositories;
-using WWW.Domain.Entity;
-using WWW.Domain.ViewModels.Account;
 using WWW.Hubs;
 using WWW.Jobs;
 using WWW.Jobs.Implementations;
 using WWW.Jobs.Jobs;
 using WWW.Service.Helpers;
+using WWW.Service.Helpers.Api;
 using WWW.Service.Implementations;
 using WWW.Service.Interfaces;
-using WWW.Service.Implementations;
-using WWW.Service.Helpers.Api;
-using Nest;
 
 public static class ExtensionsServices
 {

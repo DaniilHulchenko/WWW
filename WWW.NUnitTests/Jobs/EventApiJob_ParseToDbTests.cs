@@ -65,9 +65,6 @@ namespace WWW.NUnitTests.Jobs
                 _httpContextAccessorMock.Object
             );
 
-
-
-
         }
         //[Test]
         //public async Task ExecuteAsync_ShouldSetCityFromSession()

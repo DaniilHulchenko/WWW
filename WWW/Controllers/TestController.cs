@@ -1,16 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nest;
-using System.Net;
-using System.Security.Policy;
 using WWW.DAL.Interfaces;
-using WWW.DAL.Repositories;
-using WWW.Domain.Entity;
-using WWW.Domain.GoogleOAuth;
-using WWW.Jobs.Jobs;
-using WWW.Service.Helpers;
-using WWW.Service.Implementations;
 
 namespace WWW.Controllers
 {
